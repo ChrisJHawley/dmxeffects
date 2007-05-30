@@ -96,15 +96,15 @@ public class Main extends QMainWindow{
     	// TODO: Method for creating new show
     }
     
-    public void open() {
+    public void openFile() {
     	// TODO: Method for opening show
     }
     
-    public void save() {
+    public void saveFile() {
     	// TODO: Method for saving show
     }
         
-    public void saveAs() {
+    public void saveFileAs() {
     	// TODO: Method for saving show under different name
     }
     
@@ -155,18 +155,18 @@ public class Main extends QMainWindow{
     	openAction = new QAction(tr("&Open"), this);
     	openAction.setShortcut(new QKeySequence(tr("Ctrl+O")));
     	openAction.setStatusTip(tr("Open existing DMXEffects Show file"));
-    	openAction.triggered.connect(FileHandler.getInstance(), "open()");
+    	openAction.triggered.connect(this, "openFile()");
     	
     	// Save action
     	saveAction = new QAction(tr("&Save"), this);
     	saveAction.setShortcut(new QKeySequence(tr("Ctrl+S")));
     	saveAction.setStatusTip(tr("Save to DMXEffects Show file"));
-    	saveAction.triggered.connect(FileHandler.getInstance(), "save()");
+    	saveAction.triggered.connect(this, "saveFile()");
     	
     	// Save as action
     	saveAsAction = new QAction(tr("Save &As..."), this);
     	saveAsAction.setStatusTip(tr("Save to DMXEffects Show file with new name"));
-    	saveAsAction.triggered.connect(FileHandler.getInstance(), "saveAs()");
+    	saveAsAction.triggered.connect(this, "saveFileAs()");
     	
     	// Quit action
     	quitAction = new QAction(tr("&Quit"), this);
