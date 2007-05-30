@@ -23,13 +23,30 @@ import com.trolltech.qt.gui.QMenu;
 
 public interface ModuleGUI {
 	
+	/**
+	 * Gather a menu for display within the application
+	 * @return The menu provided by this class.
+	 */
 	QMenu getMenu();
 	
+	/**
+	 * Performs actions relevant when the system moves into run mode.
+	 */
 	void runModeEnabled();
 	
+	/**
+	 * Performs actions relevant when the system moves into program mode
+	 */
 	void programModeEnabled();
 	
+	/**
+	 * Performs actions relevant when the DMX listener starts
+	 */
 	void dmxListenerEnabled();
 	
+	/**
+	 * Gather the title for any panel elements for display within the application
+	 * @return The title for the panel elements provided by this class.
+	 */
 	String getPanelTitle();
 }

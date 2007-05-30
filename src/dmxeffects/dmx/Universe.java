@@ -20,24 +20,31 @@
 package dmxeffects.dmx;
 
 import dmxeffects.OperationCancelledException;
-//import dmxeffects.sound.soundModule;
+import dmxeffects.sound.SoundModule;
 import java.util.concurrent.Semaphore;
-
+import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.gui.QMessageBox;
+import com.trolltech.qt.QSignalEmitter;
 
 /**
  * Class to store the values within a DMX Universe.
  *
  * @author chris
  */
-public class Universe {
+public class Universe extends QObject {
 	
 	private static Universe singletonUniverse = null;
-	
 	private static Semaphore singletonLock = new Semaphore(1,true);
 	
 	private int[] dmxValues;
 	private String[] dmxAssociations;
+	
+	public QSignalEmitter.Signal2<Integer, Integer> dmxValueUpdater =
+		new QSignalEmitter.Signal2<Integer, Integer>();
+	public QSignalEmitter.Signal2<Integer, Integer> assocRemUpdater = 
+		new QSignalEmitter.Signal2<Integer, Integer>();
+	public QSignalEmitter.Signal2<Integer, String> associationUpdater =
+		new QSignalEmitter.Signal2<Integer, String>();
 	
 	/** Creates a new instance of Universe */
 	private Universe() {
@@ -101,15 +108,13 @@ public class Universe {
 		} else if (Validator.validate(channelValue, Validator.CHANNEL_VALUE_VALIDATION) == false) {
 			throw new InvalidChannelValueException(channelValue);
 		}
-
 		//Perform the appropriate conversion to zero-based indexing and store the data.
 		dmxValues[channelNumber-1] = channelValue;
 
-		//Inform the dmxDisplay that there has been a change and instruct it to update
-		DMXDisplay.getInstance().updateTable();
+		//Inform listening objects that there has been a new value added.
+		System.out.println(this.thread().getName());
+		//dmxValueUpdater.emit(new Integer(channelNumber), new Integer (channelValue));
 		
-		//Call the modules to tell them.
-		//soundModule.getInstance().dmxInput(channelNumber, channelValue);
 	}
 	
 	/**
@@ -142,18 +147,24 @@ public class Universe {
 	 * @param associatedElement A String naming the element for which the association end.
 	 * @throws InvalidChannelNumberException The channelNumber doesn't meet the
 	 * specification.
+	 * @throws OperationCancelledException 
 	 */
-	public void setAssociation(int channelNumber, String associatedElement) throws InvalidChannelNumberException {
-		//Perform validation upon the channelNumber information
+	public void setAssociation(int channelNumber, String associatedElement) throws InvalidChannelNumberException, OperationCancelledException {
+		// Perform validation upon the channelNumber information
 		if(Validator.validate(channelNumber, Validator.CHANNEL_NUMBER_VALIDATION) == false) {
 			throw new InvalidChannelNumberException(channelNumber);
 		}
 		
-		//Change to zero-based indexing, and store the data.
+		// Check if this is already associated
+		if (dmxAssociations[channelNumber-1] != null) {
+			// Confirm the deletion of the pre-existing association
+			removeAssociation(channelNumber, 1);
+		}
+		// Change to zero-based indexing, and store the data.
 		dmxAssociations[channelNumber-1] = associatedElement;
 		
-		//Update the display
-		DMXDisplay.getInstance().updateTable();
+		// Update the display
+		associationUpdater.emit(new Integer(channelNumber), associatedElement);
 	}
 	
 	/**
@@ -200,32 +211,19 @@ public class Universe {
 				// Confirmed
 				// Do remove
 				for (int i=0;i<numToDelete;i++) {
+					// Tell the module that it's associations have been removed 
+					// and remove all others that may be missed in case of overlap
+					if (dmxAssociations[channelNumber+i-1].equals(SoundModule.getInstance().getName())) {
+						SoundModule.getInstance().setModuleChannel(-1);
+					}
 					dmxAssociations[channelNumber+i-1] = null;
+					assocRemUpdater.emit(new Integer(channelNumber), new Integer(numToDelete));
+					associationUpdater.emit(new Integer(channelNumber), " ");
 				}
 			} else {
 				// Abort
 				throw new OperationCancelledException("The user aborted the operation.");
 			}
-			/*
-			if (confirmBox.confirm(confirmMessage)) {
-				for (int i=0;i<numToDelete;i++) {
-				//	if (dmxAssociations[channelNumber+i-1].equals(soundModule.getInstance().getName())) {
-					//	soundModule.getInstance().removeChannelAssociations();
-					}
-					//dmxAssociations[channelNumber+i-1] = null;
-				}
-				String[] deleteMessage;
-				if (numToDelete > 1) {
-					deleteMessage = new String[] {
-						"The associations were successfully removed."
-					};
-				} else {
-					deleteMessage = new String[] {
-					"The association was successfully removed."
-					};
-				}
-				Notifier.notify(deleteMessage, Notifier.INFORMATION_MESSAGE);
-			*/
 		}
 	}
 }

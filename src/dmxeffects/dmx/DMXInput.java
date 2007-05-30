@@ -20,17 +20,12 @@
 package dmxeffects.dmx;
 
 import java.util.concurrent.Semaphore;
-
-import com.trolltech.qt.QSignalEmitter;
 import com.trolltech.qt.core.QObject;
 
 public class DMXInput extends QObject implements Runnable {
 
 	private static DMXInput singletonInput = null;
 	private static Semaphore singletonLock = new Semaphore(1, true);
-	
-	// Our signal emitter to tell things to update.
-	public QSignalEmitter.Signal0 updateTable = new QSignalEmitter.Signal0();
 	
 	/**
 	 * Creates a new instance of DMXInput
@@ -109,7 +104,6 @@ public class DMXInput extends QObject implements Runnable {
 					e.printStackTrace(System.err);
 				}
 			}
-			updateTable.emit();
 		}
 	}
 }
