@@ -288,4 +288,10 @@ public class Main extends QMainWindow{
     private void createStatusBar() {
     	statusBar().showMessage(tr("Ready"));
     }
+
+	public void dmxListenerEnabled() {
+		statusBar().showMessage(tr("DMX Listener started"), 2000);
+		
+		SoundModule.getInstance().dmxListenerEnabled();
+	}
 }

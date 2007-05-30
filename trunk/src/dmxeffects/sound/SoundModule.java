@@ -21,12 +21,17 @@ package dmxeffects.sound;
 
 import java.util.concurrent.Semaphore;
 
+import com.trolltech.qt.gui.QInputDialog;
 import com.trolltech.qt.gui.QMenu;
 
+import dmxeffects.Main;
 import dmxeffects.Module;
 import dmxeffects.OperationCancelledException;
+import dmxeffects.dmx.DMXUserInput;
 import dmxeffects.dmx.InvalidChannelNumberException;
 import dmxeffects.dmx.InvalidChannelValueException;
+import dmxeffects.dmx.Universe;
+import dmxeffects.dmx.Validator;
 
 /**
  * Sound module main file. Provides all interfaces from external classes to the
@@ -114,7 +119,15 @@ public class SoundModule implements Module {
 	 * @see dmxeffects.Module#dmxListenerEnabled()
 	 */
 	public void dmxListenerEnabled() {
-		// TODO Auto-generated method stub
+		// This should only be called when the listener first starts, which is
+		// when we want to set channel associations
+		try {
+			setModuleChannel();
+		} catch (OperationCancelledException OCE) {
+			// This means that the user does not want to properly enable the 
+			// module. DO NOT ALLOW ENABLING.
+			// TODO: Ensure enabling not performed.
+		}
 
 	}
 
@@ -166,8 +179,63 @@ public class SoundModule implements Module {
 	 * @see dmxeffects.Module#setModuleChannel()
 	 */
 	public void setModuleChannel() throws OperationCancelledException {
-		// TODO Auto-generated method stub
+		
+		int firstChan = SoundGUI.getInstance().getFirstChannel();
+		// Confirm if any of the required channels are in use - asking for overwrite
+		int[] overWriteChans = new int[CHANNELS_REQUIRED];
+		int overWrites = 0;
+		for (int i=0;i<CHANNELS_REQUIRED;i++) {
+			try {
+				String association = Universe.getInstance().getAssociation(firstChan+i);
+				if (association != null) {
+					overWriteChans[overWrites] = firstChan+i;
+				}
+			} catch (InvalidChannelNumberException e) {
+				e.printStackTrace(System.err);
+			}
+		}
+		if (overWrites != 0) {
+			// Prompt the user for the range requiring overwriting, which may already
+			// have empty associations, it's just nicer.
+			try {
+				Universe.getInstance().removeAssociation(overWriteChans[0], 
+						overWriteChans[overWrites] - overWriteChans[0]);
+			} catch (InvalidChannelNumberException e) {
+				e.printStackTrace(System.err);
+			}
+		}
+		
+		// Set the associations
+		for (int i=0;i<CHANNELS_REQUIRED;i++) {
+		
+			try {
+				Universe.getInstance().setAssociation(firstChan+i, MODULE_NAME);
+			} catch (InvalidChannelNumberException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void setModuleChannel(int channel) throws InvalidChannelNumberException, OperationCancelledException {
+		if (channel == -1) {
+			// Module has had control revoked
+			firstControlChannel = -1;
+			setModuleChannel();
+		} else {
+			if (Validator.validate(channel, Validator.CHANNEL_NUMBER_VALIDATION)) {
+				firstControlChannel = channel;
+			} else {
+				throw new InvalidChannelNumberException("Invalid channel number provided");
+			}
+		}
+	}
 
+	/**
+	 * Provide the number of channels required for this module.
+	 * @return The requisite number of channels.
+	 */
+	public int getChannelsRequired() {
+		return CHANNELS_REQUIRED;
 	}
 
 }

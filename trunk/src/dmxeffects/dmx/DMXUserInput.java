@@ -47,32 +47,53 @@ public class DMXUserInput extends QWidget {
 	}
 
 	/**
-	 * Method used to gather input from a user that meets the required validation criteria for the specified input type.
+	 * Method used to gather input from a user that meets the required validation criteral for the specified input type.
 	 * @param type The type of input to be taken.
 	 * @throws dmxeffects.OperationCancelledException Indication that the operation was cancelled by the user.
 	 * @throws dmxeffects.OperationFailedException Indication that the operation failed at some stage.
 	 * @return The validated input provided by the user.
 	 */
 	public int getInput(int type) throws OperationCancelledException, OperationFailedException {
-		String title,label;
+		String label;
+		switch (type) {
+			case CHANNEL_NUMBER_INPUT:
+				label = tr("Please provide a value within the range 1 to 512 inclusive.");
+				break;
+			case CHANNEL_VALUE_INPUT:
+				label = tr("Please provide a value within the range 0 to 255 inclusive.");
+				break;
+			default:
+				throw new OperationFailedException("Invalid input type request.");
+		}
+		return getInput(label, type);
+	}
+	
+	/**
+	 * Method used to gather input from a user that meets the required validation criteria for the specified input type.
+	 * @param label The message to display within the box.
+	 * @param type The type of input to be taken.
+	 * @throws dmxeffects.OperationCancelledException Indication that the operation was cancelled by the user.
+	 * @throws dmxeffects.OperationFailedException Indication that the operation failed at some stage.
+	 * @return The validated input provided by the user.
+	 */
+	public int getInput(String label, int type) throws OperationCancelledException, OperationFailedException {
+		String title;
 		int minVal,maxVal;
 		switch (type) {
 			case CHANNEL_NUMBER_INPUT:
 				title = tr("Enter DMX Channel Number");
-				label = tr("Please provide a value within the range 1 to 512 inclusive.");
 				minVal = 1;
 				maxVal = 512;
 				break;
 			case CHANNEL_VALUE_INPUT:
 				title = tr("Enter DMX Channel Value");
-				label = tr("Please provide a value within the range 0 to 255 inclusive.");
 				minVal = 0;
 				maxVal = 255;
 				break;
 			default:
 				throw new OperationFailedException("Invalid input type requested.");
 		}
-		Integer returned = QInputDialog.getInteger(Main.getInstance(), title, label, 0, minVal, maxVal);
+		Integer returned = QInputDialog.getInteger(Main.getInstance(), title, label, minVal, minVal, maxVal);
 		try {
 			if (Validator.validate(returned.intValue(), type)) {
 				return returned.intValue();

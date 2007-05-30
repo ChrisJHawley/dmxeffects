@@ -85,6 +85,11 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		menu.addAction(injectAction);
 		menu.addAction(setAssocAction);
 		
+		// Connect to external signals
+		Universe.getInstance().dmxValueUpdater.connect(this, "updateTableVal(Integer, Integer)");
+		Universe.getInstance().assocRemUpdater.connect(this, "displayRemove(Integer, Integer)");
+		Universe.getInstance().associationUpdater.connect(this, "updateTableAssoc(Integer, String)");
+		
 	}
 	
 	/**
@@ -129,14 +134,13 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		generateChannelAction.setEnabled(true);
 		injectAction.setEnabled(true);
 		
-		Main.getInstance().statusBar().showMessage("DMX Listener started", 2000);
+		Main.getInstance().dmxListenerEnabled();
 	}
 	
 	public void startListener() {
 		Thread listenerThread = new Thread(DMXInput.getInstance());
 		DMXInput.getInstance().moveToThread(listenerThread);
 		listenerThread.setDaemon(true);
-		DMXInput.getInstance().updateTable.connect(this, "updateTable()");
 		
 		listenerThread.start();
 		
@@ -152,8 +156,12 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		
 	}
 	
-	public void updateTable() {
-		
+	public void updateTableVal(Integer channelNumber, Integer channelValue) {
+		System.out.println("Channel " + channelNumber.toString() + " has value " + channelValue.toString());
+	}
+	
+	public void updateTableAssoc(Integer channelNumber, String association) {
+		System.out.println("Channel " + channelNumber.toString() + " has assoc " + association);
 	}
 	
 	public void inject() {
@@ -188,5 +196,12 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 	
 	public String getPanelTitle() {
 		return tr(PANEL_TITLE);
+	}
+	
+	public void displayRemove(Integer channelNumber, Integer numToDelete) {
+		String message = tr("Removed ") + numToDelete.toString() +
+			tr(" associations from channel ") + channelNumber.toString() +
+			tr(" up.");
+		Main.getInstance().statusBar().showMessage(message, 2000);
 	}
 }
