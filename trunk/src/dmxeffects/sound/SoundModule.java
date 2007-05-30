@@ -175,7 +175,16 @@ public class SoundModule implements Module {
 	 * @see dmxeffects.Module#setModuleChannel()
 	 */
 	public void setModuleChannel() throws OperationCancelledException {
-		
+		// This may be run to re-assign channels, so we may want to remove assocs
+		if (firstControlChannel != -1) {
+			try {
+				Universe.getInstance().removeAssociation(firstControlChannel, CHANNELS_REQUIRED);
+			} catch (InvalidChannelNumberException e) {
+				// Should not occur as any existing control channel will have been
+				// validated when it was initialised.
+				e.printStackTrace(System.err);
+			}
+		}
 		int firstChan = SoundGUI.getInstance().getFirstChannel();
 		// Confirm if any of the required channels are in use - asking for overwrite
 		int[] overWriteChans = new int[CHANNELS_REQUIRED];
