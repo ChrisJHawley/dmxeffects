@@ -27,6 +27,9 @@ import dmxeffects.dmx.InvalidChannelNumberException;
 import dmxeffects.dmx.InvalidChannelValueException;
 
 /**
+ * Sound module main file. Provides all interfaces from external classes to the
+ * functionality provided by this module.
+ * 
  * @author chris
  *
  */
