@@ -22,9 +22,6 @@ package dmxeffects;
 
 import com.trolltech.qt.gui.QMenu;
 
-import dmxeffects.dmx.InvalidChannelNumberException;
-import dmxeffects.dmx.InvalidChannelValueException;
-
 /**
  * Interface defining the methods that each module must provide for interaction with the Main
  * application. This allows for a standard set of controls to be used.
