@@ -19,6 +19,8 @@
  */
 package dmxeffects.sound;
 
+import java.util.concurrent.Semaphore;
+
 import com.trolltech.qt.gui.QMenu;
 
 import dmxeffects.Module;
@@ -34,7 +36,71 @@ import dmxeffects.dmx.InvalidChannelValueException;
  *
  */
 public class SoundModule implements Module {
+	
+	// Module configuration information
+	private static final int CHANNELS_REQUIRED = 2;
+	private static final String MODULE_NAME = "Sound Module";
+	private int firstControlChannel = -1;
+	
+	// Variables for singleton methods
+	private static SoundModule singletonModule = null;
+	private static Semaphore singletonLock =  new Semaphore(1, true);
+	
+	// Data storage for the tracks
+	private SoundTrack[] trackArray;
+	
+	// Variables for indicating if play is allowed
+	private boolean playAllowed;
+	private static Semaphore playLock = new Semaphore(1, true);
+	
+	/*
+	 * Static variables used for the configuration of the values to be used by
+	 * the DMX controller when dealing with this module. These should be properly
+	 * documented such that they can be properly implemented.
+	 * 
+	 * TODO Perhaps they could be shown on a GUI tab for this module.
+	 */
+	private static final int SOUND_MODULE_DMX_START_PLAYBACK = 10;
+	private static final int SOUND_MODULE_DMX_STOP_PLAYBACK = 20;
+	
+	private SoundModule() {
+		trackArray = new SoundTrack[256];
+	}
+	
+	/**
+	 * Get the current instance of the SoundModule
+	 * @return The current instance, or a new one if one didn't exist.
+	 */
+	public static SoundModule getInstance() {
+		try {
+			singletonLock.acquire();
+			if (singletonModule == null) {
+				singletonModule = new SoundModule();
+			}
+			singletonLock.release();
+		} catch (InterruptedException IE) {
+			System.err.println("Thread interruption detected");
+			IE.printStackTrace(System.err);
+		}
+		return singletonModule;
+	}
 
+	/**
+	 * Destroy the current singleton instance.
+	 *
+	 */
+	public static void destroyInstance() {
+		try {
+			singletonLock.acquire();
+			// XXX Potentially thread unsafe if perfectly interleaved with getInstance()
+			singletonModule = null;
+			singletonLock.release();
+		} catch (InterruptedException IE) {
+			System.err.println("Thread interruption detected");
+			IE.printStackTrace(System.err);
+		}
+		
+	}
 	/* (non-Javadoc)
 	 * @see dmxeffects.Module#dmxInput(int, int)
 	 */
@@ -57,31 +123,28 @@ public class SoundModule implements Module {
 	 */
 	public QMenu getMenu() {
 		// TODO Auto-generated method stub
-		return null;
+		return SoundGUI.getInstance().getMenu();
 	}
 
 	/* (non-Javadoc)
 	 * @see dmxeffects.Module#getName()
 	 */
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return MODULE_NAME;
 	}
 
 	/* (non-Javadoc)
 	 * @see dmxeffects.Module#getPanelTitle()
 	 */
 	public String getPanelTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return SoundGUI.getInstance().getPanelTitle();
 	}
 
 	/* (non-Javadoc)
 	 * @see dmxeffects.Module#programModeEnabled()
 	 */
 	public void programModeEnabled() {
-		// TODO Auto-generated method stub
-
+		SoundGUI.getInstance().programModeEnabled();
 	}
 
 	/* (non-Javadoc)
@@ -96,8 +159,7 @@ public class SoundModule implements Module {
 	 * @see dmxeffects.Module#runModeEnabled()
 	 */
 	public void runModeEnabled() {
-		// TODO Auto-generated method stub
-
+		SoundGUI.getInstance().runModeEnabled();
 	}
 
 	/* (non-Javadoc)

@@ -33,6 +33,8 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 	private static DMXDisplay singletonDisplay = null;
 	private static Semaphore singletonLock = new Semaphore(1, true);
 	
+	private static final String PANEL_TITLE = "DMX Association Table";
+	
 	private boolean dmxListener = false;
 	
 	private QMenu menu;
@@ -182,5 +184,9 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur
 		}
+	}
+	
+	public String getPanelTitle() {
+		return tr(PANEL_TITLE);
 	}
 }

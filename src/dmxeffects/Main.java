@@ -20,9 +20,9 @@
 package dmxeffects;
 
 import java.util.concurrent.Semaphore;
-
 import com.trolltech.qt.gui.*;
 import dmxeffects.dmx.*;
+import dmxeffects.sound.*;
 
 public class Main extends QMainWindow{
 
@@ -76,6 +76,7 @@ public class Main extends QMainWindow{
         QMenuBar menuBar = new QMenuBar();
         setMenuBar(menuBar);
         
+        // TODO: Make this portable
         setWindowIcon(new QIcon("/usr/share/icons/crystalsvg/128x128/apps/kcmdevices.png"));
         
         try {
@@ -84,8 +85,12 @@ public class Main extends QMainWindow{
         	e.printStackTrace(System.err);
         }
         
+        // TODO: Somehow dynamically gather the modules to load. This will require some thought.
         createMenus();
         createStatusBar();
+        
+        // Inform all the modules of the current system mode
+        modeCheckSet();
         
         setWindowTitle(tr("DMXEffects"));
     }
@@ -143,14 +148,29 @@ public class Main extends QMainWindow{
     	programModeAction.setEnabled(false);
     	runModeAction.setEnabled(true);
     	
-    	// TODO: Perform module-based program mode settings.
+       	DMXDisplay.getInstance().programModeEnabled();
+        SoundModule.getInstance().programModeEnabled();
     }
     
     public void runMode() {
     	programMode = false;
     	programModeAction.setEnabled(true);
     	runModeAction.setEnabled(false);
-    	// TODO: Perform module-based run mode settings
+    	
+    	
+    	DMXDisplay.getInstance().runModeEnabled();
+        SoundModule.getInstance().runModeEnabled();
+    }
+    
+    /**
+     * Check the current mode and set things as appropriate
+     */
+    public void modeCheckSet() {
+    	if (programMode) {
+    		programMode();
+    	} else {
+    		runMode();
+    	}
     }
     
     /**
@@ -258,6 +278,7 @@ public class Main extends QMainWindow{
     	
     	modulesMenu = menuBar().addMenu(tr("&Modules"));
     	modulesMenu.addMenu(DMXDisplay.getInstance().getMenu());
+    	//modulesMenu.addMenu(SoundModule.getInstance().getMenu());
     	
     	helpMenu = menuBar().addMenu(tr("&Help"));
     	helpMenu.addAction(aboutAction);

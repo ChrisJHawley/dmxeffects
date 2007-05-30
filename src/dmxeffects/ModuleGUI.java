@@ -31,4 +31,5 @@ public interface ModuleGUI {
 	
 	void dmxListenerEnabled();
 	
+	String getPanelTitle();
 }
