@@ -96,7 +96,10 @@ public class Main extends QMainWindow{
     }
     
     public void newShow() {
-    	// TODO: Method for creating new show
+    	/* Create a new show. This is done by first confirming that any changes
+    	 * are wanted to be discarded, and then resetting all the data stores.
+    	 */ 
+    	// TODO: Method for new show
     }
     
     public void openFile() {
@@ -112,11 +115,11 @@ public class Main extends QMainWindow{
     }
     
     public void passiveNotify() {
-    	//TODO: Implement
+    	//TODO: Enable passive notifications only
     }
     
     public void activeNotify() {
-    	//TODO: Implement
+    	//TODO: Enable active notifications 
     }
     
     public void programMode() {

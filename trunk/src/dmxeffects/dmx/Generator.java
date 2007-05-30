@@ -6,6 +6,7 @@ package dmxeffects.dmx;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import dmxeffects.Main;
 import dmxeffects.OperationCancelledException;
 import dmxeffects.OperationFailedException;
 
@@ -63,7 +64,7 @@ public class Generator {
 		for (int i=1;i<513;i++) {
 			InputQueue.getInstance().add(generateValue());
 		}
-		// Statusbar update
+		Main.getInstance().statusBar().showMessage("DMX values generated", 2000);
 	}
 	
 	/**
@@ -85,7 +86,7 @@ public class Generator {
 			String exceptionMessage = "Specified channel number, " + String.valueOf(channelNumber) + " was not within the permissible range of 1 to 512 inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
-		//StatusBar.getInstance().setStatusText("DMX value generated.");
+		Main.getInstance().statusBar().showMessage("DMX value generated", 2000);
 	}
 	
 	/**
@@ -113,7 +114,7 @@ public class Generator {
 			String exceptionMessage = "Specified channel number, " + String.valueOf(channelNumber) + " was not within the permissible range of 1 to 512 inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
-		//StatusBar.getInstance().setStatusText("DMX value inserted.");
+		Main.getInstance().statusBar().showMessage("DMX value inserted", 2000);
 	}
 	
 	/**

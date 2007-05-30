@@ -110,6 +110,8 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		generateRandomAction.setEnabled(true);
 		generateChannelAction.setEnabled(true);
 		injectAction.setEnabled(true);
+		
+		Main.getInstance().statusBar().showMessage("DMX Listener started", 2000);
 	}
 	
 	public void startListener() {
