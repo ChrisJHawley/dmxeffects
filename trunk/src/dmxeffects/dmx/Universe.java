@@ -22,9 +22,9 @@ package dmxeffects.dmx;
 import dmxeffects.OperationCancelledException;
 import dmxeffects.sound.SoundModule;
 import java.util.concurrent.Semaphore;
+
 import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.gui.QMessageBox;
-import com.trolltech.qt.QSignalEmitter;
 
 /**
  * Class to store the values within a DMX Universe.
@@ -39,12 +39,9 @@ public class Universe extends QObject {
 	private int[] dmxValues;
 	private String[] dmxAssociations;
 	
-	public QSignalEmitter.Signal2<Integer, Integer> dmxValueUpdater =
-		new QSignalEmitter.Signal2<Integer, Integer>();
-	public QSignalEmitter.Signal2<Integer, Integer> assocRemUpdater = 
-		new QSignalEmitter.Signal2<Integer, Integer>();
-	public QSignalEmitter.Signal2<Integer, String> associationUpdater =
-		new QSignalEmitter.Signal2<Integer, String>();
+	public Signal2<Integer, Integer> dmxValueUpdater = new Signal2<Integer, Integer>();
+	public Signal2<Integer, Integer> assocRemUpdater = new Signal2<Integer, Integer>();
+	public Signal2<Integer, String> associationUpdater = new Signal2<Integer, String>();
 	
 	/** Creates a new instance of Universe */
 	private Universe() {
@@ -94,6 +91,21 @@ public class Universe extends QObject {
 		}
 	}
 	
+	public void setValue(Integer channelNum, Integer channelVal) {
+		int channelNumber = channelNum.intValue();
+		int channelValue = channelVal.intValue();
+		try {
+			setValue(channelNumber, channelValue);
+		} catch (InvalidChannelNumberException ICNE) {
+			System.err.println(ICNE.getMessage());
+			ICNE.printStackTrace(System.err);
+		} catch (InvalidChannelValueException ICVE) {
+			System.err.println(ICVE.getMessage());
+			ICVE.printStackTrace(System.err);
+		}
+		
+	}
+	
 	/**
 	 * Method to set the value of a channel in the Universe to a specific value based upon some input.
 	 * @param channelNumber The channel number that the value applies to. This ranges from 1 to 512.
@@ -112,8 +124,7 @@ public class Universe extends QObject {
 		dmxValues[channelNumber-1] = channelValue;
 
 		//Inform listening objects that there has been a new value added.
-		System.out.println(this.thread().getName());
-		//dmxValueUpdater.emit(new Integer(channelNumber), new Integer (channelValue));
+		dmxValueUpdater.emit(new Integer(channelNumber), new Integer (channelValue));
 		
 	}
 	

@@ -21,17 +21,10 @@ package dmxeffects.sound;
 
 import java.util.concurrent.Semaphore;
 
-import com.trolltech.qt.gui.QInputDialog;
 import com.trolltech.qt.gui.QMenu;
 
-import dmxeffects.Main;
-import dmxeffects.Module;
-import dmxeffects.OperationCancelledException;
-import dmxeffects.dmx.DMXUserInput;
-import dmxeffects.dmx.InvalidChannelNumberException;
-import dmxeffects.dmx.InvalidChannelValueException;
-import dmxeffects.dmx.Universe;
-import dmxeffects.dmx.Validator;
+import dmxeffects.*;
+import dmxeffects.dmx.*;
 
 /**
  * Sound module main file. Provides all interfaces from external classes to the
@@ -109,8 +102,7 @@ public class SoundModule implements Module {
 	/* (non-Javadoc)
 	 * @see dmxeffects.Module#dmxInput(int, int)
 	 */
-	public void dmxInput(int channelNumber, int channelValue)
-			throws InvalidChannelNumberException, InvalidChannelValueException {
+	public void dmxInput(Integer channelNumber, Integer channelValue) {
 		// TODO Auto-generated method stub
 
 	}
@@ -119,6 +111,10 @@ public class SoundModule implements Module {
 	 * @see dmxeffects.Module#dmxListenerEnabled()
 	 */
 	public void dmxListenerEnabled() {
+		// Listener in operation indicates that input may be incoming, start
+		// listening for this
+		Universe.getInstance().dmxValueUpdater.connect(this, "dmxInput(Integer, Integer)");
+		
 		// This should only be called when the listener first starts, which is
 		// when we want to set channel associations
 		try {

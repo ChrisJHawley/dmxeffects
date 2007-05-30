@@ -139,6 +139,7 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 	
 	public void startListener() {
 		Thread listenerThread = new Thread(DMXInput.getInstance());
+		DMXInput.getInstance().inputValue.connect(Universe.getInstance(), "setValue(Integer, Integer)");
 		DMXInput.getInstance().moveToThread(listenerThread);
 		listenerThread.setDaemon(true);
 		

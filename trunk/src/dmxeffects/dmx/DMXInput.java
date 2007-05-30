@@ -20,12 +20,15 @@
 package dmxeffects.dmx;
 
 import java.util.concurrent.Semaphore;
+
 import com.trolltech.qt.core.QObject;
 
 public class DMXInput extends QObject implements Runnable {
 
 	private static DMXInput singletonInput = null;
 	private static Semaphore singletonLock = new Semaphore(1, true);
+	
+	public Signal2<Integer, Integer> inputValue = new Signal2<Integer, Integer>();
 	
 	/**
 	 * Creates a new instance of DMXInput
@@ -93,16 +96,8 @@ public class DMXInput extends QObject implements Runnable {
 					}
 					dataPeek = InputQueue.getInstance().peek();
 				}
-				//Set the value as appropriate
-				try {
-					Universe.getInstance().setValue(i,InputQueue.getInstance().poll().intValue());
-				} catch (InvalidChannelNumberException e) {
-					System.err.println(e.getMessage());
-					e.printStackTrace(System.err);
-				} catch (InvalidChannelValueException e) {
-					System.err.println(e.getMessage());
-					e.printStackTrace(System.err);
-				}
+				//Send a signal indicating the new value
+				inputValue.emit(new Integer(i), InputQueue.getInstance().poll());
 			}
 		}
 	}
