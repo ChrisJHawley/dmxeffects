@@ -1,3 +1,6 @@
+/*
+ * $Id$
+ */
 package dmxeffects;
 
 import java.util.concurrent.Semaphore;

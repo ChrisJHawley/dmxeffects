@@ -1,3 +1,6 @@
+/*
+ * $Id$
+ */
 package dmxeffects.dmx;
 
 import com.trolltech.qt.gui.QInputDialog;
