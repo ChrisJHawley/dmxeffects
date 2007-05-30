@@ -1,11 +1,6 @@
 /*
- * Validator.java
- *
- * Created on 26 June 2006, 23:01
- *
- * $Rev: 61 $$Date: 2006-12-29 17:06:28 +0000 (Fri, 29 Dec 2006) $
+ * $Id$
  */
-
 package dmxeffects.dmx;
 
 /**

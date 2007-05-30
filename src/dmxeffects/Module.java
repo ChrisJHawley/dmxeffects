@@ -1,9 +1,5 @@
 /*
- * Module.java
- *
- * Created on 28 June 2006, 12:14
- *
- * $Rev: 52 $$Date: 2006-12-15 21:37:56 +0000 (Fri, 15 Dec 2006) $
+ * $Id$
  */
 
 package dmxeffects;
