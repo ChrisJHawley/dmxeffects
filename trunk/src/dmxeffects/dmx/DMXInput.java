@@ -19,14 +19,10 @@
  */
 package dmxeffects.dmx;
 
-import java.util.concurrent.Semaphore;
-
 import com.trolltech.qt.core.QObject;
 
 public class DMXInput extends QObject implements Runnable {
 
-	private static DMXInput singletonInput = null;
-	private static Semaphore singletonLock = new Semaphore(1, true);
 	
 	public Signal2<Integer, Integer> inputValue = new Signal2<Integer, Integer>();
 	
@@ -34,25 +30,7 @@ public class DMXInput extends QObject implements Runnable {
 	 * Creates a new instance of DMXInput
 	 *
 	 */
-	private DMXInput() {	
-	}
-	
-	/**
-	 * Get the current instance of DMXInput, creating one if required
-	 * @return The current instance
-	 */
-	public static DMXInput getInstance() {
-		try {
-			singletonLock.acquire();
-			if (singletonInput == null) {
-				singletonInput = new DMXInput();
-			}
-			singletonLock.release();
-		} catch (InterruptedException IE) {
-			System.err.println("Thread interruption detected");
-			IE.printStackTrace(System.err);
-		}
-		return singletonInput;
+	public DMXInput() {	
 	}
 	
 	/**
