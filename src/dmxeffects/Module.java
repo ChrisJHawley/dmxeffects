@@ -35,13 +35,13 @@ public interface Module {
 
 	/**
 	 * Method to inform the Module that dmxInput has been recieved.
-	 * It is expected that each module will validate this data and throw exceptions as appropriate.
+	 * This method is called as a slot to a signal from the Universe class, so
+	 * all data has previosuly been validated.
 	 * @param channelNumber The channel number upon which the input was recieved.
 	 * @param channelValue The value recieved upon this channel.
-	 * @throws InvalidChannelNumberException The channelNumber does not fall within the valid range of 1 to 512.
-	 * @throws InvalidChannelValueException The channelValue does not fall within the valid range of 0 to 255.
 	 */
-	void dmxInput(int channelNumber, int channelValue) throws InvalidChannelNumberException, InvalidChannelValueException;
+	void dmxInput(Integer channelNumber, Integer channelValue)
+;
 	
 	/**
 	 * Method to get the panel elements to be displayed for this module in the Main application window.
