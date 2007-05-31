@@ -37,7 +37,7 @@ public class SoundTrack extends QObject {
 	private String TrackTitle = null;
 
 	private int TrackStatus;
-	
+
 	public Signal0 dataUpdated = new Signal0();
 
 	/**

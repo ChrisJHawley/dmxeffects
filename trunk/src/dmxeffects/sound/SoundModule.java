@@ -47,8 +47,11 @@ public class SoundModule extends QObject implements Module {
 	private SoundTrack[] trackArray;
 
 	private ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
+
 	public Signal1<Integer> trackQueueSignal;
+
 	public Signal1<Integer> startPlaybackSignal;
+
 	public Signal1<Integer> stopPlaybackSignal;
 
 	// -- GUI Elements -- //
@@ -79,14 +82,14 @@ public class SoundModule extends QObject implements Module {
 		controls[0] = new ControlChannel(1, MODULE_NAME);
 		trackQueueSignal = new Signal1<Integer>();
 		trackQueueSignal.connect(this, "queueTrack(Integer)");
-		for (int i=0;i<256;i++) {
+		for (int i = 0; i < 256; i++) {
 			try {
 				controls[0].setSignal(i, trackQueueSignal);
 			} catch (InvalidChannelValueException e) {
 				e.printStackTrace(System.err);
 			}
 		}
-		
+
 		// Control Channel 2 is used for play controls
 		controls[1] = new ControlChannel(2, MODULE_NAME);
 		startPlaybackSignal = new Signal1<Integer>();
@@ -100,7 +103,7 @@ public class SoundModule extends QObject implements Module {
 			// TODO Auto-generated catch block
 			e1.printStackTrace(System.err);
 		}
-		
+
 		// Initialise GUI
 		try {
 			createActions();
@@ -216,7 +219,7 @@ public class SoundModule extends QObject implements Module {
 		// Run association method as we will want to be able to act on suitable
 		// input
 		setAssoc();
-		
+
 		// Start listening for input
 		Main.getInstance().getDMX().getUniverse().dmxValueUpdater.connect(this,
 				"dmxInput(Integer, Integer)");
@@ -246,9 +249,8 @@ public class SoundModule extends QObject implements Module {
 		// will confirm the channelNumber is one we're listening to, and then
 		// check if the channelValue is appropriate to perform an action.
 		int chanNum = channelNumber.intValue();
-		if ((firstControlChannel != -1) && 
-				(chanNum >= firstControlChannel) && 
-				(chanNum < firstControlChannel + CHANNELS_REQUIRED)) {
+		if ((firstControlChannel != -1) && (chanNum >= firstControlChannel)
+				&& (chanNum < firstControlChannel + CHANNELS_REQUIRED)) {
 			int chanVal = channelValue.intValue();
 			try {
 				controls[chanNum].trigger(chanVal);
@@ -262,7 +264,7 @@ public class SoundModule extends QObject implements Module {
 		}
 
 	}
-	
+
 	/**
 	 * Handle channel association removal signals sent by Universe. This allows
 	 * the module to remove its own if appropriate.
@@ -283,14 +285,14 @@ public class SoundModule extends QObject implements Module {
 				changeAssociationAction.setEnabled(true);
 			}
 		} catch (NullPointerException npe) {
-			// This is only thrown if Main is presently creating itself			
+			// This is only thrown if Main is presently creating itself
 		}
 		addTrackAction.setEnabled(true);
 		editTrackAction.setEnabled(true);
 		deleteTrackAction.setEnabled(true);
 		clearTracksAction.setEnabled(true);
 	}
-	
+
 	public void runMode() {
 		// Disable actions that could be detrimental if in run mode.
 		changeAssociationAction.setEnabled(false);
@@ -310,12 +312,12 @@ public class SoundModule extends QObject implements Module {
 
 	/**
 	 * Test the sound system.
-	 *
+	 * 
 	 */
 	public void testSound() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * Add a new track into the show.
 	 * 
@@ -347,29 +349,32 @@ public class SoundModule extends QObject implements Module {
 	public void clearTracks() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * Queue a track for playback.
+	 * 
 	 * @param val
-	 * 		DMX Value of the track to be queued.
+	 *            DMX Value of the track to be queued.
 	 */
 	public void queueTrack(Integer val) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * Start playback.
+	 * 
 	 * @param val
-	 * 		Not used.
+	 *            Not used.
 	 */
 	public void startPlayback(Integer val) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * Stop playback
+	 * 
 	 * @param val
-	 * 		Not used.
+	 *            Not used.
 	 */
 	public void stopPlayback(Integer val) {
 		// TODO Auto-generated method stub

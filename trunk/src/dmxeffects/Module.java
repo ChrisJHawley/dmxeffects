@@ -60,19 +60,19 @@ public interface Module {
 	 * @return The name of the module.
 	 */
 	String getName();
-	
+
 	/**
 	 * Handle moving into program mode
 	 * 
 	 */
 	void programMode();
-	
+
 	/**
 	 * Handle moving into run mode
 	 * 
 	 */
 	void runMode();
-	
+
 	/**
 	 * Handle the signal indicating the DMX Listener has started. This also sets
 	 * this class listening for various signals sent by Universe.

@@ -75,10 +75,10 @@ public class Main extends QMainWindow {
 	public static void main(String[] args) {
 		// Main application turn on!
 		QApplication.initialize(args);
-		
+
 		// Initialising in this manner ensures thread safety.
 		singletonApp = new Main();
-		
+
 		Main.getInstance().show();
 
 		QApplication.exec();
@@ -113,7 +113,7 @@ public class Main extends QMainWindow {
 		dmxDisplay = new DMXDisplay();
 		programModeSignal.connect(dmxDisplay, "programMode()");
 		runModeSignal.connect(dmxDisplay, "runMode()");
-		
+
 		soundModule = new SoundModule();
 		dmxDisplay.listenerEnabled.connect(soundModule, "dmxListenerEnabled()");
 		programModeSignal.connect(soundModule, "programMode()");
