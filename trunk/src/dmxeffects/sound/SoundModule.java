@@ -85,10 +85,6 @@ public class SoundModule extends QWidget implements Module {
 		}
 		createMenus();
 
-		// Get listening for signals on the mode that we are in
-		Main.getInstance().programModeSignal.connect(this, "programMode()");
-		Main.getInstance().runModeSignal.connect(this, "runMode()");
-
 	}
 
 	public void createActions() {
@@ -147,8 +143,7 @@ public class SoundModule extends QWidget implements Module {
 	 * @see dmxeffects.Module#getMenu()
 	 */
 	public QMenu getMenu() {
-		// TODO Auto-generated method stub
-		return null;
+		return soundMenu;
 	}
 
 	/*
@@ -193,10 +188,6 @@ public class SoundModule extends QWidget implements Module {
 
 	// -- Action handlers -- //
 
-	/**
-	 * Handle the signal indicating the DMX Listener has started. This also sets
-	 * this class listening for various signals sent by Universe.
-	 */
 	public void dmxListenerEnabled() {
 		// Listener in operation indicates that input may be incoming, start
 		// listening for this
@@ -246,25 +237,21 @@ public class SoundModule extends QWidget implements Module {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * Handle moving into program mode
-	 * 
-	 */
 	public void programMode() {
 		// Enable actions that are only available in program mode
-		if (Main.getInstance().getDMX().getListenerStatus()) {
-			changeAssociationAction.setEnabled(true);
+		try {
+			if (Main.getInstance().getDMX().getListenerStatus()) {
+				changeAssociationAction.setEnabled(true);
+			}
+		} catch (NullPointerException npe) {
+			// This is only thrown if Main is presently creating itself			
 		}
 		addTrackAction.setEnabled(true);
 		editTrackAction.setEnabled(true);
 		deleteTrackAction.setEnabled(true);
 		clearTracksAction.setEnabled(true);
 	}
-
-	/**
-	 * Handle moving into run mode
-	 * 
-	 */
+	
 	public void runMode() {
 		// Disable actions that could be detrimental if in run mode.
 		changeAssociationAction.setEnabled(false);
@@ -282,6 +269,14 @@ public class SoundModule extends QWidget implements Module {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Test the sound system.
+	 *
+	 */
+	public void testSound() {
+		// TODO Auto-generated method stub
+	}
+	
 	/**
 	 * Add a new track into the show.
 	 * 
