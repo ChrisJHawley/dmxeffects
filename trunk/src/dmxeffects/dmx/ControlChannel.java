@@ -45,9 +45,10 @@ public class ControlChannel extends QObject {
 	 * @param module
 	 * 		The module this ControlChannel relates to
 	 */
+	// Bah, sodding lack of generic arrays means this will always warn
+	// there may be some workaround required to fix this, until then suppress
+	@SuppressWarnings("unchecked")
 	public ControlChannel(int number, String module) {
-		// Bah, sodding lack of generic arrays means this will always warn
-		// there may be some workaround required to fix this
 		controlSignal = new Signal1[256];
 		moduleChanNumber = number;
 		moduleName = module;
