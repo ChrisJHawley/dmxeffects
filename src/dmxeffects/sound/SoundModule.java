@@ -48,11 +48,20 @@ public class SoundModule extends QObject implements Module {
 
 	private ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
 
+	// -- Signals -- //
 	public Signal1<Integer> trackQueueSignal;
 
 	public Signal1<Integer> startPlaybackSignal;
 
 	public Signal1<Integer> stopPlaybackSignal;
+	
+	public Signal1<SoundTrack> playerQueueSignal;
+	
+	public Signal0 playerPlaySignal;
+	
+	public Signal0 playerStopSignal;
+	
+	private Player soundPlayer;
 
 	// -- GUI Elements -- //
 	private QMenu soundMenu;
@@ -76,7 +85,20 @@ public class SoundModule extends QObject implements Module {
 	public SoundModule() {
 		// Initialise data storage
 		trackArray = new SoundTrack[256];
+		
+		playerQueueSignal = new Signal1<SoundTrack>();
+		playerPlaySignal = new Signal0();
+		playerStopSignal = new Signal0();
 
+		// Start player thread		
+		soundPlayer = new Player();
+		playerQueueSignal.connect(soundPlayer, "queueTrack(SoundTrack)");
+		playerPlaySignal.connect(soundPlayer, "play()");
+		playerStopSignal.connect(soundPlayer, "stop()");
+		Thread playerThread = new Thread(soundPlayer);
+		soundPlayer.moveToThread(playerThread);
+		playerThread.start();
+		
 		// Initialise controls
 		// Control Channel 1 is used for queing tracks
 		controls[0] = new ControlChannel(1, MODULE_NAME);
@@ -358,6 +380,12 @@ public class SoundModule extends QObject implements Module {
 	 */
 	public void queueTrack(Integer val) {
 		// TODO Auto-generated method stub
+		try {
+			playerQueueSignal.emit(trackArray[val.intValue()]);
+		} catch (ArrayIndexOutOfBoundsException AOB) {
+			// Shouldn't happen as val will have been verified
+			AOB.printStackTrace(System.err);
+		}
 	}
 
 	/**
@@ -368,6 +396,7 @@ public class SoundModule extends QObject implements Module {
 	 */
 	public void startPlayback(Integer val) {
 		// TODO Auto-generated method stub
+		playerPlaySignal.emit();
 	}
 
 	/**
@@ -378,5 +407,6 @@ public class SoundModule extends QObject implements Module {
 	 */
 	public void stopPlayback(Integer val) {
 		// TODO Auto-generated method stub
+		playerStopSiganl.emit();
 	}
 }
