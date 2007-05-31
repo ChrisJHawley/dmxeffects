@@ -35,7 +35,7 @@ public class DMXDisplay extends QWidget implements Module {
 	 * Signal for informing other modules that the listener has started
 	 */
 	public Signal0 listenerEnabled = new Signal0();
-	
+
 	// -- Internal variables for this Module -- //
 	private final String MODULE_NAME = tr("DMX Module");
 
@@ -145,7 +145,7 @@ public class DMXDisplay extends QWidget implements Module {
 		generateRandomAction.setEnabled(true);
 		generateChannelAction.setEnabled(true);
 		injectAction.setEnabled(true);
-		
+
 		// Transmit the signal
 		listenerEnabled.emit();
 	}

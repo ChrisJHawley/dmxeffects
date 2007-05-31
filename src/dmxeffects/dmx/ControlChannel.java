@@ -23,27 +23,29 @@ import com.trolltech.qt.core.QObject;
 
 /**
  * Class linking specific channel values to specific actions.
+ * 
  * @author chris
- *
+ * 
  */
 public class ControlChannel extends QObject {
 
 	private int moduleChanNumber;
-	
+
 	private String moduleName;
-	
+
 	/**
 	 * Signal generated from a control, which includes the channel value in case
 	 * this is significant.
 	 */
 	public Signal1<Integer>[] controlSignal;
-	
+
 	/**
 	 * Create a new channel for controls.
+	 * 
 	 * @param number
-	 * 		This ControlChannel's number for the module.
+	 *            This ControlChannel's number for the module.
 	 * @param module
-	 * 		The module this ControlChannel relates to
+	 *            The module this ControlChannel relates to
 	 */
 	// Bah, sodding lack of generic arrays means this will always warn
 	// there may be some workaround required to fix this, until then suppress
@@ -53,35 +55,37 @@ public class ControlChannel extends QObject {
 		moduleChanNumber = number;
 		moduleName = module;
 	}
-	
+
 	/**
 	 * Add a new value-signal pair to the ControlChannel.
-	 * @param val 
-	 * 		The DMX value to associate with the action
-	 * @param signal 
-	 * 		The signal to be generated when triggered
+	 * 
+	 * @param val
+	 *            The DMX value to associate with the action
+	 * @param signal
+	 *            The signal to be generated when triggered
 	 * @throws InvalidChannelValueException
-	 * 		Indication that the provided value was not valid. 
+	 *             Indication that the provided value was not valid.
 	 */
 	public void setSignal(int val, Signal1<Integer> signal)
-		throws InvalidChannelValueException {
+			throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
 			controlSignal[val] = signal;
 		} else {
 			throw new InvalidChannelValueException(val);
 		}
 	}
-	
+
 	/**
 	 * Get a specific Signal object.
+	 * 
 	 * @param val
-	 * 		The signal to get
-	 * @return
-	 * 		The signal for this value of the channel.
+	 *            The signal to get
+	 * @return The signal for this value of the channel.
 	 * @throws InvalidChannelValueException
-	 * 		Indication that the provided value was not valid.
+	 *             Indication that the provided value was not valid.
 	 */
-	public Signal1<Integer> getSignal(int val) throws InvalidChannelValueException {
+	public Signal1<Integer> getSignal(int val)
+			throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
 			return controlSignal[val];
 		} else {
@@ -91,10 +95,11 @@ public class ControlChannel extends QObject {
 
 	/**
 	 * Trigger a specific Signal.
+	 * 
 	 * @param val
-	 * 		The value of Signal to trigger.
+	 *            The value of Signal to trigger.
 	 * @throws InvalidChannelValueException
-	 * 		Indication that the provided value was not valid.
+	 *             Indication that the provided value was not valid.
 	 */
 	public void trigger(int val) throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
@@ -107,20 +112,20 @@ public class ControlChannel extends QObject {
 			throw new InvalidChannelValueException(val);
 		}
 	}
-	
+
 	/**
 	 * Get this channel's number within those for the module
-	 * @return
-	 * 		This ControlChannel's identifier number for the module.
+	 * 
+	 * @return This ControlChannel's identifier number for the module.
 	 */
 	public int getModuleChanNumber() {
 		return moduleChanNumber;
 	}
-	
+
 	/**
 	 * Get the name of the owning module for this ControlChannel
-	 * @return
-	 * 		The name of the module to which this ControlChannel belongs.
+	 * 
+	 * @return The name of the module to which this ControlChannel belongs.
 	 */
 	public String getModuleName() {
 		return moduleName;
