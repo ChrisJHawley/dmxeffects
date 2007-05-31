@@ -19,228 +19,298 @@
  */
 package dmxeffects.sound;
 
-import java.util.concurrent.Semaphore;
+import com.trolltech.qt.gui.*;
 
-import com.trolltech.qt.gui.QMenu;
-
-import dmxeffects.*;
-import dmxeffects.dmx.*;
+import dmxeffects.Main;
+import dmxeffects.Module;
 
 /**
  * Sound module main file. Provides all interfaces from external classes to the
  * functionality provided by this module.
  * 
  * @author chris
- *
+ * 
  */
-public class SoundModule implements Module {
-	
-	// Module configuration information
+public class SoundModule extends QWidget implements Module {
+
+	// -- Module configuration information -- //
 	private static final int CHANNELS_REQUIRED = 2;
+
 	private static final String MODULE_NAME = "Sound Module";
+
 	private int firstControlChannel = -1;
-	
-	// Variables for singleton methods
-	private static SoundModule singletonModule = null;
-	private static Semaphore singletonLock =  new Semaphore(1, true);
-	
-	// Data storage for the tracks
+
+	// -- Data storage for the tracks -- //
 	private SoundTrack[] trackArray;
-	
-	// Variables for indicating if play is allowed
-	private boolean playAllowed;
-	private static Semaphore playLock = new Semaphore(1, true);
-	
+
 	/*
 	 * Static variables used for the configuration of the values to be used by
-	 * the DMX controller when dealing with this module. These should be properly
-	 * documented such that they can be properly implemented.
+	 * the DMX controller when dealing with this module. These should be
+	 * properly documented such that they can be properly implemented.
 	 * 
 	 * TODO Perhaps they could be shown on a GUI tab for this module.
 	 */
 	private static final int SOUND_MODULE_DMX_START_PLAYBACK = 10;
+
 	private static final int SOUND_MODULE_DMX_STOP_PLAYBACK = 20;
-	
-	private SoundModule() {
+
+	// -- GUI Elements -- //
+	private QMenu soundMenu;
+
+	private QAction changeAssociationAction;
+
+	private QAction testSoundAction;
+
+	private QAction addTrackAction;
+
+	private QAction editTrackAction;
+
+	private QAction deleteTrackAction;
+
+	private QAction clearTracksAction;
+
+	/**
+	 * Create new SoundModule.
+	 * 
+	 */
+	public SoundModule() {
+		// Initialise data storage
 		trackArray = new SoundTrack[256];
-	}
-	
-	/**
-	 * Get the current instance of the SoundModule
-	 * @return The current instance, or a new one if one didn't exist.
-	 */
-	public static SoundModule getInstance() {
+
+		// Initialise GUI
 		try {
-			singletonLock.acquire();
-			if (singletonModule == null) {
-				singletonModule = new SoundModule();
-			}
-			singletonLock.release();
-		} catch (InterruptedException IE) {
-			System.err.println("Thread interruption detected");
-			IE.printStackTrace(System.err);
+			createActions();
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
 		}
-		return singletonModule;
-	}
+		createMenus();
 
-	/**
-	 * Destroy the current singleton instance.
-	 *
-	 */
-	public static void destroyInstance() {
-		try {
-			singletonLock.acquire();
-			// XXX Potentially thread unsafe if perfectly interleaved with getInstance()
-			singletonModule = null;
-			singletonLock.release();
-		} catch (InterruptedException IE) {
-			System.err.println("Thread interruption detected");
-			IE.printStackTrace(System.err);
-		}
-		
-	}
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#dmxInput(int, int)
-	 */
-	public void dmxInput(Integer channelNumber, Integer channelValue) {
-		// TODO Auto-generated method stub
+		// Get listening for signals on the mode that we are in
+		Main.getInstance().programModeSignal.connect(this, "programMode()");
+		Main.getInstance().runModeSignal.connect(this, "runMode()");
 
 	}
 
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#dmxListenerEnabled()
-	 */
-	public void dmxListenerEnabled() {
-		// Listener in operation indicates that input may be incoming, start
-		// listening for this
-		Universe.getInstance().dmxValueUpdater.connect(this, "dmxInput(Integer, Integer)");
-		
-		// This should only be called when the listener first starts, which is
-		// when we want to set channel associations
-		try {
-			setModuleChannel();
-		} catch (OperationCancelledException OCE) {
-			// This means that the user does not want to properly enable the 
-			// module. DO NOT ALLOW ENABLING.
-			// TODO: Ensure enabling not performed.
-		}
+	public void createActions() {
+		// If actions have conditional enable they are created disabled
+		changeAssociationAction = new QAction(tr("&Change DMX Association"),
+				this);
+		changeAssociationAction
+				.setStatusTip(tr("Change DMX Channel Association for the sound module"));
+		changeAssociationAction.triggered.connect(this, "setAssoc()");
+		changeAssociationAction.setEnabled(false);
 
+		testSoundAction = new QAction(tr("&Test Sound Output"), this);
+		testSoundAction
+				.setStatusTip(tr("Perform a test of the sound setup on this system"));
+		testSoundAction.triggered.connect(this, "testSound()");
+		testSoundAction.setEnabled(false);
+
+		addTrackAction = new QAction(tr("&Add Track"), this);
+		addTrackAction.setStatusTip(tr("Add a new track the show"));
+		addTrackAction.triggered.connect(this, "addTrack()");
+		addTrackAction.setEnabled(false);
+
+		editTrackAction = new QAction(tr("&Edit Track"), this);
+		editTrackAction
+				.setStatusTip(tr("Edit an existing track within the show"));
+		editTrackAction.triggered.connect(this, "editTrack()");
+		editTrackAction.setEnabled(false);
+
+		deleteTrackAction = new QAction(tr("&Delete Track"), this);
+		deleteTrackAction.setStatusTip(tr("Remove a track from the show"));
+		deleteTrackAction.triggered.connect(this, "deleteTrack()");
+		deleteTrackAction.setEnabled(false);
+
+		clearTracksAction = new QAction(tr("&Clear Tracks"), this);
+		clearTracksAction.setStatusTip(tr("Remove all tracks from the show"));
+		clearTracksAction.triggered.connect(this, "clearTracks()");
+		clearTracksAction.setEnabled(false);
 	}
 
-	/* (non-Javadoc)
+	public void createMenus() {
+		soundMenu = new QMenu(tr("&Sound"));
+		soundMenu.addAction(changeAssociationAction);
+		soundMenu.addAction(testSoundAction);
+		soundMenu.addSeparator();
+		soundMenu.addAction(addTrackAction);
+		soundMenu.addAction(editTrackAction);
+		soundMenu.addAction(deleteTrackAction);
+		soundMenu.addAction(clearTracksAction);
+	}
+
+	// -- Implement Module classes -- //
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dmxeffects.Module#getMenu()
 	 */
 	public QMenu getMenu() {
 		// TODO Auto-generated method stub
-		return SoundGUI.getInstance().getMenu();
+		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dmxeffects.Module#getName()
 	 */
 	public String getName() {
 		return MODULE_NAME;
 	}
 
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#getPanelTitle()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dmxeffects.Module#getWidget()
 	 */
-	public String getPanelTitle() {
-		return SoundGUI.getInstance().getPanelTitle();
-	}
-
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#programModeEnabled()
-	 */
-	public void programModeEnabled() {
-		SoundGUI.getInstance().programModeEnabled();
-	}
-
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#removeChannelAssociations()
-	 */
-	public void removeChannelAssociations() {
+	public QWidget getWidget() {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#runModeEnabled()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dmxeffects.Module#getWidgetTitle()
 	 */
-	public void runModeEnabled() {
-		SoundGUI.getInstance().runModeEnabled();
+	public String getWidgetTitle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dmxeffects.Module#setModuleChannel()
-	 */
-	public void setModuleChannel() throws OperationCancelledException {
-		// This may be run to re-assign channels, so we may want to remove assocs
-		if (firstControlChannel != -1) {
-			try {
-				Universe.getInstance().removeAssociation(firstControlChannel, CHANNELS_REQUIRED);
-			} catch (InvalidChannelNumberException e) {
-				// Should not occur as any existing control channel will have been
-				// validated when it was initialised.
-				e.printStackTrace(System.err);
-			}
-		}
-		int firstChan = SoundGUI.getInstance().getFirstChannel();
-		// Confirm if any of the required channels are in use - asking for overwrite
-		int[] overWriteChans = new int[CHANNELS_REQUIRED];
-		int overWrites = 0;
-		for (int i=0;i<CHANNELS_REQUIRED;i++) {
-			try {
-				String association = Universe.getInstance().getAssociation(firstChan+i);
-				if (association != null) {
-					overWriteChans[overWrites] = firstChan+i;
-				}
-			} catch (InvalidChannelNumberException e) {
-				e.printStackTrace(System.err);
-			}
-		}
-		if (overWrites != 0) {
-			// Prompt the user for the range requiring overwriting, which may already
-			// have empty associations, it's just nicer.
-			try {
-				Universe.getInstance().removeAssociation(overWriteChans[0], 
-						overWriteChans[overWrites] - overWriteChans[0]);
-			} catch (InvalidChannelNumberException e) {
-				e.printStackTrace(System.err);
-			}
-		}
-		
-		// Set the associations
-		for (int i=0;i<CHANNELS_REQUIRED;i++) {
-		
-			try {
-				Universe.getInstance().setAssociation(firstChan+i, MODULE_NAME);
-			} catch (InvalidChannelNumberException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void setModuleChannel(int channel) throws InvalidChannelNumberException, OperationCancelledException {
-		if (channel == -1) {
-			// Module has had control revoked
-			firstControlChannel = -1;
-			setModuleChannel();
-		} else {
-			if (Validator.validate(channel, Validator.CHANNEL_NUMBER_VALIDATION)) {
-				firstControlChannel = channel;
-			} else {
-				throw new InvalidChannelNumberException("Invalid channel number provided");
-			}
-		}
-	}
+	// -- Other public methods -- //
 
 	/**
 	 * Provide the number of channels required for this module.
+	 * 
 	 * @return The requisite number of channels.
 	 */
 	public int getChannelsRequired() {
 		return CHANNELS_REQUIRED;
 	}
 
+	// -- Action handlers -- //
+
+	/**
+	 * Handle the signal indicating the DMX Listener has started. This also sets
+	 * this class listening for various signals sent by Universe.
+	 */
+	public void dmxListenerEnabled() {
+		// Listener in operation indicates that input may be incoming, start
+		// listening for this
+		Main.getInstance().getDMX().getUniverse().dmxValueUpdater.connect(this,
+				"dmxInput(Integer, Integer)");
+
+		// Run association method
+		setAssoc();
+
+		// Listen for channel assignments being revoked
+		Main.getInstance().getDMX().getUniverse().assocRemUpdater.connect(this,
+				"assocUpdate(Integer, Integer)");
+
+		// Allow associations to be changed if in program mode
+		if (Main.getInstance().getProgramMode()) {
+			changeAssociationAction.setEnabled(true);
+		}
+
+	}
+
+	/**
+	 * Handle DMX Input signals sent by the Universe. All input is assumed to
+	 * have been validated due to the signal being sent by the Universe class.
+	 * 
+	 * @param channelNumber
+	 *            Number of the channel for which input has been receieved
+	 * @param channelValue
+	 *            Value this channel now holds.
+	 */
+	public void dmxInput(Integer channelNumber, Integer channelValue) {
+		// TODO Auto-generated method stub
+		// will confirm the channelNumber is one we're listening to, and then
+		// check if the channelValue is appropriate to perform an action.
+
+	}
+
+	/**
+	 * Handle channel association removal signals sent by Universe. This allows
+	 * the module to remove its own if appropriate.
+	 * 
+	 * @param firstChannel
+	 *            The first of the channels being revoked.
+	 * @param range
+	 *            The range of channels being revoked.
+	 */
+	public void assocUpdate(Integer firstChannel, Integer range) {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Handle moving into program mode
+	 * 
+	 */
+	public void programMode() {
+		// Enable actions that are only available in program mode
+		if (Main.getInstance().getDMX().getListenerStatus()) {
+			changeAssociationAction.setEnabled(true);
+		}
+		addTrackAction.setEnabled(true);
+		editTrackAction.setEnabled(true);
+		deleteTrackAction.setEnabled(true);
+		clearTracksAction.setEnabled(true);
+	}
+
+	/**
+	 * Handle moving into run mode
+	 * 
+	 */
+	public void runMode() {
+		// Disable actions that could be detrimental if in run mode.
+		changeAssociationAction.setEnabled(false);
+		addTrackAction.setEnabled(false);
+		editTrackAction.setEnabled(false);
+		deleteTrackAction.setEnabled(false);
+		clearTracksAction.setEnabled(false);
+	}
+
+	/**
+	 * Set the channel association for this module
+	 * 
+	 */
+	public void setAssoc() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Add a new track into the show.
+	 * 
+	 */
+	public void addTrack() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Edit an existing track within the show.
+	 * 
+	 */
+	public void editTrack() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Remove a track from the show.
+	 * 
+	 */
+	public void deleteTrack() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Remove all tracks from the show.
+	 * 
+	 */
+	public void clearTracks() {
+		// TODO Auto-generated method stub
+	}
 }
