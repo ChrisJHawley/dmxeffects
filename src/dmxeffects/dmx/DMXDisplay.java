@@ -31,6 +31,11 @@ import dmxeffects.*;
  */
 public class DMXDisplay extends QWidget implements Module {
 
+	/**
+	 * Signal for informing other modules that the listener has started
+	 */
+	public Signal0 listenerEnabled = new Signal0();
+	
 	// -- Internal variables for this Module -- //
 	private final String MODULE_NAME = tr("DMX Module");
 
@@ -122,11 +127,11 @@ public class DMXDisplay extends QWidget implements Module {
 		return menu;
 	}
 
-	public void runModeEnabled() {
+	public void runMode() {
 		setAssocAction.setEnabled(false);
 	}
 
-	public void programModeEnabled() {
+	public void programMode() {
 		if (dmxListener) {
 			setAssocAction.setEnabled(true);
 		}
@@ -140,6 +145,9 @@ public class DMXDisplay extends QWidget implements Module {
 		generateRandomAction.setEnabled(true);
 		generateChannelAction.setEnabled(true);
 		injectAction.setEnabled(true);
+		
+		// Transmit the signal
+		listenerEnabled.emit();
 	}
 
 	public void startListener() {

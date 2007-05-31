@@ -26,8 +26,8 @@ import dmxeffects.sound.SoundModule;
 
 public class Main extends QMainWindow {
 
-	// Singleton variable. Initialising in this manner ensures thread safety.
-	private static final Main singletonApp = new Main();
+	// Singleton variable.
+	private static Main singletonApp;
 
 	// -- Internal data storage -- //
 	private boolean programMode = true;
@@ -75,7 +75,10 @@ public class Main extends QMainWindow {
 	public static void main(String[] args) {
 		// Main application turn on!
 		QApplication.initialize(args);
-
+		
+		// Initialising in this manner ensures thread safety.
+		singletonApp = new Main();
+		
 		Main.getInstance().show();
 
 		QApplication.exec();
@@ -106,15 +109,21 @@ public class Main extends QMainWindow {
 		}
 
 		// TODO: Somehow dynamically gather the modules to load.
-		// This will require some thought.
+		// Also set them listening to the various signals that are required
 		dmxDisplay = new DMXDisplay();
+		programModeSignal.connect(dmxDisplay, "programMode()");
+		runModeSignal.connect(dmxDisplay, "runMode()");
+		
 		soundModule = new SoundModule();
+		dmxDisplay.listenerEnabled.connect(soundModule, "dmxListenerEnabled()");
+		programModeSignal.connect(soundModule, "programMode()");
+		runModeSignal.connect(soundModule, "runMode()");
 
 		createMenus();
 		createStatusBar();
 
-		// Inform all the modules of the current system mode
-		modeCheckSet();
+		// Start in program mode
+		programMode();
 
 		setWindowTitle(tr("DMXEffects"));
 	}
@@ -199,11 +208,6 @@ public class Main extends QMainWindow {
 		statusBar().showMessage(tr("Ready"), 5000);
 	}
 
-	private void modeCheckSet() {
-		programModeAction.setEnabled(!programMode);
-		runModeAction.setEnabled(programMode);
-	}
-
 	// -- Action handlers -- //
 
 	public void newShow() {
@@ -224,13 +228,15 @@ public class Main extends QMainWindow {
 
 	public void programMode() {
 		programMode = true;
-		modeCheckSet();
+		programModeAction.setEnabled(!programMode);
+		runModeAction.setEnabled(programMode);
 		programModeSignal.emit();
 	}
 
 	public void runMode() {
 		programMode = false;
-		modeCheckSet();
+		programModeAction.setEnabled(!programMode);
+		runModeAction.setEnabled(programMode);
 		runModeSignal.emit();
 	}
 
