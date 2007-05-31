@@ -407,6 +407,6 @@ public class SoundModule extends QObject implements Module {
 	 */
 	public void stopPlayback(Integer val) {
 		// TODO Auto-generated method stub
-		playerStopSiganl.emit();
+		playerStopSignal.emit();
 	}
 }
