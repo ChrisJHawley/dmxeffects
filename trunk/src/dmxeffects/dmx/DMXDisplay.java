@@ -19,112 +19,119 @@
  */
 package dmxeffects.dmx;
 
-import java.util.concurrent.Semaphore;
 import com.trolltech.qt.gui.*;
+
 import dmxeffects.*;
 
 /**
  * Class for providing the GUI elements of the DMX modules.
+ * 
  * @author chris
- *
+ * 
  */
-public class DMXDisplay extends QWidget implements ModuleGUI {
+public class DMXDisplay extends QWidget implements Module {
 
-	private static DMXDisplay singletonDisplay = null;
-	private static Semaphore singletonLock = new Semaphore(1, true);
-	
-	private static final String PANEL_TITLE = "DMX Association Table";
-	
+	// -- Internal variables for this Module -- //
+	private final String MODULE_NAME = tr("DMX Module");
+
+	private final String WIDGET_TITLE = tr("DMX Association Table");
+
+	private Universe universe;
+
+	private DMXInput input;
+
 	private boolean dmxListener = false;
-	
+
+	// -- GUI Elements -- //
 	private QMenu menu;
+
 	private QMenu generateMenu;
+
 	private QAction startListenerAction;
+
 	private QAction generateRandomAction;
+
 	private QAction generateChannelAction;
+
 	private QAction injectAction;
+
 	private QAction setAssocAction;
-	
-	private DMXDisplay() {
+
+	public DMXDisplay() {
+		// Create input object
+		input = new DMXInput();
+
+		// Initialise Universe
+		universe = new Universe();
+
 		// Prepare actions
 		startListenerAction = new QAction(tr("&Start DMX Listener"), this);
 		startListenerAction.setStatusTip(tr("Begin listening for DMX input"));
 		startListenerAction.triggered.connect(this, "startListener()");
 		startListenerAction.setEnabled(!dmxListener);
-		
-		generateRandomAction = new QAction(tr("Generate on &all channels"), this);
-		generateRandomAction.setStatusTip(tr("Generate random DMX data for all channels"));
-		generateRandomAction.triggered.connect(Generator.getInstance(), "generateAll()");
+
+		generateRandomAction = new QAction(tr("Generate on &all channels"),
+				this);
+		generateRandomAction
+				.setStatusTip(tr("Generate random DMX data for all channels"));
+		generateRandomAction.triggered.connect(Generator.getInstance(),
+				"generateAll()");
 		generateRandomAction.setEnabled(dmxListener);
-		
-		generateChannelAction = new QAction(tr("Generate on &specific channel"), this);
-		generateChannelAction.setStatusTip(tr("Generate random DMX for a specified channel"));
+
+		generateChannelAction = new QAction(
+				tr("Generate on &specific channel"), this);
+		generateChannelAction
+				.setStatusTip(tr("Generate random DMX for a specified channel"));
 		generateChannelAction.triggered.connect(this, "generate()");
 		generateChannelAction.setEnabled(dmxListener);
-		
+
 		injectAction = new QAction(tr("&Inject DMX"), this);
 		injectAction.setStatusTip(tr("Inject specific DMX data"));
 		injectAction.triggered.connect(this, "inject()");
 		injectAction.setEnabled(dmxListener);
-		
+
 		setAssocAction = new QAction(tr("&Set Association"), this);
 		setAssocAction.setStatusTip(tr("Set module-channel associations"));
 		setAssocAction.triggered.connect(this, "setAssoc()");
 		setAssocAction.setEnabled(dmxListener);
-		
-		// Prepare menus		
+
+		// Prepare menus
 		menu = new QMenu(tr("&DMX"));
 		menu.addAction(startListenerAction);
-		
+
 		generateMenu = new QMenu("&Generate DMX");
 		generateMenu.setEnabled(dmxListener);
 		generateMenu.addAction(generateRandomAction);
 		generateMenu.addAction(generateChannelAction);
-		
+
 		menu.addMenu(generateMenu);
 		menu.addAction(injectAction);
 		menu.addAction(setAssocAction);
-		
+
 		// Connect to external signals
-		Universe.getInstance().dmxValueUpdater.connect(this, "updateTableVal(Integer, Integer)");
-		Universe.getInstance().assocRemUpdater.connect(this, "displayRemove(Integer, Integer)");
-		Universe.getInstance().associationUpdater.connect(this, "updateTableAssoc(Integer, String)");
-		
+		universe.dmxValueUpdater.connect(this,
+				"updateTableVal(Integer, Integer)");
+		universe.assocRemUpdater.connect(this,
+				"displayRemove(Integer, Integer)");
+		universe.associationUpdater.connect(this,
+				"updateTableAssoc(Integer, String)");
+
 	}
-	
-	/**
-	 * Retrieve a current instance, creating one if required.
-	 * @return The current singleton instance of this class.
-	 */
-	public static DMXDisplay getInstance() {
-		try {
-			singletonLock.acquire();
-			if (singletonDisplay == null) {
-				singletonDisplay = new DMXDisplay();
-			}
-			singletonLock.release();
-		} catch (InterruptedException IE) {
-			System.err.println("Thread interruption detected");
-			IE.printStackTrace(System.err);
-		}
-		return singletonDisplay;
-	}
-	
-	
+
 	public QMenu getMenu() {
 		return menu;
 	}
-	
+
 	public void runModeEnabled() {
 		setAssocAction.setEnabled(false);
 	}
-	
+
 	public void programModeEnabled() {
 		if (dmxListener) {
 			setAssocAction.setEnabled(true);
 		}
 	}
-	
+
 	public void dmxListenerEnabled() {
 		dmxListener = true;
 		setAssocAction.setEnabled(true);
@@ -133,43 +140,38 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		generateRandomAction.setEnabled(true);
 		generateChannelAction.setEnabled(true);
 		injectAction.setEnabled(true);
-		
-		Main.getInstance().dmxListenerEnabled();
 	}
-	
+
 	public void startListener() {
-		DMXInput input = new DMXInput();
 		Thread listenerThread = new Thread(input);
-		input.inputValue.connect(Universe.getInstance(), "setValue(Integer, Integer)");
+		input.inputValue.connect(universe, "setValue(Integer, Integer)");
+		input.listenerStarted.connect(this, "dmxListenerEnabled()");
 		input.moveToThread(listenerThread);
 		listenerThread.setDaemon(true);
-		
+
 		listenerThread.start();
-		
-		// Inform the modules as appropriate.
-		if (listenerThread.getState() == Thread.State.RUNNABLE) {
-			dmxListenerEnabled();
-		} else {
-			// Um... not working! This isn't a good thing
-		}
 	}
-	
+
 	public void setAssoc() {
-		
+
 	}
-	
+
 	public void updateTableVal(Integer channelNumber, Integer channelValue) {
-		System.out.println("Channel " + channelNumber.toString() + " has value " + channelValue.toString());
+		System.out.println("Channel " + channelNumber.toString()
+				+ " has value " + channelValue.toString());
 	}
-	
+
 	public void updateTableAssoc(Integer channelNumber, String association) {
-		System.out.println("Channel " + channelNumber.toString() + " has assoc " + association);
+		System.out.println("Channel " + channelNumber.toString()
+				+ " has assoc " + association);
 	}
-	
+
 	public void inject() {
 		try {
-			int channelNumber = new DMXUserInput().getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
-			int channelValue = new DMXUserInput().getInput(DMXUserInput.CHANNEL_VALUE_INPUT);
+			int channelNumber = new DMXUserInput()
+					.getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
+			int channelValue = new DMXUserInput()
+					.getInput(DMXUserInput.CHANNEL_VALUE_INPUT);
 			Generator.getInstance().inject(channelNumber, channelValue);
 		} catch (OperationFailedException OFE) {
 			// This should not occur
@@ -180,30 +182,48 @@ public class DMXDisplay extends QWidget implements ModuleGUI {
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur
 		}
-		
+
 	}
-	
+
 	public void generate() {
 		try {
-			int channelNumber = new DMXUserInput().getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
+			int channelNumber = new DMXUserInput()
+					.getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
 			Generator.getInstance().generate(channelNumber);
 		} catch (OperationFailedException OFE) {
 			// This should not occur
 		} catch (OperationCancelledException OCE) {
-			// User cancelled operation. Nevermind			
+			// User cancelled operation. Nevermind
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur
 		}
 	}
-	
-	public String getPanelTitle() {
-		return tr(PANEL_TITLE);
-	}
-	
+
 	public void displayRemove(Integer channelNumber, Integer numToDelete) {
-		String message = tr("Removed ") + numToDelete.toString() +
-			tr(" associations from channel ") + channelNumber.toString() +
-			tr(" up.");
+		String message = tr("Removed ") + numToDelete.toString()
+				+ tr(" associations from channel ") + channelNumber.toString()
+				+ tr(" up.");
 		Main.getInstance().statusBar().showMessage(message, 2000);
+	}
+
+	public String getName() {
+		return MODULE_NAME;
+	}
+
+	public QWidget getWidget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getWidgetTitle() {
+		return WIDGET_TITLE;
+	}
+
+	public Universe getUniverse() {
+		return universe;
+	}
+
+	public boolean getListenerStatus() {
+		return dmxListener;
 	}
 }

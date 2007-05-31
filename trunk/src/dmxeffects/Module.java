@@ -21,35 +21,42 @@
 package dmxeffects;
 
 import com.trolltech.qt.gui.QMenu;
+import com.trolltech.qt.gui.QWidget;
 
 /**
- * Interface defining the methods that each module must provide for interaction with the Main
- * application. This allows for a standard set of controls to be used.
- *
+ * Interface defining the methods that each module must provide for interaction
+ * with the Main application. This allows for a standard set of controls to be
+ * used.
+ * 
  * @author Chris Hawley
  */
 public interface Module {
 
 	/**
-	 * Method to get the panel elements to be displayed for this module in the Main application window.
-	 * @return The displayable panel elements.
+	 * Method to get the widget to be displayed for this module in the Main
+	 * application window.
+	 * 
+	 * @return The displayable widget.
 	 */
-	//JComponent getPanelElements();
-	
+	QWidget getWidget();
+
 	/**
-	 * Get the text to be used as the title for this Module's panel elements.
+	 * Get the text to be used as the title for this Module's widget.
+	 * 
 	 * @return The title.
 	 */
-	String getPanelTitle();
-	
+	String getWidgetTitle();
+
 	/**
 	 * Method to get the menu to be displayed for this module.
+	 * 
 	 * @return The displayable menu element.
 	 */
 	QMenu getMenu();
 
 	/**
 	 * Extract the name from the module, which is used in the associations.
+	 * 
 	 * @return The name of the module.
 	 */
 	String getName();
