@@ -19,10 +19,13 @@
  */
 package dmxeffects.sound;
 
+import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.gui.*;
 
 import dmxeffects.Main;
 import dmxeffects.Module;
+import dmxeffects.dmx.ControlChannel;
+import dmxeffects.dmx.InvalidChannelValueException;
 
 /**
  * Sound module main file. Provides all interfaces from external classes to the
@@ -31,7 +34,7 @@ import dmxeffects.Module;
  * @author chris
  * 
  */
-public class SoundModule extends QWidget implements Module {
+public class SoundModule extends QObject implements Module {
 
 	// -- Module configuration information -- //
 	private static final int CHANNELS_REQUIRED = 2;
@@ -43,16 +46,10 @@ public class SoundModule extends QWidget implements Module {
 	// -- Data storage for the tracks -- //
 	private SoundTrack[] trackArray;
 
-	/*
-	 * Static variables used for the configuration of the values to be used by
-	 * the DMX controller when dealing with this module. These should be
-	 * properly documented such that they can be properly implemented.
-	 * 
-	 * TODO Perhaps they could be shown on a GUI tab for this module.
-	 */
-	private static final int SOUND_MODULE_DMX_START_PLAYBACK = 10;
-
-	private static final int SOUND_MODULE_DMX_STOP_PLAYBACK = 20;
+	private ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
+	public Signal1<Integer> trackQueueSignal;
+	public Signal1<Integer> startPlaybackSignal;
+	public Signal1<Integer> stopPlaybackSignal;
 
 	// -- GUI Elements -- //
 	private QMenu soundMenu;
@@ -77,6 +74,33 @@ public class SoundModule extends QWidget implements Module {
 		// Initialise data storage
 		trackArray = new SoundTrack[256];
 
+		// Initialise controls
+		// Control Channel 1 is used for queing tracks
+		controls[0] = new ControlChannel(1, MODULE_NAME);
+		trackQueueSignal = new Signal1<Integer>();
+		trackQueueSignal.connect(this, "queueTrack(Integer)");
+		for (int i=0;i<256;i++) {
+			try {
+				controls[0].setSignal(i, trackQueueSignal);
+			} catch (InvalidChannelValueException e) {
+				e.printStackTrace(System.err);
+			}
+		}
+		
+		// Control Channel 2 is used for play controls
+		controls[1] = new ControlChannel(2, MODULE_NAME);
+		startPlaybackSignal = new Signal1<Integer>();
+		startPlaybackSignal.connect(this, "startPlayback(Integer)");
+		stopPlaybackSignal = new Signal1<Integer>();
+		stopPlaybackSignal.connect(this, "stopPlayback(Integer)");
+		try {
+			controls[1].setSignal(10, startPlaybackSignal);
+			controls[1].setSignal(20, stopPlaybackSignal);
+		} catch (InvalidChannelValueException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace(System.err);
+		}
+		
 		// Initialise GUI
 		try {
 			createActions();
@@ -189,13 +213,13 @@ public class SoundModule extends QWidget implements Module {
 	// -- Action handlers -- //
 
 	public void dmxListenerEnabled() {
-		// Listener in operation indicates that input may be incoming, start
-		// listening for this
+		// Run association method as we will want to be able to act on suitable
+		// input
+		setAssoc();
+		
+		// Start listening for input
 		Main.getInstance().getDMX().getUniverse().dmxValueUpdater.connect(this,
 				"dmxInput(Integer, Integer)");
-
-		// Run association method
-		setAssoc();
 
 		// Listen for channel assignments being revoked
 		Main.getInstance().getDMX().getUniverse().assocRemUpdater.connect(this,
@@ -221,9 +245,24 @@ public class SoundModule extends QWidget implements Module {
 		// TODO Auto-generated method stub
 		// will confirm the channelNumber is one we're listening to, and then
 		// check if the channelValue is appropriate to perform an action.
+		int chanNum = channelNumber.intValue();
+		if ((firstControlChannel != -1) && 
+				(chanNum >= firstControlChannel) && 
+				(chanNum < firstControlChannel + CHANNELS_REQUIRED)) {
+			int chanVal = channelValue.intValue();
+			try {
+				controls[chanNum].trigger(chanVal);
+			} catch (ArrayIndexOutOfBoundsException AOB) {
+				// No controls on this channel
+			} catch (NullPointerException NPE) {
+				// No controls on this channel
+			} catch (InvalidChannelValueException ICVE) {
+				// Should not occur
+			}
+		}
 
 	}
-
+	
 	/**
 	 * Handle channel association removal signals sent by Universe. This allows
 	 * the module to remove its own if appropriate.
@@ -306,6 +345,33 @@ public class SoundModule extends QWidget implements Module {
 	 * 
 	 */
 	public void clearTracks() {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Queue a track for playback.
+	 * @param val
+	 * 		DMX Value of the track to be queued.
+	 */
+	public void queueTrack(Integer val) {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Start playback.
+	 * @param val
+	 * 		Not used.
+	 */
+	public void startPlayback(Integer val) {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Stop playback
+	 * @param val
+	 * 		Not used.
+	 */
+	public void stopPlayback(Integer val) {
 		// TODO Auto-generated method stub
 	}
 }
