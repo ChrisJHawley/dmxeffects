@@ -28,8 +28,9 @@ import dmxeffects.dmx.ControlChannel;
 import dmxeffects.dmx.InvalidChannelValueException;
 
 /**
- * Sound module main file. Provides all interfaces from external classes to the
- * functionality provided by this module.
+ * Sound module main file. 
+ * Provides all interfaces from external classes to the functionality
+ * provided by this module.
  * 
  * @author chris
  * 
@@ -122,7 +123,6 @@ public class SoundModule extends QObject implements Module {
 			controls[1].setSignal(10, startPlaybackSignal);
 			controls[1].setSignal(20, stopPlaybackSignal);
 		} catch (InvalidChannelValueException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace(System.err);
 		}
 
@@ -141,13 +141,15 @@ public class SoundModule extends QObject implements Module {
 		changeAssociationAction = new QAction(tr("&Change DMX Association"),
 				this);
 		changeAssociationAction
-				.setStatusTip(tr("Change DMX Channel Association for the sound module"));
+				.setStatusTip(
+						tr("Change DMX Channel Association for the sound module"));
 		changeAssociationAction.triggered.connect(this, "setAssoc()");
 		changeAssociationAction.setEnabled(false);
 
 		testSoundAction = new QAction(tr("&Test Sound Output"), this);
 		testSoundAction
-				.setStatusTip(tr("Perform a test of the sound setup on this system"));
+				.setStatusTip(
+						tr("Perform a test of the sound setup on this system"));
 		testSoundAction.triggered.connect(this, "testSound()");
 		testSoundAction.setEnabled(false);
 
@@ -379,7 +381,7 @@ public class SoundModule extends QObject implements Module {
 	 *            DMX Value of the track to be queued.
 	 */
 	public void queueTrack(Integer val) {
-		// TODO Auto-generated method stub
+		// TODO Validity checking
 		try {
 			playerQueueSignal.emit(trackArray[val.intValue()]);
 		} catch (ArrayIndexOutOfBoundsException AOB) {
@@ -395,7 +397,7 @@ public class SoundModule extends QObject implements Module {
 	 *            Not used.
 	 */
 	public void startPlayback(Integer val) {
-		// TODO Auto-generated method stub
+		// TODO Validity checking
 		playerPlaySignal.emit();
 	}
 
@@ -406,7 +408,7 @@ public class SoundModule extends QObject implements Module {
 	 *            Not used.
 	 */
 	public void stopPlayback(Integer val) {
-		// TODO Auto-generated method stub
+		// TODO Validity checking
 		playerStopSignal.emit();
 	}
 }

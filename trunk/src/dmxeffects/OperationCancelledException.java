@@ -27,7 +27,7 @@ package dmxeffects;
 public class OperationCancelledException extends java.lang.Exception {
 
 	/**
-	 * 
+	 * Unique ID for this class.
 	 */
 	private static final long serialVersionUID = 6042068577702888369L;
 

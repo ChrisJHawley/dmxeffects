@@ -28,7 +28,7 @@ package dmxeffects;
 public class OperationFailedException extends java.lang.Exception {
 
 	/**
-	 * 
+	 * Unique ID for this class.
 	 */
 	private static final long serialVersionUID = 572770114145315167L;
 
