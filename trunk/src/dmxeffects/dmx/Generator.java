@@ -19,7 +19,6 @@
  */
 package dmxeffects.dmx;
 
-// TODO Make into a factory? Would avoid the thread-safety issues with singleton
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
@@ -32,9 +31,7 @@ import dmxeffects.*;
  */
 public class Generator {
 
-	private static Generator singletonGenerator = null;
-
-	private static Semaphore singletonLock = new Semaphore(1, true);
+	private static Generator singletonGenerator = new Generator;
 
 	/** Creates a new instance of Generator */
 	private Generator() {
@@ -47,31 +44,7 @@ public class Generator {
 	 * @return The current singleton instance of Generator.
 	 */
 	public static Generator getInstance() {
-		try {
-			singletonLock.acquire();
-			if (singletonGenerator == null) {
-				singletonGenerator = new Generator();
-			}
-			singletonLock.release();
-		} catch (java.lang.InterruptedException e) {
-			System.err.println("Thread interruption detected.");
-			e.printStackTrace(System.err);
-		}
 		return singletonGenerator;
-	}
-
-	/**
-	 * Method to destroy the current instance of Generator.
-	 */
-	public static void destroyInstance() {
-		try {
-			singletonLock.acquire();
-			singletonGenerator = null;
-			singletonLock.release();
-		} catch (java.lang.InterruptedException e) {
-			System.err.println("Thread interruption detected.");
-			e.printStackTrace(System.err);
-		}
 	}
 
 	/**
