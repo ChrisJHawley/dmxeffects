@@ -34,12 +34,14 @@ public class DMXUserInput extends QWidget {
 	/**
 	 * Value used to indicate that a DMX Channel Number is to be input.
 	 */
-	public static final int CHANNEL_NUMBER_INPUT = Validator.CHANNEL_NUMBER_VALIDATION;
+	public static final int CHANNEL_NUMBER_INPUT = 
+		Validator.CHANNEL_NUMBER_VALIDATION;
 
 	/**
 	 * Value used to indicate that a DMX Channel Value is to be input.
 	 */
-	public static final int CHANNEL_VALUE_INPUT = Validator.CHANNEL_VALUE_VALIDATION;
+	public static final int CHANNEL_VALUE_INPUT = 
+		Validator.CHANNEL_VALUE_VALIDATION;
 
 	/**
 	 * Class to get and validate input from a user.
@@ -64,10 +66,12 @@ public class DMXUserInput extends QWidget {
 		String label;
 		switch (type) {
 		case CHANNEL_NUMBER_INPUT:
-			label = tr("Please provide a value within the range 1 to 512 inclusive.");
+			label = 
+				tr("Please provide a value within the range 1 to 512 inclusive.");
 			break;
 		case CHANNEL_VALUE_INPUT:
-			label = tr("Please provide a value within the range 0 to 255 inclusive.");
+			label = 
+				tr("Please provide a value within the range 0 to 255 inclusive.");
 			break;
 		default:
 			throw new OperationFailedException("Invalid input type request.");
