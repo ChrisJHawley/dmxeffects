@@ -29,6 +29,8 @@ import java.util.concurrent.Semaphore;
  */
 public class InputQueue {
 
+	// TODO Possibly remove singletonness due to potential thread unsafeness
+
 	/**
 	 * The current singleton instance of this InputQueue
 	 */
