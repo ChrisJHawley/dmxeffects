@@ -27,26 +27,54 @@ import com.trolltech.qt.core.QObject;
  */
 public class Player extends QObject implements Runnable {
 
+	// -- Signals for playback information -- //
+	
+	Signal0 playbackStartedSignal = new Signal0();
+
+	Signal0 playbackStoppedSignal = new Signal0();
+
+	/**
+	 * Create a new instance of this class
+	 */
 	public Player() {
 		// TODO Auto-generated method stub
 	}
 	
+	/**
+	 * Run when the containing Thread starts
+	 */
 	public void run() {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	// -- Action handlers -- //
-	public void queueTrack(SoundTrack track) {
+	/**
+	 * Handle a track beinq cued
+	 * @param track
+	 * 			Track to cue.
+	 */
+	public void cueTrack(SoundTrack track) {
 		// TODO Auto-generated method stub
 	}
 	
+	/**
+	 * Handle play signal.
+	 */
 	public void play() {
 		// TODO Auto-generated method stub
+		
+		// Emit signal indicating start
+		playbackStartedSignal.emit();
 	}
 	
+	/**
+	 * Handle stop signal
+	 */
 	public void stop() {
 		// TODO Auto-generated method stub
-	}
 
+		// Emit signal indicating stoppage
+		playbackStoppedSignal.emit();
+	}
 }
