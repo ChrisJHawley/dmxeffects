@@ -50,13 +50,13 @@ public class SoundModule extends QObject implements Module {
 	private ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
 
 	// -- Signals -- //
-	public Signal1<Integer> trackQueueSignal;
+	public Signal1<Integer> trackCueSignal;
 
 	public Signal1<Integer> startPlaybackSignal;
 
 	public Signal1<Integer> stopPlaybackSignal;
 	
-	public Signal1<SoundTrack> playerQueueSignal;
+	public Signal1<SoundTrack> playerCueSignal;
 	
 	public Signal0 playerPlaySignal;
 	
@@ -87,13 +87,13 @@ public class SoundModule extends QObject implements Module {
 		// Initialise data storage
 		trackArray = new SoundTrack[256];
 		
-		playerQueueSignal = new Signal1<SoundTrack>();
+		playerCueSignal = new Signal1<SoundTrack>();
 		playerPlaySignal = new Signal0();
 		playerStopSignal = new Signal0();
 
 		// Start player thread		
 		soundPlayer = new Player();
-		playerQueueSignal.connect(soundPlayer, "queueTrack(SoundTrack)");
+		playerCueSignal.connect(soundPlayer, "cueTrack(SoundTrack)");
 		playerPlaySignal.connect(soundPlayer, "play()");
 		playerStopSignal.connect(soundPlayer, "stop()");
 		Thread playerThread = new Thread(soundPlayer);
@@ -103,11 +103,11 @@ public class SoundModule extends QObject implements Module {
 		// Initialise controls
 		// Control Channel 1 is used for queing tracks
 		controls[0] = new ControlChannel(1, MODULE_NAME);
-		trackQueueSignal = new Signal1<Integer>();
-		trackQueueSignal.connect(this, "queueTrack(Integer)");
+		trackCueSignal = new Signal1<Integer>();
+		trackCueSignal.connect(this, "cueTrack(Integer)");
 		for (int i = 0; i < 256; i++) {
 			try {
-				controls[0].setSignal(i, trackQueueSignal);
+				controls[0].setSignal(i, trackCueSignal);
 			} catch (InvalidChannelValueException e) {
 				e.printStackTrace(System.err);
 			}
@@ -375,15 +375,15 @@ public class SoundModule extends QObject implements Module {
 	}
 
 	/**
-	 * Queue a track for playback.
+	 * Cue a track for playback
 	 * 
 	 * @param val
-	 *            DMX Value of the track to be queued.
+	 *            DMX Value of the track to be cued.
 	 */
-	public void queueTrack(Integer val) {
+	public void cueTrack(Integer val) {
 		// TODO Validity checking
 		try {
-			playerQueueSignal.emit(trackArray[val.intValue()]);
+			playerCueSignal.emit(trackArray[val.intValue()]);
 		} catch (ArrayIndexOutOfBoundsException AOB) {
 			// Shouldn't happen as val will have been verified
 			AOB.printStackTrace(System.err);
