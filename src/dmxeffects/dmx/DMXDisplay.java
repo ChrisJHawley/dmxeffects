@@ -62,6 +62,9 @@ public class DMXDisplay extends QWidget implements Module {
 
 	private QAction setAssocAction;
 
+	/**
+	 * Instantiate a new instance of this class.
+	 */
 	public DMXDisplay() {
 		// Create input object
 		input = new DMXInput();
@@ -150,6 +153,10 @@ public class DMXDisplay extends QWidget implements Module {
 		listenerEnabled.emit();
 	}
 
+	/**
+	 * Set the DMXInput Thread running, listening to the appropriate
+	 * signal.
+	 */
 	public void startListener() {
 		Thread listenerThread = new Thread(input);
 		input.inputValue.connect(universe, "setValue(Integer, Integer)");
@@ -161,19 +168,21 @@ public class DMXDisplay extends QWidget implements Module {
 	}
 
 	public void setAssoc() {
-
+		// TODO Auto-generated method block
 	}
 
 	public void updateTableVal(Integer channelNumber, Integer channelValue) {
-		System.out.println("Channel " + channelNumber.toString()
-				+ " has value " + channelValue.toString());
+		// TODO Auto-generated method block
 	}
 
 	public void updateTableAssoc(Integer channelNumber, String association) {
-		System.out.println("Channel " + channelNumber.toString()
-				+ " has assoc " + association);
+		// TODO Auto-generated method block
 	}
 
+	/**
+	 * Handle action and allow the user to specify a channel and value to insert
+	 * data for into the system.
+	 */
 	public void inject() {
 		try {
 			int channelNumber = new DMXUserInput()
@@ -193,6 +202,10 @@ public class DMXDisplay extends QWidget implements Module {
 
 	}
 
+	/**
+	 * Handle action and allow the user to specify a channel to insert a random
+	 * value on.
+	 */
 	public void generate() {
 		try {
 			int channelNumber = new DMXUserInput()
@@ -207,10 +220,15 @@ public class DMXDisplay extends QWidget implements Module {
 		}
 	}
 
+	/**
+	 * Display the range of channels that have associations removed.
+	 * @param channelNumber
+	 * 					Integer representation of the first channel removed.
+	 * @param numToDelete
+	 * 					Integer representation of the size of removed range.
+	 */
 	public void displayRemove(Integer channelNumber, Integer numToDelete) {
-		String message = tr("Removed ") + numToDelete.toString()
-				+ tr(" associations from channel ") + channelNumber.toString()
-				+ tr(" up.");
+		// TODO Remove stuff
 		Main.getInstance().statusBar().showMessage(message, 2000);
 	}
 
