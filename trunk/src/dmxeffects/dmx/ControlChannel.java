@@ -107,6 +107,9 @@ public class ControlChannel extends QObject {
 				controlSignal[val].emit(new Integer(val));
 			} catch (NullPointerException e) {
 				// Nothing to signal
+				System.err.println("Tried to trigger a non-existant action");
+				System.err.println("This is usually nothing to worry about");
+				e.printStackTrace(System.err);
 			}
 		} else {
 			throw new InvalidChannelValueException(val);
