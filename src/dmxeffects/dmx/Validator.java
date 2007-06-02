@@ -19,7 +19,6 @@
  */
 package dmxeffects.dmx;
 
-// TODO make into a factory
 /**
  * Class to validate DMX channel numbers and values.
  * 
