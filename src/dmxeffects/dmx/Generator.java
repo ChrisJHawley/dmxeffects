@@ -19,7 +19,7 @@
  */
 package dmxeffects.dmx;
 
-// TODO Make into a factory?
+// TODO Make into a factory? Would avoid the thread-safety issues with singleton
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
@@ -154,13 +154,15 @@ public class Generator {
 			} else {
 				String exceptionMessage = "Specified value, "
 						+ String.valueOf(channelValue)
-						+ " was not within the permissible range of 0 to 255 inclusive.";
+						+ " was not within the permissible range of 0 to 255"
+						+ " inclusive.";
 				throw new InvalidChannelValueException(exceptionMessage);
 			}
 		} else {
 			String exceptionMessage = "Specified channel number, "
 					+ String.valueOf(channelNumber)
-					+ " was not within the permissible range of 1 to 512 inclusive.";
+					+ " was not within the permissible range of 1 to 512"
+					+ " inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
 		Main.getInstance().statusBar().showMessage("DMX value inserted", 2000);
