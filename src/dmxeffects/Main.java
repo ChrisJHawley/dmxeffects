@@ -32,6 +32,8 @@ public class Main extends QMainWindow {
 	// -- Internal data storage -- //
 	private boolean programMode = true;
 
+	private boolean modifiedSinceSave = false;
+
 	private DMXDisplay dmxDisplay;
 
 	private SoundModule soundModule;
@@ -210,22 +212,50 @@ public class Main extends QMainWindow {
 
 	// -- Action handlers -- //
 
+	/**
+	 * Create a new show. 
+	 * If appropriate prompt the user to save first, and then open a blank show
+	 */
 	public void newShow() {
-
+		if (modifiedSinceSave) {
+			// TODO Prompt to save
+		}
+		// TODO Create new Show
 	}
 
+	/**
+	 * Open an existing show.
+	 * If appropriate prompt the user to save first, then open an existing show
+	 */
 	public void openShow() {
-
+		if (modifiedSinceSave) {
+			// TODO Prompt to save
+		}
+		// TODO Open file
 	}
 
+	/**
+	 * Save the show to existing location.
+	 * If the show has already been saved, save to this location, otherwise
+	 * prompt the user for a location.
+	 */
 	public void saveShow() {
-
+		// TODO Save to existing path or prompt if none set
+		modifiedSinceSave = false;
 	}
 
+	/**
+	 * Save the show to a new location.
+	 * Prompt the user for a location to save to.
+	 */
 	public void saveShowAs() {
-
+		// TODO Prompt for path to save to
+		modifiedSinceSave = false;
 	}
 
+	/**
+	 * Enable program mode.
+	 */
 	public void programMode() {
 		programMode = true;
 		programModeAction.setEnabled(!programMode);
@@ -233,6 +263,9 @@ public class Main extends QMainWindow {
 		programModeSignal.emit();
 	}
 
+	/**
+	 * Enable run mode.
+	 */
 	public void runMode() {
 		programMode = false;
 		programModeAction.setEnabled(!programMode);
@@ -240,21 +273,59 @@ public class Main extends QMainWindow {
 		runModeSignal.emit();
 	}
 
+	/**
+	 * Display an "About" box.
+	 */
 	public void about() {
+		// TODO Display an "About" box for this application
+	}
 
+	/**
+	 * Inform the application that some of the data has been modified
+	 */
+	public void modified() {
+		// TODO Change title to display this change
+		modifiedSinceSave = true;
 	}
 
 	// -- Getters -- //
 
+	/**
+	 * Get the object containing DMX info.
+	 * 
+	 * @return
+	 * 			Application's DMXDisplay object.
+	 */
 	public DMXDisplay getDMX() {
 		return dmxDisplay;
 	}
 
+	/**
+	 * Get the object containing Sound info.
+	 *
+	 * @return
+	 * 			Application's SoundModule object.
+	 */
 	public SoundModule getSound() {
 		return soundModule;
 	}
 
+	/**
+	 * Get the current mode of the application.
+	 * @return
+	 * 			True if the application is in Program Mode, false otherwise.
+	 */
 	public boolean getProgramMode() {
 		return programMode;
 	}
+
+	/**
+	 * Get the modified status of this show.
+	 * @return
+	 * 			True if the show has been modifed, false otherwise.
+	 */
+	public boolean getModified() {
+		return modifiedSinceSave;
+	}
+
 }
