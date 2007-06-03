@@ -24,49 +24,41 @@ import com.trolltech.qt.gui.*;
 import dmxeffects.dmx.DMXDisplay;
 import dmxeffects.sound.SoundModule;
 
-public class Main extends QMainWindow {
+public class Main extends QMainWindow { // NOPMD by chris on 03/06/07 21:23
 
 	// Singleton variable.
 	private static Main singletonApp;
 
 	// -- Internal data storage -- //
-	private boolean programMode = true;
+	private transient boolean isProgramMode = true;
 
-	private boolean modifiedSinceSave = false;
+	private transient boolean modifiedSinceSave = false;
 
-	private DMXDisplay dmxDisplay;
+	private transient final DMXDisplay dmxDisplay;
 
-	private SoundModule soundModule;
+	private transient final SoundModule soundModule;
 
 	// -- Signals offered by this class -- //
-	public Signal0 programModeSignal = new Signal0();
+	public transient Signal0 programModeSignal = new Signal0();
 
-	public Signal0 runModeSignal = new Signal0();
+	public transient Signal0 runModeSignal = new Signal0();
 
-	// -- GUI Element declarations -- //
-	private QMenu fileMenu;
+	// -- Action declarations -- //
+	private transient QAction newAction;
 
-	private QAction newAction;
+	private transient QAction openAction;
 
-	private QAction openAction;
+	private transient QAction saveAction;
 
-	private QAction saveAction;
+	private transient QAction saveAsAction;
 
-	private QAction saveAsAction;
+	private transient QAction quitAction;
 
-	private QAction quitAction;
+	private transient QAction programModeAction;
 
-	private QMenu optionsMenu;
+	private transient QAction runModeAction;
 
-	private QAction programModeAction;
-
-	private QAction runModeAction;
-
-	private QMenu modulesMenu;
-
-	private QMenu helpMenu;
-
-	private QAction aboutAction;
+	private transient QAction aboutAction;
 
 	/**
 	 * Method run when starting application.
@@ -74,7 +66,7 @@ public class Main extends QMainWindow {
 	 * @param args
 	 *            Commandline arguments.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		// Main application turn on!
 		QApplication.initialize(args);
 
@@ -99,7 +91,8 @@ public class Main extends QMainWindow {
 	 * Constructor for the main application.
 	 */
 	private Main() {
-		QMenuBar menuBar = new QMenuBar();
+		super();
+		final QMenuBar menuBar = new QMenuBar();
 		setMenuBar(menuBar);
 
 		// TODO: Application icon
@@ -164,13 +157,13 @@ public class Main extends QMainWindow {
 		programModeAction = new QAction(tr("&Program Mode"), this);
 		programModeAction.setStatusTip(tr("Enable program mode"));
 		programModeAction.triggered.connect(this, "programMode()");
-		programModeAction.setEnabled(!programMode);
+		programModeAction.setEnabled(!isProgramMode);
 
 		// Run mode action
 		runModeAction = new QAction(tr("&Run Mode"), this);
 		runModeAction.setStatusTip(tr("Enable run mode"));
 		runModeAction.triggered.connect(this, "runMode()");
-		runModeAction.setEnabled(programMode);
+		runModeAction.setEnabled(isProgramMode);
 
 		// About action
 		aboutAction = new QAction(tr("&About"), this);
@@ -182,6 +175,7 @@ public class Main extends QMainWindow {
 		// TODO: Icons for appropriate items (new/open/save/quit etc)
 
 		// File menu
+		QMenu fileMenu;
 		fileMenu = menuBar().addMenu(tr("&File"));
 		fileMenu.addAction(newAction);
 		fileMenu.addAction(openAction);
@@ -191,16 +185,19 @@ public class Main extends QMainWindow {
 		fileMenu.addAction(quitAction);
 
 		// Options menu
+		QMenu optionsMenu;
 		optionsMenu = menuBar().addMenu(tr("&Options"));
 		optionsMenu.addAction(programModeAction);
 		optionsMenu.addAction(runModeAction);
 
 		// Modules menu
+		QMenu modulesMenu;
 		modulesMenu = menuBar().addMenu(tr("&Modules"));
 		modulesMenu.addMenu(dmxDisplay.getMenu());
 		modulesMenu.addMenu(soundModule.getMenu());
 
 		// Help menu
+		QMenu helpMenu;
 		helpMenu = menuBar().addMenu(tr("&Help"));
 		helpMenu.addAction(aboutAction);
 
@@ -218,9 +215,30 @@ public class Main extends QMainWindow {
 	 */
 	public void newShow() {
 		if (modifiedSinceSave) {
-			// TODO Prompt to save
+			// Prompt to save
+			String confirmMessage;
+			confirmMessage = "There are unsaved changes in this show";
+			final QMessageBox.StandardButtons options = 
+				new QMessageBox.StandardButtons(
+					QMessageBox.StandardButton.SaveAll,
+					QMessageBox.StandardButton.Discard,
+					QMessageBox.StandardButton.Cancel);
+			final QMessageBox.StandardButton response = QMessageBox.question(
+					this, "Unsaved changes", confirmMessage, options, 
+					QMessageBox.StandardButton.SaveAll);
+			if (response.equals(QMessageBox.StandardButton.SaveAll)) {
+				// Save the show
+				saveShow();
+				// Then return here
+				newShow();
+			} else if (response.equals(QMessageBox.StandardButton.Discard)) {
+				// Changes... I don't need no stinkin' changes!
+			} else {
+				// Abort
+			}
+		} else {
+			// TODO Create new Show
 		}
-		// TODO Create new Show
 	}
 
 	/**
@@ -229,9 +247,30 @@ public class Main extends QMainWindow {
 	 */
 	public void openShow() {
 		if (modifiedSinceSave) {
-			// TODO Prompt to save
+			// Prompt to save
+			String confirmMessage;
+			confirmMessage = "There are unsaved changes in this show";
+			final QMessageBox.StandardButtons options = 
+				new QMessageBox.StandardButtons(
+					QMessageBox.StandardButton.SaveAll,
+					QMessageBox.StandardButton.Discard,
+					QMessageBox.StandardButton.Cancel);
+			final QMessageBox.StandardButton response = QMessageBox.question(
+					this, "Unsaved changes", confirmMessage, options, 
+					QMessageBox.StandardButton.SaveAll);
+			if (response.equals(QMessageBox.StandardButton.SaveAll)) {
+				// Save the show
+				saveShow();
+				// Then return here
+				openShow();
+			} else if (response.equals(QMessageBox.StandardButton.Discard)) {
+				// Changes... I don't need no stinkin' changes!
+			} else {
+				// Abort
+			}
+		} else {
+			// TODO Create new Show
 		}
-		// TODO Open file
 	}
 
 	/**
@@ -256,9 +295,9 @@ public class Main extends QMainWindow {
 	 * Enable program mode.
 	 */
 	public void programMode() {
-		programMode = true;
-		programModeAction.setEnabled(!programMode);
-		runModeAction.setEnabled(programMode);
+		isProgramMode = true;
+		programModeAction.setEnabled(!isProgramMode);
+		runModeAction.setEnabled(isProgramMode);
 		programModeSignal.emit();
 	}
 
@@ -266,9 +305,9 @@ public class Main extends QMainWindow {
 	 * Enable run mode.
 	 */
 	public void runMode() {
-		programMode = false;
-		programModeAction.setEnabled(!programMode);
-		runModeAction.setEnabled(programMode);
+		isProgramMode = false;
+		programModeAction.setEnabled(!isProgramMode);
+		runModeAction.setEnabled(isProgramMode);
 		runModeSignal.emit();
 	}
 
@@ -313,7 +352,7 @@ public class Main extends QMainWindow {
 	 * @return True if the application is in Program Mode, false otherwise.
 	 */
 	public boolean getProgramMode() {
-		return programMode;
+		return isProgramMode;
 	}
 
 	/**

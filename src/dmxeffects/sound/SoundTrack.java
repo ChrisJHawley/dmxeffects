@@ -32,11 +32,11 @@ import dmxeffects.OperationFailedException;
  */
 public class SoundTrack extends QObject {
 
-	private File TrackFile = null;
+	private File trackFile = null;
 
-	private String TrackTitle = null;
+	private String trackTitle = null;
 
-	private int TrackStatus;
+	private int trackStatus;
 
 	public Signal0 dataUpdated = new Signal0();
 
@@ -71,16 +71,16 @@ public class SoundTrack extends QObject {
 	 * @throws operationFailedException
 	 *             Indication that one of the provided values did not validate.
 	 */
-	public SoundTrack(File track, String title) throws OperationFailedException {
-		if (track == null) {
+	public SoundTrack(File trackFile, String trackTitle) throws OperationFailedException {
+		if (trackFile == null) {
 			throw new OperationFailedException("No file was provided.");
 		}
-		if (title.length() == 0) {
+		if (trackTitle.length() == 0) {
 			throw new OperationFailedException("No title was provided.");
 		} else {
-			TrackFile = track;
-			TrackTitle = title;
-			TrackStatus = TRACK_STATUS_READY;
+			this.trackFile = trackFile;
+			this.trackTitle = trackTitle;
+			this.trackStatus = TRACK_STATUS_READY;
 		}
 	}
 
@@ -90,7 +90,7 @@ public class SoundTrack extends QObject {
 	 * @return The File represening the audio track.
 	 */
 	public File getFile() {
-		return TrackFile;
+		return trackFile;
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class SoundTrack extends QObject {
 	 * @return The String title of this soundTrack.
 	 */
 	public String getTitle() {
-		return TrackTitle;
+		return trackTitle;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class SoundTrack extends QObject {
 	 * @return The int representation of the status.
 	 */
 	public int getStatus() {
-		return TrackStatus;
+		return trackStatus;
 	}
 
 	/**
@@ -119,11 +119,11 @@ public class SoundTrack extends QObject {
 	 * @throws operationFailedException
 	 *             Indication that the title did not pass validation.
 	 */
-	public void setTitle(String title) throws OperationFailedException {
-		if (title.length() == 0) {
+	public void setTitle(String trackTitle) throws OperationFailedException {
+		if (trackTitle.length() == 0) {
 			throw new OperationFailedException("No title was provided.");
 		} else {
-			TrackTitle = title;
+			this.trackTitle = trackTitle;
 			dataUpdated.emit();
 		}
 	}
@@ -137,8 +137,8 @@ public class SoundTrack extends QObject {
 	 *             Exception indicating that the status that was attempted to be
 	 *             set was not valid.
 	 */
-	public void setStatus(int status) throws OperationFailedException {
-		switch (status) {
+	public void setStatus(int trackStatus) throws OperationFailedException {
+		switch (trackStatus) {
 		case TRACK_STATUS_READY:
 		case TRACK_STATUS_CUED:
 		case TRACK_STATUS_PLAYING:
@@ -146,9 +146,9 @@ public class SoundTrack extends QObject {
 			break;
 		default:
 			throw new OperationFailedException("Status: "
-					+ String.valueOf(status) + " is not valid.");
+					+ String.valueOf(trackStatus) + " is not valid.");
 		}
-		TrackStatus = status;
+		this.trackStatus = trackStatus;
 		dataUpdated.emit();
 	}
 }
