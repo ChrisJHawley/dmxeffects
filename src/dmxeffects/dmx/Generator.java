@@ -20,7 +20,6 @@
 package dmxeffects.dmx;
 
 import java.util.Random;
-import java.util.concurrent.Semaphore;
 
 import dmxeffects.*;
 
@@ -31,7 +30,7 @@ import dmxeffects.*;
  */
 public class Generator {
 
-	private static Generator singletonGenerator = new Generator;
+	private static Generator singletonGenerator = new Generator();
 
 	/** Creates a new instance of Generator */
 	private Generator() {
