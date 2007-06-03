@@ -64,7 +64,6 @@ public class InputQueue {
 			}
 			singletonLock.release();
 		} catch (java.lang.InterruptedException e) {
-			System.err.println(e.getMessage());
 			e.printStackTrace(System.err);
 		}
 		return singletonInputQueue;
@@ -79,7 +78,6 @@ public class InputQueue {
 			singletonInputQueue = null;
 			singletonLock.release();
 		} catch (java.lang.InterruptedException e) {
-			System.err.println(e.getMessage());
 			e.printStackTrace(System.err);
 		}
 	}
@@ -93,10 +91,9 @@ public class InputQueue {
 	public void add(int value) {
 		try {
 			queueLock.acquire();
-			queue.add(new Integer(value));
+			queue.add(Integer.valueOf(value));
 			queueLock.release();
 		} catch (java.lang.InterruptedException e) {
-			System.err.println(e.getMessage());
 			e.printStackTrace(System.err);
 		}
 	}
@@ -113,7 +110,6 @@ public class InputQueue {
 			queue.add(intValue);
 			queueLock.release();
 		} catch (java.lang.InterruptedException e) {
-			System.err.println("Thread interruption detected");
 			e.printStackTrace(System.err);
 		}
 	}
@@ -134,7 +130,6 @@ public class InputQueue {
 			}
 			queueLock.release();
 		} catch (java.lang.InterruptedException e) {
-			System.err.println(e.getMessage());
 			e.printStackTrace(System.err);
 		}
 		return returnedInteger;
@@ -156,7 +151,6 @@ public class InputQueue {
 			}
 			queueLock.release();
 		} catch (java.lang.InterruptedException e) {
-			System.err.println(e.getMessage());
 			e.printStackTrace(System.err);
 		}
 		return returnedInteger;

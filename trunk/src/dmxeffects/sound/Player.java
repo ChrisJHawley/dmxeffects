@@ -29,14 +29,15 @@ public class Player extends QObject implements Runnable {
 
 	// -- Signals for playback information -- //
 
-	Signal0 playbackStartedSignal = new Signal0();
+	public Signal0 playbackStartedSignal = new Signal0();
 
-	Signal0 playbackStoppedSignal = new Signal0();
+	public Signal0 playbackStoppedSignal = new Signal0();
 
 	/**
 	 * Create a new instance of this class
 	 */
 	public Player() {
+		super();
 		// TODO Auto-generated method stub
 	}
 
@@ -55,7 +56,7 @@ public class Player extends QObject implements Runnable {
 	 * @param track
 	 *            Track to cue.
 	 */
-	public void cueTrack(SoundTrack track) {
+	public void cueTrack(final SoundTrack track) {
 		// TODO Auto-generated method stub
 	}
 

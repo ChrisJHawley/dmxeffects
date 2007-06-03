@@ -78,10 +78,8 @@ public class Universe extends QObject {
 		try {
 			setValue(channelNumber, channelValue);
 		} catch (InvalidChannelNumberException ICNE) {
-			System.err.println(ICNE.getMessage());
 			ICNE.printStackTrace(System.err);
 		} catch (InvalidChannelValueException ICVE) {
-			System.err.println(ICVE.getMessage());
 			ICVE.printStackTrace(System.err);
 		}
 
@@ -119,8 +117,8 @@ public class Universe extends QObject {
 		dmxValues[channelNumber - 1] = channelValue;
 
 		// Inform listening objects that there has been a new value added.
-		dmxValueUpdater.emit(new Integer(channelNumber), new Integer(
-				channelValue));
+		dmxValueUpdater.emit(Integer.valueOf(channelNumber), 
+				Integer.valueOf(channelValue));
 
 	}
 
@@ -183,7 +181,7 @@ public class Universe extends QObject {
 		dmxAssociations[channelNumber - 1] = associatedElement;
 
 		// Update the display
-		associationUpdater.emit(new Integer(channelNumber), associatedElement);
+		associationUpdater.emit(Integer.valueOf(channelNumber), associatedElement);
 	}
 
 	/**
@@ -239,13 +237,13 @@ public class Universe extends QObject {
 			if (response.equals(QMessageBox.StandardButton.Yes)) {
 				// Confirmed
 				// Do remove
-				assocRemUpdater.emit(new Integer(channelNumber), new Integer(
-						numToDelete));
+				assocRemUpdater.emit(Integer.valueOf(channelNumber), 
+						Integer.valueOf(numToDelete));
 				for (int i = 0; i < numToDelete; i++) {
 					// Send out a signal indicating which range of channels has
 					// been removed.
 					dmxAssociations[channelNumber + i - 1] = null;
-					associationUpdater.emit(new Integer(channelNumber), "");
+					associationUpdater.emit(Integer.valueOf(channelNumber), "");
 				}
 			} else {
 				// Abort

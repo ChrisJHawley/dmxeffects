@@ -104,12 +104,9 @@ public class ControlChannel extends QObject {
 	public void trigger(int val) throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
 			try {
-				controlSignal[val].emit(new Integer(val));
+				controlSignal[val].emit(Integer.valueOf(val));
 			} catch (NullPointerException e) {
 				// Nothing to signal
-				System.err.println("Tried to trigger a non-existant action");
-				System.err.println("This is usually nothing to worry about");
-				e.printStackTrace(System.err);
 			}
 		} else {
 			throw new InvalidChannelValueException(val);

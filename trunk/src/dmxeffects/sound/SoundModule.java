@@ -41,12 +41,12 @@ public class SoundModule extends QObject implements Module {
 
 	private static final String MODULE_NAME = "Sound Module";
 
-	private int firstControlChannel = -1;
+	private transient int firstControlChannel;
 
 	// -- Data storage for the tracks -- //
 	private SoundTrack[] trackArray;
 
-	private ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
+	private final ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
 
 	// -- Signals -- //
 	public Signal1<Integer> trackCueSignal;
@@ -83,7 +83,10 @@ public class SoundModule extends QObject implements Module {
 	 * 
 	 */
 	public SoundModule() {
+		super();
+		
 		// Initialise data storage
+		firstControlChannel = -1;
 		trackArray = new SoundTrack[256];
 
 		playerCueSignal = new Signal1<SoundTrack>();
@@ -95,7 +98,7 @@ public class SoundModule extends QObject implements Module {
 		playerCueSignal.connect(soundPlayer, "cueTrack(SoundTrack)");
 		playerPlaySignal.connect(soundPlayer, "play()");
 		playerStopSignal.connect(soundPlayer, "stop()");
-		Thread playerThread = new Thread(soundPlayer);
+		final Thread playerThread = new Thread(soundPlayer);
 		soundPlayer.moveToThread(playerThread);
 		playerThread.start();
 
@@ -135,7 +138,7 @@ public class SoundModule extends QObject implements Module {
 
 	}
 
-	public void createActions() {
+	public final void createActions() {
 		// If actions have conditional enable they are created disabled
 		changeAssociationAction = new QAction(tr("&Change DMX Association"),
 				this);
@@ -147,7 +150,7 @@ public class SoundModule extends QObject implements Module {
 		testSoundAction = new QAction(tr("&Test Sound Output"), this);
 		testSoundAction
 				.setStatusTip(tr("Perform a test of the sound setup on this system"));
-		testSoundAction.triggered.connect(this, "testSound()");
+		testSoundAction.triggered.connect(this, "soundTest()");
 		testSoundAction.setEnabled(false);
 
 		addTrackAction = new QAction(tr("&Add Track"), this);
@@ -172,7 +175,7 @@ public class SoundModule extends QObject implements Module {
 		clearTracksAction.setEnabled(false);
 	}
 
-	public void createMenus() {
+	public final void createMenus() {
 		soundMenu = new QMenu(tr("&Sound"));
 		soundMenu.addAction(changeAssociationAction);
 		soundMenu.addAction(testSoundAction);
@@ -265,14 +268,13 @@ public class SoundModule extends QObject implements Module {
 	 * @param channelValue
 	 *            Value this channel now holds.
 	 */
-	public void dmxInput(Integer channelNumber, Integer channelValue) {
-		// TODO Auto-generated method stub
-		// will confirm the channelNumber is one we're listening to, and then
+	public void dmxInput(final Integer channelNumber, final Integer channelValue) {
+		// Will confirm the channelNumber is one we're listening to, and then
 		// check if the channelValue is appropriate to perform an action.
-		int chanNum = channelNumber.intValue();
+		final int chanNum = channelNumber.intValue();
 		if ((firstControlChannel != -1) && (chanNum >= firstControlChannel)
 				&& (chanNum < firstControlChannel + CHANNELS_REQUIRED)) {
-			int chanVal = channelValue.intValue();
+			final int chanVal = channelValue.intValue();
 			try {
 				controls[chanNum].trigger(chanVal);
 			} catch (ArrayIndexOutOfBoundsException AOB) {
@@ -281,6 +283,7 @@ public class SoundModule extends QObject implements Module {
 				// No controls on this channel
 			} catch (InvalidChannelValueException ICVE) {
 				// Should not occur
+				ICVE.printStackTrace(System.err);
 			}
 		}
 
@@ -295,8 +298,11 @@ public class SoundModule extends QObject implements Module {
 	 * @param range
 	 *            The range of channels being revoked.
 	 */
-	public void assocUpdate(Integer firstChannel, Integer range) {
+	public void assocUpdate(final Integer firstChannel, final Integer range) {
 		// TODO Auto-generated method stub
+		/* Check if there is any overlap, if there is remove any of the channels
+		 * that this module has assigned to it and prepare for re-assignment.
+		 */
 	}
 
 	public void programMode() {
@@ -306,7 +312,10 @@ public class SoundModule extends QObject implements Module {
 				changeAssociationAction.setEnabled(true);
 			}
 		} catch (NullPointerException npe) {
-			// This is only thrown if Main is presently creating itself
+			/* This is only thrown if Main is presently creating itself in which
+			 * case it will send the signal that sets this value, so we can
+			 * ignore it.
+			 */
 		}
 		addTrackAction.setEnabled(true);
 		editTrackAction.setEnabled(true);
@@ -335,7 +344,7 @@ public class SoundModule extends QObject implements Module {
 	 * Test the sound system.
 	 * 
 	 */
-	public void testSound() {
+	public void soundTest() {
 		// TODO Auto-generated method stub
 	}
 
@@ -377,7 +386,7 @@ public class SoundModule extends QObject implements Module {
 	 * @param val
 	 *            DMX Value of the track to be cued.
 	 */
-	public void cueTrack(Integer val) {
+	public void cueTrack(final Integer val) {
 		// TODO Validity checking
 		try {
 			playerCueSignal.emit(trackArray[val.intValue()]);
@@ -393,7 +402,7 @@ public class SoundModule extends QObject implements Module {
 	 * @param val
 	 *            Not used.
 	 */
-	public void startPlayback(Integer val) {
+	public void startPlayback(final Integer val) {
 		// TODO Validity checking
 		playerPlaySignal.emit();
 	}
@@ -404,7 +413,7 @@ public class SoundModule extends QObject implements Module {
 	 * @param val
 	 *            Not used.
 	 */
-	public void stopPlayback(Integer val) {
+	public void stopPlayback(final Integer val) {
 		// TODO Validity checking
 		playerStopSignal.emit();
 	}

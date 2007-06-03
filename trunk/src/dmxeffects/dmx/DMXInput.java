@@ -57,7 +57,6 @@ public class DMXInput extends QObject implements Runnable {
 				try {
 					Thread.sleep((long) 0, 88000);
 				} catch (java.lang.InterruptedException e) {
-					System.err.println("Thread interruption detected");
 					e.printStackTrace(System.err);
 				}
 				dataPeek = InputQueue.getInstance().peek();
@@ -74,14 +73,13 @@ public class DMXInput extends QObject implements Runnable {
 					try {
 						Thread.sleep((long) 0, 10000);
 					} catch (java.lang.InterruptedException e) {
-						System.err.println("Thread interruption detected");
 						e.printStackTrace(System.err);
 					}
 					dataPeek = InputQueue.getInstance().peek();
 				}
 				// Send a signal indicating the new value
-				inputValue
-						.emit(new Integer(i), InputQueue.getInstance().poll());
+				inputValue.emit(Integer.valueOf(i), 
+						InputQueue.getInstance().poll());
 			}
 		}
 	}
