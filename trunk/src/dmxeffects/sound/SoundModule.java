@@ -28,9 +28,8 @@ import dmxeffects.dmx.ControlChannel;
 import dmxeffects.dmx.InvalidChannelValueException;
 
 /**
- * Sound module main file. 
- * Provides all interfaces from external classes to the functionality
- * provided by this module.
+ * Sound module main file. Provides all interfaces from external classes to the
+ * functionality provided by this module.
  * 
  * @author chris
  * 
@@ -55,13 +54,13 @@ public class SoundModule extends QObject implements Module {
 	public Signal1<Integer> startPlaybackSignal;
 
 	public Signal1<Integer> stopPlaybackSignal;
-	
+
 	public Signal1<SoundTrack> playerCueSignal;
-	
+
 	public Signal0 playerPlaySignal;
-	
+
 	public Signal0 playerStopSignal;
-	
+
 	private Player soundPlayer;
 
 	// -- GUI Elements -- //
@@ -86,12 +85,12 @@ public class SoundModule extends QObject implements Module {
 	public SoundModule() {
 		// Initialise data storage
 		trackArray = new SoundTrack[256];
-		
+
 		playerCueSignal = new Signal1<SoundTrack>();
 		playerPlaySignal = new Signal0();
 		playerStopSignal = new Signal0();
 
-		// Start player thread		
+		// Start player thread
 		soundPlayer = new Player();
 		playerCueSignal.connect(soundPlayer, "cueTrack(SoundTrack)");
 		playerPlaySignal.connect(soundPlayer, "play()");
@@ -99,7 +98,7 @@ public class SoundModule extends QObject implements Module {
 		Thread playerThread = new Thread(soundPlayer);
 		soundPlayer.moveToThread(playerThread);
 		playerThread.start();
-		
+
 		// Initialise controls
 		// Control Channel 1 is used for queing tracks
 		controls[0] = new ControlChannel(1, MODULE_NAME);
@@ -141,15 +140,13 @@ public class SoundModule extends QObject implements Module {
 		changeAssociationAction = new QAction(tr("&Change DMX Association"),
 				this);
 		changeAssociationAction
-				.setStatusTip(
-						tr("Change DMX Channel Association for the sound module"));
+				.setStatusTip(tr("Change DMX Channel Association for the sound module"));
 		changeAssociationAction.triggered.connect(this, "setAssoc()");
 		changeAssociationAction.setEnabled(false);
 
 		testSoundAction = new QAction(tr("&Test Sound Output"), this);
 		testSoundAction
-				.setStatusTip(
-						tr("Perform a test of the sound setup on this system"));
+				.setStatusTip(tr("Perform a test of the sound setup on this system"));
 		testSoundAction.triggered.connect(this, "testSound()");
 		testSoundAction.setEnabled(false);
 

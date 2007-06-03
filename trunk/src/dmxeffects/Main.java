@@ -213,8 +213,8 @@ public class Main extends QMainWindow {
 	// -- Action handlers -- //
 
 	/**
-	 * Create a new show. 
-	 * If appropriate prompt the user to save first, and then open a blank show
+	 * Create a new show. If appropriate prompt the user to save first, and then
+	 * open a blank show
 	 */
 	public void newShow() {
 		if (modifiedSinceSave) {
@@ -224,8 +224,8 @@ public class Main extends QMainWindow {
 	}
 
 	/**
-	 * Open an existing show.
-	 * If appropriate prompt the user to save first, then open an existing show
+	 * Open an existing show. If appropriate prompt the user to save first, then
+	 * open an existing show
 	 */
 	public void openShow() {
 		if (modifiedSinceSave) {
@@ -235,9 +235,8 @@ public class Main extends QMainWindow {
 	}
 
 	/**
-	 * Save the show to existing location.
-	 * If the show has already been saved, save to this location, otherwise
-	 * prompt the user for a location.
+	 * Save the show to existing location. If the show has already been saved,
+	 * save to this location, otherwise prompt the user for a location.
 	 */
 	public void saveShow() {
 		// TODO Save to existing path or prompt if none set
@@ -245,8 +244,8 @@ public class Main extends QMainWindow {
 	}
 
 	/**
-	 * Save the show to a new location.
-	 * Prompt the user for a location to save to.
+	 * Save the show to a new location. Prompt the user for a location to save
+	 * to.
 	 */
 	public void saveShowAs() {
 		// TODO Prompt for path to save to
@@ -293,8 +292,7 @@ public class Main extends QMainWindow {
 	/**
 	 * Get the object containing DMX info.
 	 * 
-	 * @return
-	 * 			Application's DMXDisplay object.
+	 * @return Application's DMXDisplay object.
 	 */
 	public DMXDisplay getDMX() {
 		return dmxDisplay;
@@ -302,9 +300,8 @@ public class Main extends QMainWindow {
 
 	/**
 	 * Get the object containing Sound info.
-	 *
-	 * @return
-	 * 			Application's SoundModule object.
+	 * 
+	 * @return Application's SoundModule object.
 	 */
 	public SoundModule getSound() {
 		return soundModule;
@@ -312,8 +309,8 @@ public class Main extends QMainWindow {
 
 	/**
 	 * Get the current mode of the application.
-	 * @return
-	 * 			True if the application is in Program Mode, false otherwise.
+	 * 
+	 * @return True if the application is in Program Mode, false otherwise.
 	 */
 	public boolean getProgramMode() {
 		return programMode;
@@ -321,8 +318,8 @@ public class Main extends QMainWindow {
 
 	/**
 	 * Get the modified status of this show.
-	 * @return
-	 * 			True if the show has been modifed, false otherwise.
+	 * 
+	 * @return True if the show has been modifed, false otherwise.
 	 */
 	public boolean getModified() {
 		return modifiedSinceSave;

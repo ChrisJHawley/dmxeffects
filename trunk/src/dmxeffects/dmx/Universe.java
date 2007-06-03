@@ -39,28 +39,22 @@ public class Universe extends QObject {
 
 	// -- Signals sent by this object -- //
 	/**
-	 * Signal indicating a channel-value pair has updated.
-	 * First Integer is the channel number.
-	 * Second Integer is the channel value.
+	 * Signal indicating a channel-value pair has updated. First Integer is the
+	 * channel number. Second Integer is the channel value.
 	 */
-	public Signal2<Integer, Integer> dmxValueUpdater = 
-		new Signal2<Integer, Integer>();
+	public Signal2<Integer, Integer> dmxValueUpdater = new Signal2<Integer, Integer>();
 
 	/**
-	 * Signal indicating the removal of an association range.
-	 * First Integer is the first channel number.
-	 * Second Integer is the size of the range.
+	 * Signal indicating the removal of an association range. First Integer is
+	 * the first channel number. Second Integer is the size of the range.
 	 */
-	public Signal2<Integer, Integer> assocRemUpdater = 
-		new Signal2<Integer, Integer>();
+	public Signal2<Integer, Integer> assocRemUpdater = new Signal2<Integer, Integer>();
 
 	/**
-	 * Signal indicating the update of an association.
-	 * Integer is the channel number.
-	 * String is the module name or an empty string if no module.
+	 * Signal indicating the update of an association. Integer is the channel
+	 * number. String is the module name or an empty string if no module.
 	 */
-	public Signal2<Integer, String> associationUpdater = 
-		new Signal2<Integer, String>();
+	public Signal2<Integer, String> associationUpdater = new Signal2<Integer, String>();
 
 	/** Creates a new instance of Universe */
 	public Universe() {
