@@ -229,7 +229,6 @@ public class DMXDisplay extends QWidget implements Module {
 	 */
 	public void displayRemove(Integer channelNumber, Integer numToDelete) {
 		// TODO Remove stuff
-		Main.getInstance().statusBar().showMessage(message, 2000);
 	}
 
 	public String getName() {
