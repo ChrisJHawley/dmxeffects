@@ -154,8 +154,7 @@ public class DMXDisplay extends QWidget implements Module {
 	}
 
 	/**
-	 * Set the DMXInput Thread running, listening to the appropriate
-	 * signal.
+	 * Set the DMXInput Thread running, listening to the appropriate signal.
 	 */
 	public void startListener() {
 		Thread listenerThread = new Thread(input);
@@ -222,10 +221,11 @@ public class DMXDisplay extends QWidget implements Module {
 
 	/**
 	 * Display the range of channels that have associations removed.
+	 * 
 	 * @param channelNumber
-	 * 					Integer representation of the first channel removed.
+	 *            Integer representation of the first channel removed.
 	 * @param numToDelete
-	 * 					Integer representation of the size of removed range.
+	 *            Integer representation of the size of removed range.
 	 */
 	public void displayRemove(Integer channelNumber, Integer numToDelete) {
 		// TODO Remove stuff
