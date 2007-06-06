@@ -34,38 +34,39 @@ public class DMXDisplay extends QWidget implements Module {
 	/**
 	 * Signal for informing other modules that the listener has started
 	 */
-	public Signal0 listenerEnabled = new Signal0();
+	public transient Signal0 listenerEnabled = new Signal0();
 
 	// -- Internal variables for this Module -- //
-	private final String MODULE_NAME = tr("DMX Module");
+	private final String MODULE_NAME = tr("DMX Module"); // NOPMD by chris on 07/06/07 00:11
 
-	private final String WIDGET_TITLE = tr("DMX Association Table");
+	private final String WIDGET_TITLE = tr("DMX Association Table"); // NOPMD by chris on 07/06/07 00:11
 
-	private Universe universe;
+	private final transient Universe universe;
 
-	private DMXInput input;
+	private final transient DMXInput input;
 
-	private boolean dmxListener = false;
+	private transient boolean dmxListener = false;
 
 	// -- GUI Elements -- //
-	private QMenu menu;
+	private final transient QMenu menu;
 
-	private QMenu generateMenu;
+	private final transient QMenu generateMenu;
 
-	private QAction startListenerAction;
+	private final transient QAction listenerAction;
 
-	private QAction generateRandomAction;
+	private final transient QAction randomAction;
 
-	private QAction generateChannelAction;
+	private final transient QAction channelAction;
 
-	private QAction injectAction;
+	private final transient QAction injectAction;
 
-	private QAction setAssocAction;
+	private final transient QAction setAssocAction;
 
 	/**
 	 * Instantiate a new instance of this class.
 	 */
 	public DMXDisplay() {
+		super();
 		// Create input object
 		input = new DMXInput();
 
@@ -73,25 +74,25 @@ public class DMXDisplay extends QWidget implements Module {
 		universe = new Universe();
 
 		// Prepare actions
-		startListenerAction = new QAction(tr("&Start DMX Listener"), this);
-		startListenerAction.setStatusTip(tr("Begin listening for DMX input"));
-		startListenerAction.triggered.connect(this, "startListener()");
-		startListenerAction.setEnabled(!dmxListener);
+		listenerAction = new QAction(tr("&Start DMX Listener"), this);
+		listenerAction.setStatusTip(tr("Begin listening for DMX input"));
+		listenerAction.triggered.connect(this, "startListener()");
+		listenerAction.setEnabled(!dmxListener);
 
-		generateRandomAction = new QAction(tr("Generate on &all channels"),
+		randomAction = new QAction(tr("Generate on &all channels"),
 				this);
-		generateRandomAction
+		randomAction
 				.setStatusTip(tr("Generate random DMX data for all channels"));
-		generateRandomAction.triggered.connect(Generator.getInstance(),
+		randomAction.triggered.connect(Generator.getInstance(),
 				"generateAll()");
-		generateRandomAction.setEnabled(dmxListener);
+		randomAction.setEnabled(dmxListener);
 
-		generateChannelAction = new QAction(
+		channelAction = new QAction(
 				tr("Generate on &specific channel"), this);
-		generateChannelAction
+		channelAction
 				.setStatusTip(tr("Generate random DMX for a specified channel"));
-		generateChannelAction.triggered.connect(this, "generate()");
-		generateChannelAction.setEnabled(dmxListener);
+		channelAction.triggered.connect(this, "generate()");
+		channelAction.setEnabled(dmxListener);
 
 		injectAction = new QAction(tr("&Inject DMX"), this);
 		injectAction.setStatusTip(tr("Inject specific DMX data"));
@@ -105,12 +106,12 @@ public class DMXDisplay extends QWidget implements Module {
 
 		// Prepare menus
 		menu = new QMenu(tr("&DMX"));
-		menu.addAction(startListenerAction);
+		menu.addAction(listenerAction);
 
 		generateMenu = new QMenu("&Generate DMX");
 		generateMenu.setEnabled(dmxListener);
-		generateMenu.addAction(generateRandomAction);
-		generateMenu.addAction(generateChannelAction);
+		generateMenu.addAction(randomAction);
+		generateMenu.addAction(channelAction);
 
 		menu.addMenu(generateMenu);
 		menu.addAction(injectAction);
@@ -143,10 +144,10 @@ public class DMXDisplay extends QWidget implements Module {
 	public void dmxListenerEnabled() {
 		dmxListener = true;
 		setAssocAction.setEnabled(true);
-		startListenerAction.setEnabled(false);
+		listenerAction.setEnabled(false);
 		generateMenu.setEnabled(true);
-		generateRandomAction.setEnabled(true);
-		generateChannelAction.setEnabled(true);
+		randomAction.setEnabled(true);
+		channelAction.setEnabled(true);
 		injectAction.setEnabled(true);
 
 		// Transmit the signal
@@ -157,7 +158,7 @@ public class DMXDisplay extends QWidget implements Module {
 	 * Set the DMXInput Thread running, listening to the appropriate signal.
 	 */
 	public void startListener() {
-		Thread listenerThread = new Thread(input);
+		final Thread listenerThread = new Thread(input);
 		input.inputValue.connect(universe, "setValue(Integer, Integer)");
 		input.listenerStarted.connect(this, "dmxListenerEnabled()");
 		input.moveToThread(listenerThread);
@@ -170,11 +171,13 @@ public class DMXDisplay extends QWidget implements Module {
 		// TODO Auto-generated method block
 	}
 
-	public void updateTableVal(Integer channelNumber, Integer channelValue) {
+	public void updateTableVal(final Integer channelNumber,
+			final Integer channelValue) {
 		// TODO Auto-generated method block
 	}
 
-	public void updateTableAssoc(Integer channelNumber, String association) {
+	public void updateTableAssoc(final Integer channelNumber, 
+			final String association) {
 		// TODO Auto-generated method block
 	}
 
@@ -184,19 +187,22 @@ public class DMXDisplay extends QWidget implements Module {
 	 */
 	public void inject() {
 		try {
-			int channelNumber = new DMXUserInput()
+			final int channelNumber = new DMXUserInput()
 					.getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
-			int channelValue = new DMXUserInput()
+			final int channelValue = new DMXUserInput()
 					.getInput(DMXUserInput.CHANNEL_VALUE_INPUT);
 			Generator.getInstance().inject(channelNumber, channelValue);
 		} catch (OperationFailedException OFE) {
 			// This should not occur
-		} catch (OperationCancelledException OCE) {
+			OFE.printStackTrace(System.err);
+		} catch (OperationCancelledException OCE) { // NOPMD by chris on 07/06/07 00:16
 			// User cancelled operation. Nevermind
 		} catch (InvalidChannelValueException ICVE) {
 			// This should not occur
+			ICVE.printStackTrace(System.err);
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur
+			ICNE.printStackTrace(System.err);
 		}
 
 	}
@@ -207,15 +213,17 @@ public class DMXDisplay extends QWidget implements Module {
 	 */
 	public void generate() {
 		try {
-			int channelNumber = new DMXUserInput()
+			final int channelNumber = new DMXUserInput()
 					.getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
 			Generator.getInstance().generate(channelNumber);
 		} catch (OperationFailedException OFE) {
 			// This should not occur
-		} catch (OperationCancelledException OCE) {
+			OFE.printStackTrace(System.err);
+		} catch (OperationCancelledException OCE) { // NOPMD by chris on 07/06/07 00:17
 			// User cancelled operation. Nevermind
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur
+			ICNE.printStackTrace(System.err);
 		}
 	}
 
@@ -227,7 +235,8 @@ public class DMXDisplay extends QWidget implements Module {
 	 * @param numToDelete
 	 *            Integer representation of the size of removed range.
 	 */
-	public void displayRemove(Integer channelNumber, Integer numToDelete) {
+	public void displayRemove(final Integer channelNumber,
+			final Integer numToDelete) {
 		// TODO Remove stuff
 	}
 

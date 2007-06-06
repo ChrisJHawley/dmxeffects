@@ -29,23 +29,19 @@ import dmxeffects.*;
  * 
  * @author chris
  */
-public class DMXUserInput extends QWidget {
+public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07 00:21
 
 	/**
 	 * Value used to indicate that a DMX Channel Number is to be input.
 	 */
-	public static final int CHANNEL_NUMBER_INPUT = Validator.CHANNEL_NUMBER_VALIDATION;
+	public static final int CHANNEL_NUMBER_INPUT =  // NOPMD by chris on 07/06/07 00:21
+		Validator.CHANNEL_NUMBER_VALIDATION;
 
 	/**
 	 * Value used to indicate that a DMX Channel Value is to be input.
 	 */
-	public static final int CHANNEL_VALUE_INPUT = Validator.CHANNEL_VALUE_VALIDATION;
-
-	/**
-	 * Class to get and validate input from a user.
-	 */
-	public DMXUserInput() {
-	}
+	public static final int CHANNEL_VALUE_INPUT =  // NOPMD by chris on 07/06/07 00:21
+		Validator.CHANNEL_VALUE_VALIDATION;
 
 	/**
 	 * Method used to gather input from a user that meets the required
@@ -59,7 +55,7 @@ public class DMXUserInput extends QWidget {
 	 *             Indication that the operation failed at some stage.
 	 * @return The validated input provided by the user.
 	 */
-	public int getInput(int type) throws OperationCancelledException,
+	public int getInput(final int type) throws OperationCancelledException,
 			OperationFailedException {
 		String label;
 		switch (type) {
@@ -89,7 +85,7 @@ public class DMXUserInput extends QWidget {
 	 *             Indication that the operation failed at some stage.
 	 * @return The validated input provided by the user.
 	 */
-	public int getInput(String label, int type)
+	public int getInput(final String label, final int type)
 			throws OperationCancelledException, OperationFailedException {
 		String title;
 		int minVal, maxVal;
@@ -107,8 +103,8 @@ public class DMXUserInput extends QWidget {
 		default:
 			throw new OperationFailedException("Invalid input type requested.");
 		}
-		Integer returned = QInputDialog.getInteger(Main.getInstance(), title,
-				label, minVal, minVal, maxVal);
+		final Integer returned = QInputDialog.getInteger(Main.getInstance(), 
+				title, label, minVal, minVal, maxVal);
 		try {
 			if (Validator.validate(returned.intValue(), type)) {
 				return returned.intValue();
@@ -116,9 +112,9 @@ public class DMXUserInput extends QWidget {
 				throw new OperationCancelledException(
 						"Operation cancelled by user");
 			}
-		} catch (NullPointerException npe) {
+		} catch (NullPointerException npe) { // NOPMD by chris on 07/06/07 00:21
 			// No value returned
-			throw new OperationCancelledException("Operation cancelled by user");
+			throw new OperationCancelledException("Operation cancelled by user"); // NOPMD by chris on 07/06/07 00:21
 		}
 	}
 }
