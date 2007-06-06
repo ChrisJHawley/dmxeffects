@@ -37,6 +37,7 @@ public class OperationFailedException extends java.lang.Exception {
 	 * detail message.
 	 */
 	public OperationFailedException() {
+		super();
 	}
 
 	/**

@@ -36,6 +36,7 @@ public class OperationCancelledException extends java.lang.Exception {
 	 * without detail message.
 	 */
 	public OperationCancelledException() {
+		super();
 	}
 
 	/**
