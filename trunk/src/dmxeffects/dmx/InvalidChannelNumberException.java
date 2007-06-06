@@ -37,6 +37,7 @@ public class InvalidChannelNumberException extends java.lang.Exception {
 	 * without detail message.
 	 */
 	public InvalidChannelNumberException() {
+		super();
 	}
 
 	/**
