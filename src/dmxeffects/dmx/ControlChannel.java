@@ -29,15 +29,15 @@ import com.trolltech.qt.core.QObject;
  */
 public class ControlChannel extends QObject {
 
-	private int moduleChanNumber;
+	private final transient int moduleChanNumber;
 
-	private String moduleName;
+	private final transient String moduleName;
 
 	/**
 	 * Signal generated from a control, which includes the channel value in case
 	 * this is significant.
 	 */
-	public Signal1<Integer>[] controlSignal;
+	public transient Signal1<Integer>[] controlSignal;
 
 	/**
 	 * Create a new channel for controls.
@@ -51,6 +51,7 @@ public class ControlChannel extends QObject {
 	// there may be some workaround required to fix this, until then suppress
 	@SuppressWarnings("unchecked")
 	public ControlChannel(int number, String module) {
+		super();
 		controlSignal = new Signal1[256];
 		moduleChanNumber = number;
 		moduleName = module;
@@ -66,7 +67,7 @@ public class ControlChannel extends QObject {
 	 * @throws InvalidChannelValueException
 	 *             Indication that the provided value was not valid.
 	 */
-	public void setSignal(int val, Signal1<Integer> signal)
+	public void setSignal(final int val, final Signal1<Integer> signal) 
 			throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
 			controlSignal[val] = signal;
@@ -84,7 +85,7 @@ public class ControlChannel extends QObject {
 	 * @throws InvalidChannelValueException
 	 *             Indication that the provided value was not valid.
 	 */
-	public Signal1<Integer> getSignal(int val)
+	public Signal1<Integer> getSignal(final int val)
 			throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
 			return controlSignal[val];
@@ -101,11 +102,11 @@ public class ControlChannel extends QObject {
 	 * @throws InvalidChannelValueException
 	 *             Indication that the provided value was not valid.
 	 */
-	public void trigger(int val) throws InvalidChannelValueException {
+	public void trigger(final int val) throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
 			try {
 				controlSignal[val].emit(Integer.valueOf(val));
-			} catch (NullPointerException e) {
+			} catch (NullPointerException e) {  // NOPMD by chris on 07/06/07 00:18
 				// Nothing to signal
 			}
 		} else {
