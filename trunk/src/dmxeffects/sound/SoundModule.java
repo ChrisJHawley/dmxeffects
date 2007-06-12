@@ -34,49 +34,50 @@ import dmxeffects.dmx.InvalidChannelValueException;
  * @author chris
  * 
  */
-public class SoundModule extends QObject implements Module {
+public class SoundModule extends QObject implements Module { // NOPMD by chris on 12/06/07 21:07
 
 	// -- Module configuration information -- //
 	private static final int CHANNELS_REQUIRED = 2;
 
 	private static final String MODULE_NAME = "Sound Module";
 
-	private transient int firstControlChannel;
+	private transient int firstChannel;
 
 	// -- Data storage for the tracks -- //
-	private SoundTrack[] trackArray;
+	private final transient SoundTrack[] trackArray;
 
-	private final ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
+	private final transient ControlChannel[] controls =
+		new ControlChannel[CHANNELS_REQUIRED];
 
 	// -- Signals -- //
-	public Signal1<Integer> trackCueSignal;
+	public transient Signal1<Integer> trackCueSignal;
 
-	public Signal1<Integer> startPlaybackSignal;
+	public transient Signal1<Integer> playSignal;
 
-	public Signal1<Integer> stopPlaybackSignal;
+	public transient Signal1<Integer> stopSignal;
 
-	public Signal1<SoundTrack> playerCueSignal;
+	public transient Signal1<SoundTrack> playerCueSignal;
 
-	public Signal0 playerPlaySignal;
+	public transient Signal0 playerPlaySignal;
 
-	public Signal0 playerStopSignal;
+	public transient Signal0 playerStopSignal;
 
-	private Player soundPlayer;
+	private final transient Player soundPlayer;
 
 	// -- GUI Elements -- //
-	private QMenu soundMenu;
+	private transient QMenu soundMenu;
 
-	private QAction changeAssociationAction;
+	private transient QAction chAssocAction;
 
-	private QAction testSoundAction;
+	private transient QAction testSoundAction;
 
-	private QAction addTrackAction;
+	private transient QAction addTrackAction;
 
-	private QAction editTrackAction;
+	private transient QAction editTrackAction;
 
-	private QAction deleteTrackAction;
+	private transient QAction deleteTrackAction;
 
-	private QAction clearTracksAction;
+	private transient QAction clearTracksAction;
 
 	/**
 	 * Create new SoundModule.
@@ -86,7 +87,7 @@ public class SoundModule extends QObject implements Module {
 		super();
 		
 		// Initialise data storage
-		firstControlChannel = -1;
+		firstChannel = -1;
 		trackArray = new SoundTrack[256];
 
 		playerCueSignal = new Signal1<SoundTrack>();
@@ -117,13 +118,13 @@ public class SoundModule extends QObject implements Module {
 
 		// Control Channel 2 is used for play controls
 		controls[1] = new ControlChannel(2, MODULE_NAME);
-		startPlaybackSignal = new Signal1<Integer>();
-		startPlaybackSignal.connect(this, "startPlayback(Integer)");
-		stopPlaybackSignal = new Signal1<Integer>();
-		stopPlaybackSignal.connect(this, "stopPlayback(Integer)");
+		playSignal = new Signal1<Integer>();
+		playSignal.connect(this, "startPlayback(Integer)");
+		stopSignal = new Signal1<Integer>();
+		stopSignal.connect(this, "stopPlayback(Integer)");
 		try {
-			controls[1].setSignal(10, startPlaybackSignal);
-			controls[1].setSignal(20, stopPlaybackSignal);
+			controls[1].setSignal(10, playSignal);
+			controls[1].setSignal(20, stopSignal);
 		} catch (InvalidChannelValueException e1) {
 			e1.printStackTrace(System.err);
 		}
@@ -140,12 +141,12 @@ public class SoundModule extends QObject implements Module {
 
 	public final void createActions() {
 		// If actions have conditional enable they are created disabled
-		changeAssociationAction = new QAction(tr("&Change DMX Association"),
+		chAssocAction = new QAction(tr("&Change DMX Association"),
 				this);
-		changeAssociationAction
+		chAssocAction
 				.setStatusTip(tr("Change DMX Channel Association for the sound module"));
-		changeAssociationAction.triggered.connect(this, "setAssoc()");
-		changeAssociationAction.setEnabled(false);
+		chAssocAction.triggered.connect(this, "setAssoc()");
+		chAssocAction.setEnabled(false);
 
 		testSoundAction = new QAction(tr("&Test Sound Output"), this);
 		testSoundAction
@@ -177,7 +178,7 @@ public class SoundModule extends QObject implements Module {
 
 	public final void createMenus() {
 		soundMenu = new QMenu(tr("&Sound"));
-		soundMenu.addAction(changeAssociationAction);
+		soundMenu.addAction(chAssocAction);
 		soundMenu.addAction(testSoundAction);
 		soundMenu.addSeparator();
 		soundMenu.addAction(addTrackAction);
@@ -254,7 +255,7 @@ public class SoundModule extends QObject implements Module {
 
 		// Allow associations to be changed if in program mode
 		if (Main.getInstance().getProgramMode()) {
-			changeAssociationAction.setEnabled(true);
+			chAssocAction.setEnabled(true);
 		}
 
 	}
@@ -272,8 +273,8 @@ public class SoundModule extends QObject implements Module {
 		// Will confirm the channelNumber is one we're listening to, and then
 		// check if the channelValue is appropriate to perform an action.
 		final int chanNum = channelNumber.intValue();
-		if ((firstControlChannel != -1) && (chanNum >= firstControlChannel)
-				&& (chanNum < firstControlChannel + CHANNELS_REQUIRED)) {
+		if ((firstChannel != -1) && (chanNum >= firstChannel)
+				&& (chanNum < firstChannel + CHANNELS_REQUIRED)) {
 			final int chanVal = channelValue.intValue();
 			try {
 				controls[chanNum].trigger(chanVal);
@@ -309,7 +310,7 @@ public class SoundModule extends QObject implements Module {
 		// Enable actions that are only available in program mode
 		try {
 			if (Main.getInstance().getDMX().getListenerStatus()) {
-				changeAssociationAction.setEnabled(true);
+				chAssocAction.setEnabled(true);
 			}
 		} catch (NullPointerException npe) {
 			/* This is only thrown if Main is presently creating itself in which
@@ -325,7 +326,7 @@ public class SoundModule extends QObject implements Module {
 
 	public void runMode() {
 		// Disable actions that could be detrimental if in run mode.
-		changeAssociationAction.setEnabled(false);
+		chAssocAction.setEnabled(false);
 		addTrackAction.setEnabled(false);
 		editTrackAction.setEnabled(false);
 		deleteTrackAction.setEnabled(false);
