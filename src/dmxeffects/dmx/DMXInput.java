@@ -47,7 +47,7 @@ public class DMXInput extends QObject implements Runnable { // NOPMD by chris on
 			 * polling for data, due to the specification of the protocol.
 			 */
 			Integer dataPeek = InputQueue.getInstance().peek();
-			while (dataPeek == null) {
+			while(Integer.valueOf(-1).equals(dataPeek)) {
 				try {
 					Thread.sleep((long) 0, 88000);
 				} catch (java.lang.InterruptedException e) {
@@ -57,7 +57,7 @@ public class DMXInput extends QObject implements Runnable { // NOPMD by chris on
 			}
 			for (int i = 1; i < 513; i++) {
 				dataPeek = InputQueue.getInstance().peek();
-				while (dataPeek == null) {
+				while(Integer.valueOf(-1).equals(dataPeek)) {
 					/*
 					 * It appears that the break in the data was longer than
 					 * anticipated. The protocol indicates that this break could
