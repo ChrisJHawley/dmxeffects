@@ -122,7 +122,7 @@ public class DMXDisplay extends QWidget implements Module {
 				"updateTableVal(Integer, Integer)");
 		universe.assocRemUpdater.connect(this,
 				"displayRemove(Integer, Integer)");
-		universe.associationUpdater.connect(this,
+		universe.assocUpdater.connect(this,
 				"updateTableAssoc(Integer, String)");
 
 	}
