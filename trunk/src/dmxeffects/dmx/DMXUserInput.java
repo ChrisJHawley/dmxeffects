@@ -35,13 +35,13 @@ public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07 00:21
 	 * Value used to indicate that a DMX Channel Number is to be input.
 	 */
 	public static final int CHANNEL_NUMBER_INPUT =  // NOPMD by chris on 07/06/07 00:21
-		Validator.CHANNEL_NUMBER_VALIDATION;
+		Validator.NUM_VALIDATION;
 
 	/**
 	 * Value used to indicate that a DMX Channel Value is to be input.
 	 */
 	public static final int CHANNEL_VALUE_INPUT =  // NOPMD by chris on 07/06/07 00:21
-		Validator.CHANNEL_VALUE_VALIDATION;
+		Validator.VAL_VALIDATION;
 
 	/**
 	 * Method used to gather input from a user that meets the required

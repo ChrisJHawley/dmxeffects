@@ -72,7 +72,7 @@ public class Generator {
 	public void generate(final int channelNumber)
 			throws InvalidChannelNumberException {
 		if (Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			for (int i = 1; i < 513; i++) {
 				if (i == channelNumber) {
 					InputQueue.getInstance().add(generateValue());
@@ -111,9 +111,9 @@ public class Generator {
 	public void inject(final int channelNumber, final int channelValue)
 			throws InvalidChannelNumberException, InvalidChannelValueException {
 		if (Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			if (Validator.validate(channelValue,
-					Validator.CHANNEL_VALUE_VALIDATION)) {
+					Validator.VAL_VALIDATION)) {
 				for (int i = 1; i < 513; i++) {
 					if (i == channelNumber) {
 						InputQueue.getInstance().add(channelValue);

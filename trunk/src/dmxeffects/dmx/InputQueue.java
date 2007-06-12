@@ -20,6 +20,7 @@
 package dmxeffects.dmx;
 
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -34,13 +35,11 @@ public class InputQueue {
 	/**
 	 * The current singleton instance of this InputQueue
 	 */
-	private static InputQueue singletonInputQueue = null;
+	private final static InputQueue singletonQueue = new InputQueue();
 
-	private LinkedList<Integer> queue;
+	private final transient Queue<Integer> queue;
 
-	private Semaphore queueLock = null;
-
-	private static Semaphore singletonLock = new Semaphore(1, true);
+	private final transient Semaphore queueLock = new Semaphore(1, true);
 
 	/**
 	 * Creates a new instance of InputQueue
@@ -48,7 +47,6 @@ public class InputQueue {
 	private InputQueue() {
 		// Create a new LinkedList to store as the queue.
 		queue = new LinkedList<Integer>();
-		queueLock = new Semaphore(1, true);
 	}
 
 	/**
@@ -57,29 +55,7 @@ public class InputQueue {
 	 * @return The singleton instance of InputQueue.
 	 */
 	public static InputQueue getInstance() {
-		try {
-			singletonLock.acquire();
-			if (singletonInputQueue == null) {
-				singletonInputQueue = new InputQueue();
-			}
-			singletonLock.release();
-		} catch (java.lang.InterruptedException e) {
-			e.printStackTrace(System.err);
-		}
-		return singletonInputQueue;
-	}
-
-	/**
-	 * Method to destroy the current instance of InputQueue.
-	 */
-	public static void destroyInstance() {
-		try {
-			singletonLock.acquire();
-			singletonInputQueue = null;
-			singletonLock.release();
-		} catch (java.lang.InterruptedException e) {
-			e.printStackTrace(System.err);
-		}
+		return singletonQueue;
 	}
 
 	/**
@@ -88,7 +64,7 @@ public class InputQueue {
 	 * @param value
 	 *            The value to append to the end of the queue.
 	 */
-	public void add(int value) {
+	public void add(final int value) {
 		try {
 			queueLock.acquire();
 			queue.add(Integer.valueOf(value));
@@ -104,7 +80,7 @@ public class InputQueue {
 	 * @param intValue
 	 *            The Integer to append to the end of the queue.
 	 */
-	public void add(Integer intValue) {
+	public void add(final Integer intValue) {
 		try {
 			queueLock.acquire();
 			queue.add(intValue);
@@ -126,7 +102,7 @@ public class InputQueue {
 			try {
 				returnedInteger = queue.poll();
 			} catch (java.lang.NullPointerException e) {
-				returnedInteger = null;
+				returnedInteger = Integer.valueOf(-1);
 			}
 			queueLock.release();
 		} catch (java.lang.InterruptedException e) {
@@ -147,7 +123,7 @@ public class InputQueue {
 			try {
 				returnedInteger = queue.peek();
 			} catch (java.lang.NullPointerException e) {
-				returnedInteger = null;
+				returnedInteger = Integer.valueOf(-1);
 			}
 			queueLock.release();
 		} catch (java.lang.InterruptedException e) {

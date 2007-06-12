@@ -110,11 +110,11 @@ public class Universe extends QObject {
 			throws InvalidChannelNumberException, InvalidChannelValueException {
 		// Perform validation upon the information
 		if (!Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			throw new InvalidChannelNumberException(channelNumber);
 		}
 		if (!Validator.validate(channelValue,
-				Validator.CHANNEL_VALUE_VALIDATION)) {
+				Validator.VAL_VALIDATION)) {
 			throw new InvalidChannelValueException(channelValue);
 		}
 		// Perform the appropriate conversion to zero-based indexing and store
@@ -141,7 +141,7 @@ public class Universe extends QObject {
 	public int getValue(final int channelNumber) 
 		throws InvalidChannelNumberException {
 		if (Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			int returnValue = 0;
 			try {
 				// Perform the appropriate conversion to zero-based indexing and
@@ -175,7 +175,7 @@ public class Universe extends QObject {
 			throws InvalidChannelNumberException, OperationCancelledException {
 		// Perform validation upon the channelNumber information
 		if (!Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			throw new InvalidChannelNumberException(channelNumber);
 		}
 
@@ -203,7 +203,7 @@ public class Universe extends QObject {
 	public String getAssociation(final int channelNumber)
 			throws InvalidChannelNumberException {
 		if (Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			String returnString = null;
 			try {
 				returnString = dmxAssociations[channelNumber - 1];
@@ -221,7 +221,7 @@ public class Universe extends QObject {
 			final int numToDelete)
 			throws InvalidChannelNumberException, OperationCancelledException {
 		if (Validator.validate(channelNumber,
-				Validator.CHANNEL_NUMBER_VALIDATION)) {
+				Validator.NUM_VALIDATION)) {
 			// Confirm that they wish to delete all the elements.
 			String confirmMessage;
 			if (numToDelete > 1) {
