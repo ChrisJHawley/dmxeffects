@@ -29,9 +29,9 @@ public class Player extends QObject implements Runnable {
 
 	// -- Signals for playback information -- //
 
-	public Signal0 playbackStartedSignal = new Signal0();
+	public transient Signal0 playingSignal = new Signal0();
 
-	public Signal0 playbackStoppedSignal = new Signal0();
+	public transient Signal0 stoppedSignal = new Signal0();
 
 	/**
 	 * Create a new instance of this class
@@ -67,7 +67,7 @@ public class Player extends QObject implements Runnable {
 		// TODO Auto-generated method stub
 
 		// Emit signal indicating start
-		playbackStartedSignal.emit();
+		playingSignal.emit();
 	}
 
 	/**
@@ -77,6 +77,6 @@ public class Player extends QObject implements Runnable {
 		// TODO Auto-generated method stub
 
 		// Emit signal indicating stoppage
-		playbackStoppedSignal.emit();
+		stoppedSignal.emit();
 	}
 }
