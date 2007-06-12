@@ -1,1 +1,135 @@
-No problems found!
+
+src/dmxeffects/Main.java:234	Avoid empty if statements
+src/dmxeffects/Main.java:236	Avoid empty if statements
+src/dmxeffects/Main.java:239	Avoid empty if statements
+src/dmxeffects/Main.java:266	Avoid empty if statements
+src/dmxeffects/Main.java:268	Avoid empty if statements
+src/dmxeffects/dmx/ControlChannel.java:70	Found 'DU'-anomaly for variable 'signal' (lines '70'-'77').
+src/dmxeffects/dmx/DMXDisplay.java:174	Found 'DU'-anomaly for variable 'channelNumber' (lines '174'-'177').
+src/dmxeffects/dmx/DMXDisplay.java:174	Found 'DU'-anomaly for variable 'channelValue' (lines '174'-'177').
+src/dmxeffects/dmx/DMXDisplay.java:179	Found 'DU'-anomaly for variable 'association' (lines '179'-'182').
+src/dmxeffects/dmx/DMXDisplay.java:179	Found 'DU'-anomaly for variable 'channelNumber' (lines '179'-'182').
+src/dmxeffects/dmx/DMXDisplay.java:238	Found 'DU'-anomaly for variable 'channelNumber' (lines '238'-'241').
+src/dmxeffects/dmx/DMXDisplay.java:238	Found 'DU'-anomaly for variable 'numToDelete' (lines '238'-'241').
+src/dmxeffects/dmx/DMXUserInput.java:58	Found 'UR'-anomaly for variable 'label' (lines '58'-'71').
+src/dmxeffects/dmx/DMXUserInput.java:88	Found 'UR'-anomaly for variable 'maxVal' (lines '88'-'106').
+src/dmxeffects/dmx/DMXUserInput.java:88	Found 'UR'-anomaly for variable 'minVal' (lines '88'-'106').
+src/dmxeffects/dmx/DMXUserInput.java:88	Found 'UR'-anomaly for variable 'title' (lines '88'-'106').
+src/dmxeffects/dmx/Generator.java:33	Avoid excessively long variable names like singletonGenerator
+src/dmxeffects/dmx/Generator.java:72	Found 'UR'-anomaly for variable 'exceptionMessage' (lines '72'-'72').
+src/dmxeffects/dmx/Generator.java:72	Parameter 'channelNumber' is not assigned and could be declared final
+src/dmxeffects/dmx/Generator.java:86	Found 'DU'-anomaly for variable 'exceptionMessage' (lines '86'-'92').
+src/dmxeffects/dmx/Generator.java:86	Local variable 'exceptionMessage' could be declared final
+src/dmxeffects/dmx/Generator.java:87	No need to call String.valueOf to append to a string.
+src/dmxeffects/dmx/Generator.java:111	Found 'DU'-anomaly for variable 'channelValue' (lines '111'-'141').
+src/dmxeffects/dmx/Generator.java:111	Found 'UR'-anomaly for variable 'exceptionMessage' (lines '111'-'111').
+src/dmxeffects/dmx/Generator.java:111	Parameter 'channelNumber' is not assigned and could be declared final
+src/dmxeffects/dmx/Generator.java:111	Parameter 'channelValue' is not assigned and could be declared final
+src/dmxeffects/dmx/Generator.java:127	Found 'DU'-anomaly for variable 'exceptionMessage' (lines '127'-'141').
+src/dmxeffects/dmx/Generator.java:127	Local variable 'exceptionMessage' could be declared final
+src/dmxeffects/dmx/Generator.java:128	No need to call String.valueOf to append to a string.
+src/dmxeffects/dmx/Generator.java:134	Local variable 'exceptionMessage' could be declared final
+src/dmxeffects/dmx/Generator.java:135	No need to call String.valueOf to append to a string.
+src/dmxeffects/dmx/InputQueue.java:37	Avoid excessively long variable names like singletonInputQueue
+src/dmxeffects/dmx/InputQueue.java:39	Avoid using implementation types like 'LinkedList'; use the interface instead
+src/dmxeffects/dmx/InputQueue.java:39	Avoid using implementation types like 'LinkedList'; use the interface instead
+src/dmxeffects/dmx/InputQueue.java:39	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/InputQueue.java:39	Private field 'queue' could be made final; it is only initialized in the declaration or constructor.
+src/dmxeffects/dmx/InputQueue.java:41	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/InputQueue.java:41	Private field 'queueLock' could be made final; it is only initialized in the declaration or constructor.
+src/dmxeffects/dmx/InputQueue.java:62	Singleton is not thread safe
+src/dmxeffects/dmx/InputQueue.java:78	Assigning an Object to null is a code smell.  Consider refactoring.
+src/dmxeffects/dmx/InputQueue.java:91	Parameter 'value' is not assigned and could be declared final
+src/dmxeffects/dmx/InputQueue.java:107	Parameter 'intValue' is not assigned and could be declared final
+src/dmxeffects/dmx/InputQueue.java:123	Found 'DD'-anomaly for variable 'returnedInteger' (lines '123'-'127').
+src/dmxeffects/dmx/InputQueue.java:127	Found 'DD'-anomaly for variable 'returnedInteger' (lines '127'-'129').
+src/dmxeffects/dmx/InputQueue.java:129	Assigning an Object to null is a code smell.  Consider refactoring.
+src/dmxeffects/dmx/InputQueue.java:144	Found 'DD'-anomaly for variable 'returnedInteger' (lines '144'-'148').
+src/dmxeffects/dmx/InputQueue.java:148	Found 'DD'-anomaly for variable 'returnedInteger' (lines '148'-'150').
+src/dmxeffects/dmx/InputQueue.java:150	Assigning an Object to null is a code smell.  Consider refactoring.
+src/dmxeffects/dmx/Universe.java:36	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/Universe.java:38	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/Universe.java:45	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/Universe.java:51	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/Universe.java:57	Avoid excessively long variable names like associationUpdater
+src/dmxeffects/dmx/Universe.java:57	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/dmx/Universe.java:60	It is a good practice to call super() in a constructor
+src/dmxeffects/dmx/Universe.java:75	Parameter 'channelNum' is not assigned and could be declared final
+src/dmxeffects/dmx/Universe.java:75	Parameter 'channelVal' is not assigned and could be declared final
+src/dmxeffects/dmx/Universe.java:76	Local variable 'channelNumber' could be declared final
+src/dmxeffects/dmx/Universe.java:77	Local variable 'channelValue' could be declared final
+src/dmxeffects/dmx/Universe.java:105	Parameter 'channelNumber' is not assigned and could be declared final
+src/dmxeffects/dmx/Universe.java:105	Parameter 'channelValue' is not assigned and could be declared final
+src/dmxeffects/dmx/Universe.java:109	Avoid unnecessary comparisons in boolean expressions
+src/dmxeffects/dmx/Universe.java:112	Avoid unnecessary comparisons in boolean expressions
+src/dmxeffects/dmx/Universe.java:136	Parameter 'channelNumber' is not assigned and could be declared final
+src/dmxeffects/dmx/Universe.java:138	Avoid unnecessary comparisons in boolean expressions
+src/dmxeffects/dmx/Universe.java:141	Found 'DD'-anomaly for variable 'returnValue' (lines '141'-'145').
+src/dmxeffects/dmx/Universe.java:145	Found 'DD'-anomaly for variable 'returnValue' (lines '145'-'148').
+src/dmxeffects/dmx/Universe.java:171	Avoid unnecessary comparisons in boolean expressions
+src/dmxeffects/dmx/Universe.java:199	Avoid unnecessary comparisons in boolean expressions
+src/dmxeffects/dmx/Universe.java:202	Found 'DD'-anomaly for variable 'returnString' (lines '202'-'204').
+src/dmxeffects/dmx/Universe.java:204	Found 'DD'-anomaly for variable 'returnString' (lines '204'-'207').
+src/dmxeffects/dmx/Universe.java:207	Assigning an Object to null is a code smell.  Consider refactoring.
+src/dmxeffects/dmx/Universe.java:213	Found 'DU'-anomaly for variable 'numToDelete' (lines '213'-'254').
+src/dmxeffects/dmx/Universe.java:224	No need to call String.valueOf to append to a string.
+src/dmxeffects/dmx/Universe.java:225	No need to call String.valueOf to append to a string.
+src/dmxeffects/dmx/Universe.java:229	No need to call String.valueOf to append to a string.
+src/dmxeffects/dmx/Universe.java:231	Local variable 'options' could be declared final
+src/dmxeffects/dmx/Universe.java:234	Local variable 'response' could be declared final
+src/dmxeffects/dmx/Universe.java:245	Assigning an Object to null is a code smell.  Consider refactoring.
+src/dmxeffects/dmx/Validator.java:20	All methods are static.  Consider using Singleton instead.  Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+src/dmxeffects/dmx/Validator.java:27	Each class should declare at least one constructor
+src/dmxeffects/dmx/Validator.java:32	Avoid excessively long variable names like CHANNEL_NUMBER_VALIDATION
+src/dmxeffects/dmx/Validator.java:37	Avoid excessively long variable names like CHANNEL_VALUE_VALIDATION
+src/dmxeffects/dmx/Validator.java:49	Found 'DU'-anomaly for variable 'value' (lines '49'-'62').
+src/dmxeffects/dmx/Validator.java:49	Parameter 'validationType' is not assigned and could be declared final
+src/dmxeffects/dmx/Validator.java:49	Parameter 'value' is not assigned and could be declared final
+src/dmxeffects/dmx/Validator.java:70	Parameter 'validationValue' is not assigned and could be declared final
+src/dmxeffects/dmx/Validator.java:71	Found 'DD'-anomaly for variable 'valid' (lines '71'-'73').
+src/dmxeffects/dmx/Validator.java:71	Found 'DD'-anomaly for variable 'valid' (lines '71'-'75').
+src/dmxeffects/dmx/Validator.java:86	Parameter 'validationValue' is not assigned and could be declared final
+src/dmxeffects/dmx/Validator.java:87	Found 'DD'-anomaly for variable 'valid' (lines '87'-'89').
+src/dmxeffects/dmx/Validator.java:87	Found 'DD'-anomaly for variable 'valid' (lines '87'-'91').
+src/dmxeffects/sound/Player.java:32	Avoid excessively long variable names like playbackStartedSignal
+src/dmxeffects/sound/Player.java:32	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/Player.java:34	Avoid excessively long variable names like playbackStoppedSignal
+src/dmxeffects/sound/Player.java:34	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/Player.java:39	Avoid unnecessary constructors - the compiler will generate these for you
+src/dmxeffects/sound/Player.java:59	Found 'DU'-anomaly for variable 'track' (lines '59'-'61').
+src/dmxeffects/sound/SoundModule.java:37	Too many fields
+src/dmxeffects/sound/SoundModule.java:44	Avoid excessively long variable names like firstControlChannel
+src/dmxeffects/sound/SoundModule.java:44	Private field 'firstControlChannel' could be made final; it is only initialized in the declaration or constructor.
+src/dmxeffects/sound/SoundModule.java:47	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundModule.java:47	Private field 'trackArray' could be made final; it is only initialized in the declaration or constructor.
+src/dmxeffects/sound/SoundModule.java:49	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundModule.java:52	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundModule.java:54	Avoid excessively long variable names like startPlaybackSignal
+src/dmxeffects/sound/SoundModule.java:54	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundModule.java:56	Avoid excessively long variable names like stopPlaybackSignal
+src/dmxeffects/sound/SoundModule.java:56	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundModule.java:64	Perhaps 'soundPlayer' could be replaced by a local variable.
+src/dmxeffects/sound/SoundModule.java:64	Private field 'soundPlayer' could be made final; it is only initialized in the declaration or constructor.
+src/dmxeffects/sound/SoundModule.java:69	Avoid excessively long variable names like changeAssociationAction
+src/dmxeffects/sound/SoundModule.java:271	Found 'DU'-anomaly for variable 'channelValue' (lines '271'-'290').
+src/dmxeffects/sound/SoundModule.java:280	Avoid empty catch blocks
+src/dmxeffects/sound/SoundModule.java:282	Avoid catching NullPointerException; consider removing the cause of the NPE.
+src/dmxeffects/sound/SoundModule.java:282	Avoid empty catch blocks
+src/dmxeffects/sound/SoundModule.java:301	Found 'DU'-anomaly for variable 'firstChannel' (lines '301'-'306').
+src/dmxeffects/sound/SoundModule.java:301	Found 'DU'-anomaly for variable 'range' (lines '301'-'306').
+src/dmxeffects/sound/SoundModule.java:314	Avoid catching NullPointerException; consider removing the cause of the NPE.
+src/dmxeffects/sound/SoundModule.java:314	Avoid empty catch blocks
+src/dmxeffects/sound/SoundModule.java:405	Found 'DU'-anomaly for variable 'val' (lines '405'-'408').
+src/dmxeffects/sound/SoundModule.java:416	Found 'DU'-anomaly for variable 'val' (lines '416'-'419').
+src/dmxeffects/sound/SoundTrack.java:35	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundTrack.java:35	Private field 'trackFile' could be made final; it is only initialized in the declaration or constructor.
+src/dmxeffects/sound/SoundTrack.java:37	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundTrack.java:39	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundTrack.java:41	Found non-transient, non-static member. Please mark as transient or provide accessors.
+src/dmxeffects/sound/SoundTrack.java:46	Avoid excessively long variable names like TRACK_STATUS_READY
+src/dmxeffects/sound/SoundTrack.java:56	Avoid excessively long variable names like TRACK_STATUS_PLAYING
+src/dmxeffects/sound/SoundTrack.java:61	Avoid excessively long variable names like TRACK_STATUS_PAUSED
+src/dmxeffects/sound/SoundTrack.java:74	It is a good practice to call super() in a constructor
+src/dmxeffects/sound/SoundTrack.java:122	Parameter 'trackTitle' is not assigned and could be declared final
+src/dmxeffects/sound/SoundTrack.java:140	Parameter 'trackStatus' is not assigned and could be declared final
+src/dmxeffects/sound/SoundTrack.java:149	No need to call String.valueOf to append to a string.

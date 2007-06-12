@@ -30,7 +30,7 @@ import dmxeffects.*;
  */
 public class Generator {
 
-	private static Generator singletonGenerator = new Generator();
+	private static Generator singletonGen = new Generator();
 
 	/** Creates a new instance of Generator */
 	private Generator() {
@@ -43,7 +43,7 @@ public class Generator {
 	 * @return The current singleton instance of Generator.
 	 */
 	public static Generator getInstance() {
-		return singletonGenerator;
+		return singletonGen;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Generator {
 	 * @throws OperationCancelledException
 	 *             User cancelled input gathering.
 	 */
-	public void generate(int channelNumber)
+	public void generate(final int channelNumber)
 			throws InvalidChannelNumberException {
 		if (Validator.validate(channelNumber,
 				Validator.CHANNEL_NUMBER_VALIDATION)) {
@@ -83,9 +83,9 @@ public class Generator {
 				}
 			}
 		} else {
-			String exceptionMessage = "Specified channel number, "
-					+ String.valueOf(channelNumber)
-					+ " was not within the permissible range of 1 to 512 inclusive.";
+			final String exceptionMessage = "Specified channel number, " 
+				+ channelNumber + " was not within the permissible range of " +
+				"1 to 512 inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
 		Main.getInstance().statusBar().showMessage("DMX value generated", 2000);
@@ -108,7 +108,7 @@ public class Generator {
 	 *             Exception thrown indicating the channelValue does not follow
 	 *             the specification.
 	 */
-	public void inject(int channelNumber, int channelValue)
+	public void inject(final int channelNumber, final int channelValue)
 			throws InvalidChannelNumberException, InvalidChannelValueException {
 		if (Validator.validate(channelNumber,
 				Validator.CHANNEL_NUMBER_VALIDATION)) {
@@ -124,17 +124,15 @@ public class Generator {
 					}
 				}
 			} else {
-				String exceptionMessage = "Specified value, "
-						+ String.valueOf(channelValue)
-						+ " was not within the permissible range of 0 to 255"
-						+ " inclusive.";
+				final String exceptionMessage = "Specified value, " +
+						channelValue + " was not within the permissible range" +
+						" of 0 to 255 inclusive.";
 				throw new InvalidChannelValueException(exceptionMessage);
 			}
 		} else {
-			String exceptionMessage = "Specified channel number, "
-					+ String.valueOf(channelNumber)
-					+ " was not within the permissible range of 1 to 512"
-					+ " inclusive.";
+			final String exceptionMessage = "Specified channel number, " +
+					channelNumber + " was not within the permissible range of" +
+					" 1 to 512 inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
 		Main.getInstance().statusBar().showMessage("DMX value inserted", 2000);
