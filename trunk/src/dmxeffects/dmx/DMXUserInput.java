@@ -34,14 +34,16 @@ public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07 00:21
 	/**
 	 * Value used to indicate that a DMX Channel Number is to be input.
 	 */
-	public static final int CHANNEL_NUMBER_INPUT =  // NOPMD by chris on 07/06/07 00:21
-		Validator.NUM_VALIDATION;
+	public static final int CHANNEL_NUMBER_INPUT = // NOPMD by chris on
+													// 07/06/07 00:21
+	Validator.NUM_VALIDATION;
 
 	/**
 	 * Value used to indicate that a DMX Channel Value is to be input.
 	 */
-	public static final int CHANNEL_VALUE_INPUT =  // NOPMD by chris on 07/06/07 00:21
-		Validator.VAL_VALIDATION;
+	public static final int CHANNEL_VALUE_INPUT = // NOPMD by chris on
+													// 07/06/07 00:21
+	Validator.VAL_VALIDATION;
 
 	/**
 	 * Method used to gather input from a user that meets the required
@@ -103,7 +105,7 @@ public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07 00:21
 		default:
 			throw new OperationFailedException("Invalid input type requested.");
 		}
-		final Integer returned = QInputDialog.getInteger(Main.getInstance(), 
+		final Integer returned = QInputDialog.getInteger(Main.getInstance(),
 				title, label, minVal, minVal, maxVal);
 		try {
 			if (Validator.validate(returned.intValue(), type)) {
@@ -112,9 +114,15 @@ public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07 00:21
 				throw new OperationCancelledException(
 						"Operation cancelled by user");
 			}
-		} catch (NullPointerException npe) { // NOPMD by chris on 07/06/07 00:21
+		} catch (NullPointerException npe) { // NOPMD by chris on 07/06/07
+												// 00:21
 			// No value returned
-			throw new OperationCancelledException("Operation cancelled by user"); // NOPMD by chris on 07/06/07 00:21
+			throw new OperationCancelledException("Operation cancelled by user"); // NOPMD
+																					// by
+																					// chris
+																					// on
+																					// 07/06/07
+																					// 00:21
 		}
 	}
 }

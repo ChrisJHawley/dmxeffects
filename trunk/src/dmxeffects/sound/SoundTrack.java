@@ -71,8 +71,8 @@ public class SoundTrack extends QObject {
 	 * @throws operationFailedException
 	 *             Indication that one of the provided values did not validate.
 	 */
-	public SoundTrack(File trackFile, String trackTitle) 
-		throws OperationFailedException {
+	public SoundTrack(File trackFile, String trackTitle)
+			throws OperationFailedException {
 		super();
 		if (trackFile == null) {
 			throw new OperationFailedException("No file was provided.");
@@ -122,7 +122,7 @@ public class SoundTrack extends QObject {
 	 *             Indication that the title did not pass validation.
 	 */
 	public void setTitle(final String trackTitle)
-		throws OperationFailedException {
+			throws OperationFailedException {
 		if (trackTitle.length() == 0) {
 			throw new OperationFailedException("No title was provided.");
 		} else {
@@ -141,7 +141,7 @@ public class SoundTrack extends QObject {
 	 *             set was not valid.
 	 */
 	public void setStatus(final int trackStatus)
-		throws OperationFailedException {
+			throws OperationFailedException {
 		switch (trackStatus) {
 		case READY_STATUS:
 		case CUED_STATUS:
@@ -149,7 +149,7 @@ public class SoundTrack extends QObject {
 		case PAUSED_STATUS:
 			break;
 		default:
-			throw new OperationFailedException("Status: " + trackStatus 
+			throw new OperationFailedException("Status: " + trackStatus
 					+ " is not valid.");
 		}
 		this.trackStatus = trackStatus;
