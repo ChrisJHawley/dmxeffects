@@ -71,8 +71,7 @@ public class Generator {
 	 */
 	public void generate(final int channelNumber)
 			throws InvalidChannelNumberException {
-		if (Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
+		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
 			for (int i = 1; i < 513; i++) {
 				if (i == channelNumber) {
 					InputQueue.getInstance().add(generateValue());
@@ -83,9 +82,10 @@ public class Generator {
 				}
 			}
 		} else {
-			final String exceptionMessage = "Specified channel number, " 
-				+ channelNumber + " was not within the permissible range of " +
-				"1 to 512 inclusive.";
+			final String exceptionMessage = "Specified channel number, "
+					+ channelNumber
+					+ " was not within the permissible range of "
+					+ "1 to 512 inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
 		Main.getInstance().statusBar().showMessage("DMX value generated", 2000);
@@ -110,10 +110,8 @@ public class Generator {
 	 */
 	public void inject(final int channelNumber, final int channelValue)
 			throws InvalidChannelNumberException, InvalidChannelValueException {
-		if (Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
-			if (Validator.validate(channelValue,
-					Validator.VAL_VALIDATION)) {
+		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
+			if (Validator.validate(channelValue, Validator.VAL_VALIDATION)) {
 				for (int i = 1; i < 513; i++) {
 					if (i == channelNumber) {
 						InputQueue.getInstance().add(channelValue);
@@ -124,15 +122,17 @@ public class Generator {
 					}
 				}
 			} else {
-				final String exceptionMessage = "Specified value, " +
-						channelValue + " was not within the permissible range" +
-						" of 0 to 255 inclusive.";
+				final String exceptionMessage = "Specified value, "
+						+ channelValue
+						+ " was not within the permissible range"
+						+ " of 0 to 255 inclusive.";
 				throw new InvalidChannelValueException(exceptionMessage);
 			}
 		} else {
-			final String exceptionMessage = "Specified channel number, " +
-					channelNumber + " was not within the permissible range of" +
-					" 1 to 512 inclusive.";
+			final String exceptionMessage = "Specified channel number, "
+					+ channelNumber
+					+ " was not within the permissible range of"
+					+ " 1 to 512 inclusive.";
 			throw new InvalidChannelNumberException(exceptionMessage);
 		}
 		Main.getInstance().statusBar().showMessage("DMX value inserted", 2000);

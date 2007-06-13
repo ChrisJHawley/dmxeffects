@@ -42,22 +42,19 @@ public class Universe extends QObject {
 	 * Signal indicating a channel-value pair has updated. First Integer is the
 	 * channel number. Second Integer is the channel value.
 	 */
-	public transient Signal2<Integer, Integer> dmxValueUpdater =
-		new Signal2<Integer, Integer>();
+	public transient Signal2<Integer, Integer> dmxValueUpdater = new Signal2<Integer, Integer>();
 
 	/**
 	 * Signal indicating the removal of an association range. First Integer is
 	 * the first channel number. Second Integer is the size of the range.
 	 */
-	public transient Signal2<Integer, Integer> assocRemUpdater =
-		new Signal2<Integer, Integer>();
+	public transient Signal2<Integer, Integer> assocRemUpdater = new Signal2<Integer, Integer>();
 
 	/**
 	 * Signal indicating the update of an association. Integer is the channel
 	 * number. String is the module name or an empty string if no module.
 	 */
-	public transient Signal2<Integer, String> assocUpdater =
-		new Signal2<Integer, String>();
+	public transient Signal2<Integer, String> assocUpdater = new Signal2<Integer, String>();
 
 	/** Creates a new instance of Universe */
 	public Universe() {
@@ -109,12 +106,10 @@ public class Universe extends QObject {
 	public void setValue(final int channelNumber, final int channelValue)
 			throws InvalidChannelNumberException, InvalidChannelValueException {
 		// Perform validation upon the information
-		if (!Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
+		if (!Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
 			throw new InvalidChannelNumberException(channelNumber);
 		}
-		if (!Validator.validate(channelValue,
-				Validator.VAL_VALIDATION)) {
+		if (!Validator.validate(channelValue, Validator.VAL_VALIDATION)) {
 			throw new InvalidChannelValueException(channelValue);
 		}
 		// Perform the appropriate conversion to zero-based indexing and store
@@ -122,8 +117,8 @@ public class Universe extends QObject {
 		dmxValues[channelNumber - 1] = channelValue;
 
 		// Inform listening objects that there has been a new value added.
-		dmxValueUpdater.emit(Integer.valueOf(channelNumber), 
-				Integer.valueOf(channelValue));
+		dmxValueUpdater.emit(Integer.valueOf(channelNumber), Integer
+				.valueOf(channelValue));
 
 	}
 
@@ -138,10 +133,9 @@ public class Universe extends QObject {
 	 *             Exception for when the channelNumber does not follow the
 	 *             specification.
 	 */
-	public int getValue(final int channelNumber) 
-		throws InvalidChannelNumberException {
-		if (Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
+	public int getValue(final int channelNumber)
+			throws InvalidChannelNumberException {
+		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
 			int returnValue = 0;
 			try {
 				// Perform the appropriate conversion to zero-based indexing and
@@ -170,12 +164,11 @@ public class Universe extends QObject {
 	 *             The channelNumber doesn't meet the specification.
 	 * @throws OperationCancelledException
 	 */
-	public void setAssociation(final int channelNumber, 
+	public void setAssociation(final int channelNumber,
 			final String associatedElement)
 			throws InvalidChannelNumberException, OperationCancelledException {
 		// Perform validation upon the channelNumber information
-		if (!Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
+		if (!Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
 			throw new InvalidChannelNumberException(channelNumber);
 		}
 
@@ -202,8 +195,7 @@ public class Universe extends QObject {
 	 */
 	public String getAssociation(final int channelNumber)
 			throws InvalidChannelNumberException {
-		if (Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
+		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
 			String returnString = null;
 			try {
 				returnString = dmxAssociations[channelNumber - 1];
@@ -217,24 +209,21 @@ public class Universe extends QObject {
 		}
 	}
 
-	public void removeAssociation(final int channelNumber,
-			final int numToDelete)
+	public void removeAssociation(final int channelNumber, final int numToDelete)
 			throws InvalidChannelNumberException, OperationCancelledException {
-		if (Validator.validate(channelNumber,
-				Validator.NUM_VALIDATION)) {
+		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
 			// Confirm that they wish to delete all the elements.
 			String confirmMessage;
 			if (numToDelete > 1) {
-				confirmMessage = "Please confirm that you wish to delete the " +
-						"associations for channels between " +
-						channelNumber + " and " + (channelNumber + numToDelete)
-						+ ".";
+				confirmMessage = "Please confirm that you wish to delete the "
+						+ "associations for channels between " + channelNumber
+						+ " and " + (channelNumber + numToDelete) + ".";
 			} else {
 				confirmMessage = "Please confirm that you wish to delete the "
 						+ "association for channel " + channelNumber + ".";
 			}
-			final QMessageBox.StandardButtons options =
-				new QMessageBox.StandardButtons(QMessageBox.StandardButton.Yes,
+			final QMessageBox.StandardButtons options = new QMessageBox.StandardButtons(
+					QMessageBox.StandardButton.Yes,
 					QMessageBox.StandardButton.No);
 			final QMessageBox.StandardButton response = QMessageBox.question(
 					Main.getInstance().getDMX(), "Confirm deletion",
@@ -242,12 +231,15 @@ public class Universe extends QObject {
 			if (response.equals(QMessageBox.StandardButton.Yes)) {
 				// Confirmed
 				// Do remove
-				assocRemUpdater.emit(Integer.valueOf(channelNumber), 
-						Integer.valueOf(numToDelete));
+				assocRemUpdater.emit(Integer.valueOf(channelNumber), Integer
+						.valueOf(numToDelete));
 				for (int i = 0; i < numToDelete; i++) {
 					// Send out a signal indicating which range of channels has
 					// been removed.
-					dmxAssociations[channelNumber + i - 1] = null; // NOPMD by chris on 12/06/07 20:29
+					dmxAssociations[channelNumber + i - 1] = null; // NOPMD by
+																	// chris on
+																	// 12/06/07
+																	// 20:29
 					assocUpdater.emit(Integer.valueOf(channelNumber), "");
 				}
 			} else {

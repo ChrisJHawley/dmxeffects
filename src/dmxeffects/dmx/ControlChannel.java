@@ -67,7 +67,7 @@ public class ControlChannel extends QObject {
 	 * @throws InvalidChannelValueException
 	 *             Indication that the provided value was not valid.
 	 */
-	public void setSignal(final int val, final Signal1<Integer> signal) 
+	public void setSignal(final int val, final Signal1<Integer> signal)
 			throws InvalidChannelValueException {
 		if (Validator.validate(val, Validator.VAL_VALIDATION)) {
 			controlSignal[val] = signal;
@@ -106,7 +106,8 @@ public class ControlChannel extends QObject {
 		if (Validator.validate(val, Validator.VAL_VALIDATION)) {
 			try {
 				controlSignal[val].emit(Integer.valueOf(val));
-			} catch (NullPointerException e) {  // NOPMD by chris on 07/06/07 00:18
+			} catch (NullPointerException e) { // NOPMD by chris on 07/06/07
+												// 00:18
 				// Nothing to signal
 			}
 		} else {

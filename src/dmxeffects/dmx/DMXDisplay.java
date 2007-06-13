@@ -37,9 +37,15 @@ public class DMXDisplay extends QWidget implements Module {
 	public transient Signal0 listenerEnabled = new Signal0();
 
 	// -- Internal variables for this Module -- //
-	private final String MODULE_NAME = tr("DMX Module"); // NOPMD by chris on 07/06/07 00:11
+	private final String MODULE_NAME = tr("DMX Module"); // NOPMD by chris on
+															// 07/06/07 00:11
 
-	private final String WIDGET_TITLE = tr("DMX Association Table"); // NOPMD by chris on 07/06/07 00:11
+	private final String WIDGET_TITLE = tr("DMX Association Table"); // NOPMD
+																		// by
+																		// chris
+																		// on
+																		// 07/06/07
+																		// 00:11
 
 	private final transient Universe universe;
 
@@ -79,16 +85,14 @@ public class DMXDisplay extends QWidget implements Module {
 		listenerAction.triggered.connect(this, "startListener()");
 		listenerAction.setEnabled(!dmxListener);
 
-		randomAction = new QAction(tr("Generate on &all channels"),
-				this);
+		randomAction = new QAction(tr("Generate on &all channels"), this);
 		randomAction
 				.setStatusTip(tr("Generate random DMX data for all channels"));
-		randomAction.triggered.connect(Generator.getInstance(),
-				"generateAll()");
+		randomAction.triggered
+				.connect(Generator.getInstance(), "generateAll()");
 		randomAction.setEnabled(dmxListener);
 
-		channelAction = new QAction(
-				tr("Generate on &specific channel"), this);
+		channelAction = new QAction(tr("Generate on &specific channel"), this);
 		channelAction
 				.setStatusTip(tr("Generate random DMX for a specified channel"));
 		channelAction.triggered.connect(this, "generate()");
@@ -122,8 +126,8 @@ public class DMXDisplay extends QWidget implements Module {
 				"updateTableVal(Integer, Integer)");
 		universe.assocRemUpdater.connect(this,
 				"displayRemove(Integer, Integer)");
-		universe.assocUpdater.connect(this,
-				"updateTableAssoc(Integer, String)");
+		universe.assocUpdater
+				.connect(this, "updateTableAssoc(Integer, String)");
 
 	}
 
@@ -176,7 +180,7 @@ public class DMXDisplay extends QWidget implements Module {
 		// TODO Auto-generated method block
 	}
 
-	public void updateTableAssoc(final Integer channelNumber, 
+	public void updateTableAssoc(final Integer channelNumber,
 			final String association) {
 		// TODO Auto-generated method block
 	}
@@ -195,7 +199,8 @@ public class DMXDisplay extends QWidget implements Module {
 		} catch (OperationFailedException OFE) {
 			// This should not occur
 			OFE.printStackTrace(System.err);
-		} catch (OperationCancelledException OCE) { // NOPMD by chris on 07/06/07 00:16
+		} catch (OperationCancelledException OCE) { // NOPMD by chris on
+													// 07/06/07 00:16
 			// User cancelled operation. Nevermind
 		} catch (InvalidChannelValueException ICVE) {
 			// This should not occur
@@ -219,7 +224,8 @@ public class DMXDisplay extends QWidget implements Module {
 		} catch (OperationFailedException OFE) {
 			// This should not occur
 			OFE.printStackTrace(System.err);
-		} catch (OperationCancelledException OCE) { // NOPMD by chris on 07/06/07 00:17
+		} catch (OperationCancelledException OCE) { // NOPMD by chris on
+													// 07/06/07 00:17
 			// User cancelled operation. Nevermind
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur

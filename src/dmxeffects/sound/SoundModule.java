@@ -34,7 +34,10 @@ import dmxeffects.dmx.InvalidChannelValueException;
  * @author chris
  * 
  */
-public class SoundModule extends QObject implements Module { // NOPMD by chris on 12/06/07 21:07
+public class SoundModule extends QObject implements Module { // NOPMD by
+																// chris on
+																// 12/06/07
+																// 21:07
 
 	// -- Module configuration information -- //
 	private static final int CHANNELS_REQUIRED = 2;
@@ -46,8 +49,7 @@ public class SoundModule extends QObject implements Module { // NOPMD by chris o
 	// -- Data storage for the tracks -- //
 	private final transient SoundTrack[] trackArray;
 
-	private final transient ControlChannel[] controls =
-		new ControlChannel[CHANNELS_REQUIRED];
+	private final transient ControlChannel[] controls = new ControlChannel[CHANNELS_REQUIRED];
 
 	// -- Signals -- //
 	public transient Signal1<Integer> trackCueSignal;
@@ -85,7 +87,7 @@ public class SoundModule extends QObject implements Module { // NOPMD by chris o
 	 */
 	public SoundModule() {
 		super();
-		
+
 		// Initialise data storage
 		firstChannel = -1;
 		trackArray = new SoundTrack[256];
@@ -141,8 +143,7 @@ public class SoundModule extends QObject implements Module { // NOPMD by chris o
 
 	public final void createActions() {
 		// If actions have conditional enable they are created disabled
-		chAssocAction = new QAction(tr("&Change DMX Association"),
-				this);
+		chAssocAction = new QAction(tr("&Change DMX Association"), this);
 		chAssocAction
 				.setStatusTip(tr("Change DMX Channel Association for the sound module"));
 		chAssocAction.triggered.connect(this, "setAssoc()");
@@ -301,7 +302,8 @@ public class SoundModule extends QObject implements Module { // NOPMD by chris o
 	 */
 	public void assocUpdate(final Integer firstChannel, final Integer range) {
 		// TODO Auto-generated method stub
-		/* Check if there is any overlap, if there is remove any of the channels
+		/*
+		 * Check if there is any overlap, if there is remove any of the channels
 		 * that this module has assigned to it and prepare for re-assignment.
 		 */
 	}
@@ -313,7 +315,8 @@ public class SoundModule extends QObject implements Module { // NOPMD by chris o
 				chAssocAction.setEnabled(true);
 			}
 		} catch (NullPointerException npe) {
-			/* This is only thrown if Main is presently creating itself in which
+			/*
+			 * This is only thrown if Main is presently creating itself in which
 			 * case it will send the signal that sets this value, so we can
 			 * ignore it.
 			 */

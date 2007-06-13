@@ -218,13 +218,12 @@ public class Main extends QMainWindow { // NOPMD by chris on 03/06/07 21:23
 			// Prompt to save
 			String confirmMessage;
 			confirmMessage = "There are unsaved changes in this show";
-			final QMessageBox.StandardButtons options = 
-				new QMessageBox.StandardButtons(
+			final QMessageBox.StandardButtons options = new QMessageBox.StandardButtons(
 					QMessageBox.StandardButton.SaveAll,
 					QMessageBox.StandardButton.Discard,
 					QMessageBox.StandardButton.Cancel);
 			final QMessageBox.StandardButton response = QMessageBox.question(
-					this, "Unsaved changes", confirmMessage, options, 
+					this, "Unsaved changes", confirmMessage, options,
 					QMessageBox.StandardButton.SaveAll);
 			if (response.equals(QMessageBox.StandardButton.SaveAll)) {
 				// Save the show
@@ -250,13 +249,12 @@ public class Main extends QMainWindow { // NOPMD by chris on 03/06/07 21:23
 			// Prompt to save
 			String confirmMessage;
 			confirmMessage = "There are unsaved changes in this show";
-			final QMessageBox.StandardButtons options = 
-				new QMessageBox.StandardButtons(
+			final QMessageBox.StandardButtons options = new QMessageBox.StandardButtons(
 					QMessageBox.StandardButton.SaveAll,
 					QMessageBox.StandardButton.Discard,
 					QMessageBox.StandardButton.Cancel);
 			final QMessageBox.StandardButton response = QMessageBox.question(
-					this, "Unsaved changes", confirmMessage, options, 
+					this, "Unsaved changes", confirmMessage, options,
 					QMessageBox.StandardButton.SaveAll);
 			if (response.equals(QMessageBox.StandardButton.SaveAll)) {
 				// Save the show

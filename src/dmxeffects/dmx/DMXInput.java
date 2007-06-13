@@ -21,10 +21,10 @@ package dmxeffects.dmx;
 
 import com.trolltech.qt.core.QObject;
 
-public class DMXInput extends QObject implements Runnable { // NOPMD by chris on 07/06/07 00:21
+public class DMXInput extends QObject implements Runnable { // NOPMD by chris on
+															// 07/06/07 00:21
 
-	public transient Signal2<Integer, Integer> inputValue = 
-		new Signal2<Integer, Integer>();
+	public transient Signal2<Integer, Integer> inputValue = new Signal2<Integer, Integer>();
 
 	public transient Signal0 listenerStarted = new Signal0();
 
@@ -47,7 +47,7 @@ public class DMXInput extends QObject implements Runnable { // NOPMD by chris on
 			 * polling for data, due to the specification of the protocol.
 			 */
 			Integer dataPeek = InputQueue.getInstance().peek();
-			while(Integer.valueOf(-1).equals(dataPeek)) {
+			while (Integer.valueOf(-1).equals(dataPeek)) {
 				try {
 					Thread.sleep((long) 0, 88000);
 				} catch (java.lang.InterruptedException e) {
@@ -57,7 +57,7 @@ public class DMXInput extends QObject implements Runnable { // NOPMD by chris on
 			}
 			for (int i = 1; i < 513; i++) {
 				dataPeek = InputQueue.getInstance().peek();
-				while(Integer.valueOf(-1).equals(dataPeek)) {
+				while (Integer.valueOf(-1).equals(dataPeek)) {
 					/*
 					 * It appears that the break in the data was longer than
 					 * anticipated. The protocol indicates that this break could
@@ -72,8 +72,8 @@ public class DMXInput extends QObject implements Runnable { // NOPMD by chris on
 					dataPeek = InputQueue.getInstance().peek();
 				}
 				// Send a signal indicating the new value
-				inputValue.emit(Integer.valueOf(i), 
-						InputQueue.getInstance().poll());
+				inputValue.emit(Integer.valueOf(i), InputQueue.getInstance()
+						.poll());
 			}
 		}
 	}
