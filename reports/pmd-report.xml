@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="3.9" timestamp="2007-06-12T02:16:40.789" elapsedTime="0s">
+<pmd version="3.9" timestamp="2007-06-13T01:30:56.024" elapsedTime="0s">
 <file name="src/dmxeffects/Main.java">
 <violation line="234" rule="EmptyIfStmt" ruleset="Basic Rules" package="dmxeffects" class="Main" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
 Avoid empty if statements
@@ -57,233 +57,62 @@ Found 'UR'-anomaly for variable 'title' (lines '88'-'106').
 </violation>
 </file>
 <file name="src/dmxeffects/dmx/Generator.java">
-<violation line="33" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like singletonGenerator
-</violation>
 <violation line="72" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Generator" priority="5">
 Found 'UR'-anomaly for variable 'exceptionMessage' (lines '72'-'72').
-</violation>
-<violation line="72" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelNumber' is not assigned and could be declared final
 </violation>
 <violation line="86" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Generator" priority="5">
 Found 'DU'-anomaly for variable 'exceptionMessage' (lines '86'-'92').
 </violation>
-<violation line="86" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'exceptionMessage' could be declared final
-</violation>
-<violation line="87" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
-</violation>
 <violation line="111" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Generator" priority="5">
-Found 'DU'-anomaly for variable 'channelValue' (lines '111'-'141').
+Found 'DU'-anomaly for variable 'channelValue' (lines '111'-'139').
 </violation>
 <violation line="111" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Generator" priority="5">
 Found 'UR'-anomaly for variable 'exceptionMessage' (lines '111'-'111').
 </violation>
-<violation line="111" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelNumber' is not assigned and could be declared final
-</violation>
-<violation line="111" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelValue' is not assigned and could be declared final
-</violation>
 <violation line="127" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Generator" priority="5">
-Found 'DU'-anomaly for variable 'exceptionMessage' (lines '127'-'141').
-</violation>
-<violation line="127" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'exceptionMessage' could be declared final
-</violation>
-<violation line="128" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
-</violation>
-<violation line="134" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'exceptionMessage' could be declared final
-</violation>
-<violation line="135" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.dmx" class="Generator" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
+Found 'DU'-anomaly for variable 'exceptionMessage' (lines '127'-'139').
 </violation>
 </file>
 <file name="src/dmxeffects/dmx/InputQueue.java">
-<violation line="37" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like singletonInputQueue
+<violation line="99" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
+Found 'DD'-anomaly for variable 'returnedInteger' (lines '99'-'103').
 </violation>
-<violation line="39" rule="LooseCoupling" ruleset="Type Resolution Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/typeresolution.html#LooseCoupling" priority="3">
-Avoid using implementation types like 'LinkedList'; use the interface instead
+<violation line="103" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
+Found 'DD'-anomaly for variable 'returnedInteger' (lines '103'-'105').
 </violation>
-<violation line="39" rule="LooseCoupling" ruleset="Type Resolution Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/typeresolution.html#LooseCoupling" priority="3">
-Avoid using implementation types like 'LinkedList'; use the interface instead
+<violation line="120" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
+Found 'DD'-anomaly for variable 'returnedInteger' (lines '120'-'124').
 </violation>
-<violation line="39" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="39" rule="ImmutableField" ruleset="Design Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
-Private field 'queue' could be made final; it is only initialized in the declaration or constructor.
-</violation>
-<violation line="41" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="41" rule="ImmutableField" ruleset="Design Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
-Private field 'queueLock' could be made final; it is only initialized in the declaration or constructor.
-</violation>
-<violation line="62" rule="NonThreadSafeSingleton" ruleset="Design Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#NonThreadSafeSingleton" priority="3">
-Singleton is not thread safe
-</violation>
-<violation line="78" rule="NullAssignment" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#NullAssignment" priority="3">
-Assigning an Object to null is a code smell.  Consider refactoring.
-</violation>
-<violation line="91" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'value' is not assigned and could be declared final
-</violation>
-<violation line="107" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'intValue' is not assigned and could be declared final
-</violation>
-<violation line="123" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
-Found 'DD'-anomaly for variable 'returnedInteger' (lines '123'-'127').
-</violation>
-<violation line="127" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
-Found 'DD'-anomaly for variable 'returnedInteger' (lines '127'-'129').
-</violation>
-<violation line="129" rule="NullAssignment" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#NullAssignment" priority="3">
-Assigning an Object to null is a code smell.  Consider refactoring.
-</violation>
-<violation line="144" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
-Found 'DD'-anomaly for variable 'returnedInteger' (lines '144'-'148').
-</violation>
-<violation line="148" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
-Found 'DD'-anomaly for variable 'returnedInteger' (lines '148'-'150').
-</violation>
-<violation line="150" rule="NullAssignment" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#NullAssignment" priority="3">
-Assigning an Object to null is a code smell.  Consider refactoring.
+<violation line="124" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="InputQueue" priority="5">
+Found 'DD'-anomaly for variable 'returnedInteger' (lines '124'-'126').
 </violation>
 </file>
 <file name="src/dmxeffects/dmx/Universe.java">
-<violation line="36" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="38" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="45" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="51" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="57" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like associationUpdater
-</violation>
-<violation line="57" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="60" rule="CallSuperInConstructor" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#CallSuperInConstructor" priority="3">
-It is a good practice to call super() in a constructor
-</violation>
-<violation line="75" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelNum' is not assigned and could be declared final
-</violation>
-<violation line="75" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelVal' is not assigned and could be declared final
-</violation>
-<violation line="76" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'channelNumber' could be declared final
-</violation>
-<violation line="77" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'channelValue' could be declared final
-</violation>
-<violation line="105" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelNumber' is not assigned and could be declared final
-</violation>
-<violation line="105" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelValue' is not assigned and could be declared final
-</violation>
-<violation line="109" rule="SimplifyBooleanExpressions" ruleset="Design Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#SimplifyBooleanExpressions" priority="3">
-Avoid unnecessary comparisons in boolean expressions
-</violation>
-<violation line="112" rule="SimplifyBooleanExpressions" ruleset="Design Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#SimplifyBooleanExpressions" priority="3">
-Avoid unnecessary comparisons in boolean expressions
-</violation>
-<violation line="136" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'channelNumber' is not assigned and could be declared final
-</violation>
-<violation line="138" rule="SimplifyBooleanExpressions" ruleset="Design Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#SimplifyBooleanExpressions" priority="3">
-Avoid unnecessary comparisons in boolean expressions
-</violation>
-<violation line="141" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
-Found 'DD'-anomaly for variable 'returnValue' (lines '141'-'145').
-</violation>
 <violation line="145" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
-Found 'DD'-anomaly for variable 'returnValue' (lines '145'-'148').
+Found 'DD'-anomaly for variable 'returnValue' (lines '145'-'149').
 </violation>
-<violation line="171" rule="SimplifyBooleanExpressions" ruleset="Design Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#SimplifyBooleanExpressions" priority="3">
-Avoid unnecessary comparisons in boolean expressions
+<violation line="149" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
+Found 'DD'-anomaly for variable 'returnValue' (lines '149'-'152').
 </violation>
-<violation line="199" rule="SimplifyBooleanExpressions" ruleset="Design Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#SimplifyBooleanExpressions" priority="3">
-Avoid unnecessary comparisons in boolean expressions
+<violation line="207" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
+Found 'DD'-anomaly for variable 'returnString' (lines '207'-'209').
 </violation>
-<violation line="202" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
-Found 'DD'-anomaly for variable 'returnString' (lines '202'-'204').
+<violation line="209" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
+Found 'DD'-anomaly for variable 'returnString' (lines '209'-'212').
 </violation>
-<violation line="204" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
-Found 'DD'-anomaly for variable 'returnString' (lines '204'-'207').
-</violation>
-<violation line="207" rule="NullAssignment" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#NullAssignment" priority="3">
-Assigning an Object to null is a code smell.  Consider refactoring.
-</violation>
-<violation line="213" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
-Found 'DU'-anomaly for variable 'numToDelete' (lines '213'-'254').
-</violation>
-<violation line="224" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
-</violation>
-<violation line="225" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
-</violation>
-<violation line="229" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
-</violation>
-<violation line="231" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'options' could be declared final
-</violation>
-<violation line="234" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
-Local variable 'response' could be declared final
-</violation>
-<violation line="245" rule="NullAssignment" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#NullAssignment" priority="3">
-Assigning an Object to null is a code smell.  Consider refactoring.
+<violation line="220" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Universe" priority="5">
+Found 'DU'-anomaly for variable 'numToDelete' (lines '220'-'261').
 </violation>
 </file>
 <file name="src/dmxeffects/dmx/Validator.java">
-<violation line="20" rule="UseSingleton" ruleset="Design Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#UseSingleton" priority="3">
-All methods are static.  Consider using Singleton instead.  Alternatively, you could add a private constructor or make the class abstract to silence this warning.
-</violation>
-<violation line="27" rule="AtLeastOneConstructor" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#AtLeastOneConstructor" priority="3">
-Each class should declare at least one constructor
-</violation>
-<violation line="32" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like CHANNEL_NUMBER_VALIDATION
-</violation>
-<violation line="37" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like CHANNEL_VALUE_VALIDATION
-</violation>
 <violation line="49" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Validator" priority="5">
 Found 'DU'-anomaly for variable 'value' (lines '49'-'62').
-</violation>
-<violation line="49" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'validationType' is not assigned and could be declared final
-</violation>
-<violation line="49" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'value' is not assigned and could be declared final
-</violation>
-<violation line="70" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'validationValue' is not assigned and could be declared final
 </violation>
 <violation line="71" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Validator" priority="5">
 Found 'DD'-anomaly for variable 'valid' (lines '71'-'73').
 </violation>
 <violation line="71" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Validator" priority="5">
 Found 'DD'-anomaly for variable 'valid' (lines '71'-'75').
-</violation>
-<violation line="86" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.dmx" class="Validator" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'validationValue' is not assigned and could be declared final
 </violation>
 <violation line="87" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.dmx" class="Validator" priority="5">
 Found 'DD'-anomaly for variable 'valid' (lines '87'-'89').
@@ -293,18 +122,6 @@ Found 'DD'-anomaly for variable 'valid' (lines '87'-'91').
 </violation>
 </file>
 <file name="src/dmxeffects/sound/Player.java">
-<violation line="32" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="Player" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like playbackStartedSignal
-</violation>
-<violation line="32" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="Player" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="34" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="Player" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like playbackStoppedSignal
-</violation>
-<violation line="34" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="Player" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
 <violation line="39" rule="UnnecessaryConstructor" ruleset="Controversial Rules" package="dmxeffects.sound" class="Player" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#UnnecessaryConstructor" priority="3">
 Avoid unnecessary constructors - the compiler will generate these for you
 </violation>
@@ -313,115 +130,44 @@ Found 'DU'-anomaly for variable 'track' (lines '59'-'61').
 </violation>
 </file>
 <file name="src/dmxeffects/sound/SoundModule.java">
-<violation line="37" rule="TooManyFields" ruleset="Code Size Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/codesize.html#TooManyFields" priority="3">
-Too many fields
-</violation>
-<violation line="44" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like firstControlChannel
-</violation>
 <violation line="44" rule="ImmutableField" ruleset="Design Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
-Private field 'firstControlChannel' could be made final; it is only initialized in the declaration or constructor.
+Private field 'firstChannel' could be made final; it is only initialized in the declaration or constructor.
 </violation>
-<violation line="47" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="47" rule="ImmutableField" ruleset="Design Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
-Private field 'trackArray' could be made final; it is only initialized in the declaration or constructor.
-</violation>
-<violation line="49" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="52" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="54" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like startPlaybackSignal
-</violation>
-<violation line="54" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="56" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like stopPlaybackSignal
-</violation>
-<violation line="56" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="64" rule="SingularField" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#SingularField" priority="3">
+<violation line="65" rule="SingularField" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#SingularField" priority="3">
 Perhaps 'soundPlayer' could be replaced by a local variable.
 </violation>
-<violation line="64" rule="ImmutableField" ruleset="Design Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
-Private field 'soundPlayer' could be made final; it is only initialized in the declaration or constructor.
-</violation>
-<violation line="69" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
+<violation line="70" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
 Avoid excessively long variable names like changeAssociationAction
 </violation>
-<violation line="271" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
-Found 'DU'-anomaly for variable 'channelValue' (lines '271'-'290').
+<violation line="272" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
+Found 'DU'-anomaly for variable 'channelValue' (lines '272'-'291').
 </violation>
-<violation line="280" rule="EmptyCatchBlock" ruleset="Basic Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+<violation line="281" rule="EmptyCatchBlock" ruleset="Basic Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
-<violation line="282" rule="AvoidCatchingNPE" ruleset="Strict Exception Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/strictexception.html#AvoidCatchingNPE" priority="3">
+<violation line="283" rule="AvoidCatchingNPE" ruleset="Strict Exception Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/strictexception.html#AvoidCatchingNPE" priority="3">
 Avoid catching NullPointerException; consider removing the cause of the NPE.
 </violation>
-<violation line="282" rule="EmptyCatchBlock" ruleset="Basic Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+<violation line="283" rule="EmptyCatchBlock" ruleset="Basic Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
-<violation line="301" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
-Found 'DU'-anomaly for variable 'firstChannel' (lines '301'-'306').
+<violation line="302" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
+Found 'DU'-anomaly for variable 'firstChannel' (lines '302'-'307').
 </violation>
-<violation line="301" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
-Found 'DU'-anomaly for variable 'range' (lines '301'-'306').
+<violation line="302" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
+Found 'DU'-anomaly for variable 'range' (lines '302'-'307').
 </violation>
-<violation line="314" rule="AvoidCatchingNPE" ruleset="Strict Exception Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/strictexception.html#AvoidCatchingNPE" priority="3">
+<violation line="315" rule="AvoidCatchingNPE" ruleset="Strict Exception Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/strictexception.html#AvoidCatchingNPE" priority="3">
 Avoid catching NullPointerException; consider removing the cause of the NPE.
 </violation>
-<violation line="314" rule="EmptyCatchBlock" ruleset="Basic Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+<violation line="315" rule="EmptyCatchBlock" ruleset="Basic Rules" package="dmxeffects.sound" class="SoundModule" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
-<violation line="405" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
-Found 'DU'-anomaly for variable 'val' (lines '405'-'408').
+<violation line="406" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
+Found 'DU'-anomaly for variable 'val' (lines '406'-'409').
 </violation>
-<violation line="416" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
-Found 'DU'-anomaly for variable 'val' (lines '416'-'419').
-</violation>
-</file>
-<file name="src/dmxeffects/sound/SoundTrack.java">
-<violation line="35" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="35" rule="ImmutableField" ruleset="Design Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
-Private field 'trackFile' could be made final; it is only initialized in the declaration or constructor.
-</violation>
-<violation line="37" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="39" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="41" rule="BeanMembersShouldSerialize" ruleset="JavaBean Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/javabeans.html#BeanMembersShouldSerialize" priority="3">
-Found non-transient, non-static member. Please mark as transient or provide accessors.
-</violation>
-<violation line="46" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like TRACK_STATUS_READY
-</violation>
-<violation line="56" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like TRACK_STATUS_PLAYING
-</violation>
-<violation line="61" rule="LongVariable" ruleset="Naming Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/naming.html#LongVariable" priority="3">
-Avoid excessively long variable names like TRACK_STATUS_PAUSED
-</violation>
-<violation line="74" rule="CallSuperInConstructor" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/controversial.html#CallSuperInConstructor" priority="3">
-It is a good practice to call super() in a constructor
-</violation>
-<violation line="122" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'trackTitle' is not assigned and could be declared final
-</violation>
-<violation line="140" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
-Parameter 'trackStatus' is not assigned and could be declared final
-</violation>
-<violation line="149" rule="UselessStringValueOf" ruleset="String and StringBuffer Rules" package="dmxeffects.sound" class="SoundTrack" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#UselessStringValueOf" priority="3">
-No need to call String.valueOf to append to a string.
+<violation line="417" rule="DataflowAnomalyAnalysis" ruleset="Controversial Rules" package="dmxeffects.sound" class="SoundModule" priority="5">
+Found 'DU'-anomaly for variable 'val' (lines '417'-'420').
 </violation>
 </file>
 </pmd>
