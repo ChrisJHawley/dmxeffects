@@ -53,8 +53,7 @@ public class Generator {
 		for (int i = 1; i < 513; i++) {
 			InputQueue.getInstance().add(generateValue());
 		}
-		Main.getInstance().statusBar()
-				.showMessage("DMX values generated", 2000);
+		Main.getInstance().statusBar().showMessage("DMX values generated", 2000);
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class Generator {
 	 */
 	public void generate(final int channelNumber)
 			throws InvalidChannelNumberException {
-		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
+		if (Validator.validate(channelNumber, Validator.CHANNEL_NUMBER_VALIDATION)) {
 			for (int i = 1; i < 513; i++) {
 				if (i == channelNumber) {
 					InputQueue.getInstance().add(generateValue());
@@ -110,8 +109,8 @@ public class Generator {
 	 */
 	public void inject(final int channelNumber, final int channelValue)
 			throws InvalidChannelNumberException, InvalidChannelValueException {
-		if (Validator.validate(channelNumber, Validator.NUM_VALIDATION)) {
-			if (Validator.validate(channelValue, Validator.VAL_VALIDATION)) {
+		if (Validator.validate(channelNumber, Validator.CHANNEL_NUMBER_VALIDATION)) {
+			if (Validator.validate(channelValue, Validator.CHANNEL_VALUE_VALIDATION)) {
 				for (int i = 1; i < 513; i++) {
 					if (i == channelNumber) {
 						InputQueue.getInstance().add(channelValue);

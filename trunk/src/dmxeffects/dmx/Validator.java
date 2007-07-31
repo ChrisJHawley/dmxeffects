@@ -29,12 +29,12 @@ public class Validator { // NOPMD by chris on 12/06/07 20:33
 	/**
 	 * Value used to indicate the validation of a DMX Channel Number.
 	 */
-	public static final int NUM_VALIDATION = 20001;
+	public static final int CHANNEL_NUMBER_VALIDATION = 20001;
 
 	/**
 	 * Value used to indicate the validation of a DMX Channel Value.
 	 */
-	public static final int VAL_VALIDATION = 20002;
+	public static final int CHANNEL_VALUE_VALIDATION = 20002;
 
 	/**
 	 * Method to run the appropriate validation.
@@ -49,14 +49,16 @@ public class Validator { // NOPMD by chris on 12/06/07 20:33
 	public static boolean validate(final int value, final int validationType) {
 		boolean valid;
 		switch (validationType) {
-		case NUM_VALIDATION:
+		case CHANNEL_NUMBER_VALIDATION:
 			valid = validateChannelNumber(value);
 			break;
-		case VAL_VALIDATION:
+		case CHANNEL_VALUE_VALIDATION:
 			valid = validateChannelValue(value);
 			break;
 		default:
-			valid = false; // Failsafe, should never be reached.
+			// This should never really be reached, but it may happen if the
+			// validation type provided is itself invalid.
+			valid = false;
 		}
 		return valid;
 	}

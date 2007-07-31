@@ -118,7 +118,7 @@ public class DMXDisplay extends QWidget implements Module {
 		// Connect to external signals
 		universe.dmxValueUpdater.connect(this, "updateTableVal(Integer, Integer)");
 		universe.assocRemUpdater.connect(this, "displayRemove(Integer, Integer)");
-		universe.assocUpdater.connect(this, "updateTableAssoc(Integer, String)");
+		//universe.assocUpdater.connect(this, "updateTableAssoc(Integer, String)");
 
 	}
 

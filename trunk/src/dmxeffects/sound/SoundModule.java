@@ -34,10 +34,7 @@ import dmxeffects.dmx.InvalidChannelValueException;
  * @author chris
  * 
  */
-public class SoundModule extends QObject implements Module { // NOPMD by
-																// chris on
-																// 12/06/07
-																// 21:07
+public class SoundModule extends QObject implements Module {
 
 	// -- Module configuration information -- //
 	private static final int CHANNELS_REQUIRED = 2;
