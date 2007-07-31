@@ -74,16 +74,17 @@ public class Universe extends QObject {
 	}
 
 	public void setValue(final Integer channelNum, final Integer channelVal) {
-		final int channelNumber = channelNum.intValue();
-		final int channelValue = channelVal.intValue();
 		try {
+			final int channelNumber = channelNum.intValue();
+			final int channelValue = channelVal.intValue();
 			setValue(channelNumber, channelValue);
+		} catch (NullPointerException NPE) {
+			NPE.printStackTrace(System.err);
 		} catch (InvalidChannelNumberException ICNE) {
 			ICNE.printStackTrace(System.err);
 		} catch (InvalidChannelValueException ICVE) {
 			ICVE.printStackTrace(System.err);
 		}
-
 	}
 
 	/**
