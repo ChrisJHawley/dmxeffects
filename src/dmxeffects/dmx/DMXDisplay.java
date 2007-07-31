@@ -37,15 +37,9 @@ public class DMXDisplay extends QWidget implements Module {
 	public transient Signal0 listenerEnabled = new Signal0();
 
 	// -- Internal variables for this Module -- //
-	private final String MODULE_NAME = tr("DMX Module"); // NOPMD by chris on
-															// 07/06/07 00:11
+	private final String MODULE_NAME = tr("DMX Module"); // NOPMD by chris on 07/06/07 00:11
 
-	private final String WIDGET_TITLE = tr("DMX Association Table"); // NOPMD
-																		// by
-																		// chris
-																		// on
-																		// 07/06/07
-																		// 00:11
+	private final String WIDGET_TITLE = tr("DMX Association Table"); // NOPMD by chris on 07/06/07 00:11
 
 	private final transient Universe universe;
 
@@ -122,12 +116,9 @@ public class DMXDisplay extends QWidget implements Module {
 		menu.addAction(setAssocAction);
 
 		// Connect to external signals
-		universe.dmxValueUpdater.connect(this,
-				"updateTableVal(Integer, Integer)");
-		universe.assocRemUpdater.connect(this,
-				"displayRemove(Integer, Integer)");
-		universe.assocUpdater
-				.connect(this, "updateTableAssoc(Integer, String)");
+		universe.dmxValueUpdater.connect(this, "updateTableVal(Integer, Integer)");
+		universe.assocRemUpdater.connect(this, "displayRemove(Integer, Integer)");
+		universe.assocUpdater.connect(this, "updateTableAssoc(Integer, String)");
 
 	}
 
