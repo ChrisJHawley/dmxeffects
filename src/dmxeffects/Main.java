@@ -24,7 +24,7 @@ import com.trolltech.qt.gui.*;
 import dmxeffects.dmx.DMXDisplay;
 import dmxeffects.sound.SoundModule;
 
-public class Main extends QMainWindow { // NOPMD by chris on 03/06/07 21:23
+public class Main extends QMainWindow {
 
 	// Singleton variable.
 	private static Main singletonApp;
@@ -103,15 +103,16 @@ public class Main extends QMainWindow { // NOPMD by chris on 03/06/07 21:23
 			e.printStackTrace(System.err);
 		}
 
-		/* TODO: Somehow dynamically gather the modules to load.
-		 * Also set them listening to the various signals that are required.
+		/*
+		 * TODO: Somehow dynamically gather the modules to load. Also set them
+		 * listening to the various signals that are required.
 		 * 
 		 * This gathering could be done based on the last configuration, or if
 		 * no such configuration exists through the defaults (i.e. all of the
-		 * available ones as specified in the default config). Users could then 
+		 * available ones as specified in the default config). Users could then
 		 * {en,dis}able modules as required. The DMX module would always be on.
 		 */
-	
+
 		dmxDisplay = new DMXDisplay();
 		programModeSignal.connect(dmxDisplay, "programMode()");
 		runModeSignal.connect(dmxDisplay, "runMode()");
