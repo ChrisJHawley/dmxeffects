@@ -63,9 +63,9 @@ public class SoundTrack extends QObject {
 	/**
 	 * Creates a new instance of soundTrack
 	 * 
-	 * @param track
+	 * @param trackFile
 	 *            The File object representing the audio track.
-	 * @param title
+	 * @param trackTitle
 	 *            The String object representing the title of this track in the
 	 *            system.
 	 * @throws operationFailedException
@@ -116,7 +116,7 @@ public class SoundTrack extends QObject {
 	/**
 	 * Set the title of this soundTrack.
 	 * 
-	 * @param title
+	 * @param trackTitle
 	 *            The title to set for this soundTrack.
 	 * @throws operationFailedException
 	 *             Indication that the title did not pass validation.
@@ -134,7 +134,7 @@ public class SoundTrack extends QObject {
 	/**
 	 * Set the status of this soundTrack.
 	 * 
-	 * @param status
+	 * @param trackStatus
 	 *            The status to set this soundTrack to have.
 	 * @throws operationFailedException
 	 *             Exception indicating that the status that was attempted to be
