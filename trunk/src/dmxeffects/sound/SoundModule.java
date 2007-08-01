@@ -20,7 +20,9 @@
 package dmxeffects.sound;
 
 import com.trolltech.qt.core.QObject;
-import com.trolltech.qt.gui.*;
+import com.trolltech.qt.gui.QAction;
+import com.trolltech.qt.gui.QMenu;
+import com.trolltech.qt.gui.QWidget;
 
 import dmxeffects.Main;
 import dmxeffects.Module;

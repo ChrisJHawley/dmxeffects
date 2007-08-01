@@ -19,9 +19,13 @@
  */
 package dmxeffects.dmx;
 
-import com.trolltech.qt.gui.*;
+import com.trolltech.qt.gui.QAction;
+import com.trolltech.qt.gui.QMenu;
+import com.trolltech.qt.gui.QWidget;
 
-import dmxeffects.*;
+import dmxeffects.Module;
+import dmxeffects.OperationCancelledException;
+import dmxeffects.OperationFailedException;
 
 /**
  * Class for providing the GUI elements of the DMX modules.
@@ -37,9 +41,9 @@ public class DMXDisplay extends QWidget implements Module {
 	public transient Signal0 listenerEnabled = new Signal0();
 
 	// -- Internal variables for this Module -- //
-	private final String MODULE_NAME = tr("DMX Module"); // NOPMD by chris on 07/06/07 00:11
+	private final String MODULE_NAME = tr("DMX Module");
 
-	private final String WIDGET_TITLE = tr("DMX Association Table"); // NOPMD by chris on 07/06/07 00:11
+	private final String WIDGET_TITLE = tr("DMX Association Table");
 
 	private final transient Universe universe;
 
@@ -116,9 +120,12 @@ public class DMXDisplay extends QWidget implements Module {
 		menu.addAction(setAssocAction);
 
 		// Connect to external signals
-		universe.dmxValueUpdater.connect(this, "updateTableVal(Integer, Integer)");
-		universe.assocRemUpdater.connect(this, "displayRemove(Integer, Integer)");
-		//universe.assocUpdater.connect(this, "updateTableAssoc(Integer, String)");
+		universe.dmxValueUpdater.connect(this,
+				"updateTableVal(Integer, Integer)");
+		universe.assocRemUpdater.connect(this,
+				"displayRemove(Integer, Integer)");
+		universe.associationUpdater.connect(this,
+				"updateTableAssoc(Integer, String)");
 
 	}
 
@@ -163,7 +170,8 @@ public class DMXDisplay extends QWidget implements Module {
 	}
 
 	public void setAssoc() {
-		// TODO Auto-generated method block
+		// This class does not actually have an specific association needs,
+		// therefore this method will do nothing.
 	}
 
 	public void updateTableVal(final Integer channelNumber,
@@ -190,8 +198,7 @@ public class DMXDisplay extends QWidget implements Module {
 		} catch (OperationFailedException OFE) {
 			// This should not occur
 			OFE.printStackTrace(System.err);
-		} catch (OperationCancelledException OCE) { // NOPMD by chris on
-													// 07/06/07 00:16
+		} catch (OperationCancelledException OCE) {
 			// User cancelled operation. Nevermind
 		} catch (InvalidChannelValueException ICVE) {
 			// This should not occur
@@ -215,8 +222,7 @@ public class DMXDisplay extends QWidget implements Module {
 		} catch (OperationFailedException OFE) {
 			// This should not occur
 			OFE.printStackTrace(System.err);
-		} catch (OperationCancelledException OCE) { // NOPMD by chris on
-													// 07/06/07 00:17
+		} catch (OperationCancelledException OCE) {
 			// User cancelled operation. Nevermind
 		} catch (InvalidChannelNumberException ICNE) {
 			// This should not occur

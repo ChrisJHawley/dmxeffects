@@ -19,7 +19,13 @@
  */
 package dmxeffects;
 
-import com.trolltech.qt.gui.*;
+import com.trolltech.qt.gui.QAction;
+import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QKeySequence;
+import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QMenu;
+import com.trolltech.qt.gui.QMenuBar;
+import com.trolltech.qt.gui.QMessageBox;
 
 import dmxeffects.dmx.DMXDisplay;
 import dmxeffects.sound.SoundModule;
@@ -325,7 +331,8 @@ public class Main extends QMainWindow {
 	 * Display an "About" box.
 	 */
 	public void about() {
-		// TODO Display an "About" box for this application
+		QMessageBox.about(this, "About DMXEffects",
+				"DMXEffects (C) 2007 Christopher Hawley");
 	}
 
 	/**
