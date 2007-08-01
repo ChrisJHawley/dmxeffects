@@ -17,14 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package dmxeffects.dmx; // NOPMD by chris on 12/06/07 20:33
+package dmxeffects.dmx;
 
 /**
  * Class to validate DMX channel numbers and values.
  * 
  * @author Chris Hawley
  */
-public class Validator { // NOPMD by chris on 12/06/07 20:33
+public class Validator {
 
 	/**
 	 * Value used to indicate the validation of a DMX Channel Number.

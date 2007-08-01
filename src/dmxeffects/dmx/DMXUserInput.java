@@ -22,7 +22,9 @@ package dmxeffects.dmx;
 import com.trolltech.qt.gui.QInputDialog;
 import com.trolltech.qt.gui.QWidget;
 
-import dmxeffects.*;
+import dmxeffects.Main;
+import dmxeffects.OperationCancelledException;
+import dmxeffects.OperationFailedException;
 
 /**
  * Class to get and validate input from a user.
@@ -117,14 +119,14 @@ public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07 00:21
 						"Operation cancelled by user");
 			}
 		} catch (NullPointerException npe) { // NOPMD by chris on 07/06/07
-												// 00:21
+			// 00:21
 			// No value returned
 			throw new OperationCancelledException("Operation cancelled by user"); // NOPMD
-																					// by
-																					// chris
-																					// on
-																					// 07/06/07
-																					// 00:21
+			// by
+			// chris
+			// on
+			// 07/06/07
+			// 00:21
 		}
 	}
 }
