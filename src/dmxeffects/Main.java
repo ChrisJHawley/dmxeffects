@@ -27,7 +27,7 @@ import com.trolltech.qt.gui.QMenu;
 import com.trolltech.qt.gui.QMenuBar;
 import com.trolltech.qt.gui.QMessageBox;
 
-import dmxeffects.dmx.DMXDisplay;
+import dmxeffects.dmx.DMXModule;
 import dmxeffects.sound.SoundModule;
 
 public class Main extends QMainWindow {
@@ -40,7 +40,7 @@ public class Main extends QMainWindow {
 
 	private transient boolean modifiedSinceSave = false;
 
-	private transient final DMXDisplay dmxDisplay;
+	private transient final DMXModule dmxModule;
 
 	private transient final SoundModule soundModule;
 
@@ -119,12 +119,12 @@ public class Main extends QMainWindow {
 		 * {en,dis}able modules as required. The DMX module would always be on.
 		 */
 
-		dmxDisplay = new DMXDisplay();
-		programModeSignal.connect(dmxDisplay, "programMode()");
-		runModeSignal.connect(dmxDisplay, "runMode()");
+		dmxModule = new DMXModule();
+		programModeSignal.connect(dmxModule, "programMode()");
+		runModeSignal.connect(dmxModule, "runMode()");
 
 		soundModule = new SoundModule();
-		dmxDisplay.listenerEnabled.connect(soundModule, "dmxListenerEnabled()");
+		dmxModule.listenerEnabled.connect(soundModule, "dmxListenerEnabled()");
 		programModeSignal.connect(soundModule, "programMode()");
 		runModeSignal.connect(soundModule, "runMode()");
 
@@ -207,7 +207,7 @@ public class Main extends QMainWindow {
 		// Modules menu
 		QMenu modulesMenu;
 		modulesMenu = menuBar().addMenu(tr("&Modules"));
-		modulesMenu.addMenu(dmxDisplay.getMenu());
+		modulesMenu.addMenu(dmxModule.getMenu());
 		modulesMenu.addMenu(soundModule.getMenu());
 
 		// Help menu
@@ -350,8 +350,8 @@ public class Main extends QMainWindow {
 	 * 
 	 * @return Application's DMXDisplay object.
 	 */
-	public DMXDisplay getDMX() {
-		return dmxDisplay;
+	public DMXModule getDMX() {
+		return dmxModule;
 	}
 
 	/**

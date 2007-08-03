@@ -33,7 +33,7 @@ import dmxeffects.OperationFailedException;
  * @author chris
  * 
  */
-public class DMXDisplay extends QWidget implements Module {
+public class DMXModule extends QWidget implements Module {
 
 	/**
 	 * Signal for informing other modules that the listener has started
@@ -69,7 +69,7 @@ public class DMXDisplay extends QWidget implements Module {
 	/**
 	 * Instantiate a new instance of this class.
 	 */
-	public DMXDisplay() {
+	public DMXModule() {
 		super();
 		// Create input object
 		input = new DMXInput();
