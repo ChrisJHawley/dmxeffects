@@ -122,6 +122,7 @@ public class Main extends QMainWindow {
 		dmxModule = new DMXModule();
 		programModeSignal.connect(dmxModule, "programMode()");
 		runModeSignal.connect(dmxModule, "runMode()");
+		this.setCentralWidget(dmxModule.getWidget());
 
 		soundModule = new SoundModule();
 		dmxModule.listenerEnabled.connect(soundModule, "dmxListenerEnabled()");
