@@ -234,7 +234,7 @@ public class Universe extends QObject {
 					QMessageBox.StandardButton.Yes,
 					QMessageBox.StandardButton.No);
 			QMessageBox.StandardButton response = QMessageBox.question(Main
-					.getInstance().getDMX(), "Confirm deletion",
+					.getInstance().getDMX().getWidget(), "Confirm deletion",
 					confirmMessage, options, QMessageBox.StandardButton.Yes);
 			if (response.equals(QMessageBox.StandardButton.Yes)) {
 				// Confirmed

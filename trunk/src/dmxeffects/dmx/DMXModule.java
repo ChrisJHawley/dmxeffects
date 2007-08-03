@@ -19,8 +19,12 @@
  */
 package dmxeffects.dmx;
 
+import com.trolltech.qt.core.QObject;
+import com.trolltech.qt.core.Qt.ItemFlag;
 import com.trolltech.qt.gui.QAction;
 import com.trolltech.qt.gui.QMenu;
+import com.trolltech.qt.gui.QTableWidget;
+import com.trolltech.qt.gui.QTableWidgetItem;
 import com.trolltech.qt.gui.QWidget;
 
 import dmxeffects.Module;
@@ -33,7 +37,7 @@ import dmxeffects.OperationFailedException;
  * @author chris
  * 
  */
-public class DMXModule extends QWidget implements Module {
+public class DMXModule extends QObject implements Module {
 
 	/**
 	 * Signal for informing other modules that the listener has started
@@ -65,6 +69,8 @@ public class DMXModule extends QWidget implements Module {
 	private final transient QAction injectAction;
 
 	private final transient QAction setAssocAction;
+
+	private final transient QTableWidget dmxTable;
 
 	/**
 	 * Instantiate a new instance of this class.
@@ -119,6 +125,33 @@ public class DMXModule extends QWidget implements Module {
 		menu.addAction(injectAction);
 		menu.addAction(setAssocAction);
 
+		// Initialise Table
+		dmxTable = new QTableWidget(512, 3);
+		dmxTable.setAcceptDrops(false);
+		dmxTable.setAlternatingRowColors(true);
+		dmxTable.setDragEnabled(false);
+		dmxTable.setVisible(true);
+		dmxTable.setHorizontalHeaderItem(0, new QTableWidgetItem(
+				tr("DMX Channel")));
+		dmxTable.setHorizontalHeaderItem(1, new QTableWidgetItem(
+				tr("Current Value")));
+		dmxTable.setHorizontalHeaderItem(2, new QTableWidgetItem(
+				tr("Associated Element")));
+		for (int i = 0; i < 512; i++) {
+			// Number the rows
+			dmxTable.setItem(i, 0, new QTableWidgetItem(tr(String
+					.valueOf(i + 1))));
+
+			// Initialise the DMX values to 0
+			dmxTable.setItem(i, 1, new QTableWidgetItem(tr(String.valueOf(0))));
+
+			// Cannot do anything other than select these cells.
+			dmxTable.item(i, 0).setFlags(ItemFlag.ItemIsSelectable);
+			dmxTable.item(i, 1).setFlags(ItemFlag.ItemIsSelectable);
+		}
+		// Listen for edits to cells
+		dmxTable.cellChanged.connect(this, "assocEdited(Integer, Integer)");
+
 		// Connect to external signals
 		universe.dmxValueUpdater.connect(this,
 				"updateTableVal(Integer, Integer)");
@@ -169,19 +202,38 @@ public class DMXModule extends QWidget implements Module {
 		listenerThread.start();
 	}
 
-	public void setAssoc() {
-		// This class does not actually have an specific association needs,
-		// therefore this method will do nothing.
-	}
-
+	/**
+	 * Update a value for a specific channel within the DMX table.
+	 * 
+	 * @param channelNumber
+	 *            The channel to update.
+	 * @param channelValue
+	 *            The new value.
+	 */
 	public void updateTableVal(final Integer channelNumber,
 			final Integer channelValue) {
-		// TODO Auto-generated method block
+		synchronized (dmxTable) {
+			dmxTable.setItem(channelNumber.intValue() -1 , 1, new QTableWidgetItem(
+					tr(channelValue.toString())));
+			dmxTable.item(channelNumber.intValue() -1, 1).setFlags(ItemFlag.ItemIsSelectable);
+		}
 	}
 
+	/**
+	 * Update an association for a specific channel within the DMX table.
+	 * 
+	 * @param channelNumber
+	 *            The channel to update.
+	 * @param association
+	 *            The new association.
+	 */
 	public void updateTableAssoc(final Integer channelNumber,
 			final String association) {
-		// TODO Auto-generated method block
+		synchronized (dmxTable) {
+			dmxTable.setItem(channelNumber.intValue(), 2, new QTableWidgetItem(
+					tr(association)));
+			dmxTable.item(channelNumber.intValue(), 2).setFlags(ItemFlag.ItemIsSelectable);
+		}
 	}
 
 	/**
@@ -240,7 +292,52 @@ public class DMXModule extends QWidget implements Module {
 	 */
 	public void displayRemove(final Integer channelNumber,
 			final Integer numToDelete) {
-		// TODO Remove stuff
+		synchronized (dmxTable) {
+			int start = channelNumber.intValue();
+			int finish = start + numToDelete.intValue();
+			for (int i = start; i < finish; i++) {
+				dmxTable.setItem(i, 2, new QTableWidgetItem(""));
+				dmxTable.item(i, 2).setFlags(new ItemFlag[] {ItemFlag.ItemIsEditable, ItemFlag.ItemIsSelectable});
+			}
+		}
+	}
+	
+	/**
+	 * Handle edits to specific cells within the table, which should only be of
+	 * associations.
+	 * @param row Row changed.
+	 * @param column Column changed, this should always be 2.
+	 */
+	public void assocEdited(Integer row, Integer column) {
+		if (column.intValue() == 0) {
+			// Reset to the correct value and lock out edits
+			synchronized(dmxTable) {
+				dmxTable.setItem(row.intValue(), 0, new QTableWidgetItem(tr(String.valueOf(row.intValue() +1))));
+				dmxTable.item(row.intValue(), 0).setFlags(ItemFlag.ItemIsSelectable);
+			}
+		}
+		if (column.intValue() == 1) {
+			// Reset to the correct value and lock out edits
+			synchronized(dmxTable) {
+				dmxTable.setItem(row.intValue(), 1, new QTableWidgetItem());
+				dmxTable.item(row.intValue(), 1).setFlags(ItemFlag.ItemIsSelectable);
+			}
+		}
+		if (column.intValue() == 2) {
+			// Only handle updates to associations.
+			synchronized(dmxTable) {
+				// Extract the new data, store it in the universe, and lock the cell
+				try {
+					universe.setAssociation(row.intValue() +1, dmxTable.item(row.intValue(), 1).text());
+				} catch (OperationCancelledException OCE) {
+					// Nevermind.
+				} catch (InvalidChannelNumberException ICNE) {
+					// Hmm, strange.
+					ICNE.printStackTrace(System.err);
+				}
+				dmxTable.item(row.intValue(), 1).setFlags(ItemFlag.ItemIsSelectable);
+			}
+		}
 	}
 
 	public String getName() {
@@ -262,5 +359,13 @@ public class DMXModule extends QWidget implements Module {
 
 	public boolean getListenerStatus() {
 		return dmxListener;
+	}
+	
+	/**
+	 * Handle actions where a user wishes to set some association.
+	 *
+	 */
+	public void setAssoc() {
+		// TODO Auto-generated method stub
 	}
 }
