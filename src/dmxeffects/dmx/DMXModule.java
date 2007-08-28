@@ -42,35 +42,35 @@ public class DMXModule extends QObject implements Module {
 	/**
 	 * Signal for informing other modules that the listener has started
 	 */
-	public transient Signal0 listenerEnabled = new Signal0();
+	public Signal0 listenerEnabled = new Signal0();
 
 	// -- Internal variables for this Module -- //
 	private final String MODULE_NAME = tr("DMX Module");
 
 	private final String WIDGET_TITLE = tr("DMX Association Table");
 
-	private final transient Universe universe;
+	private Universe universe;
 
-	private final transient DMXInput input;
+	private DMXInput input;
 
-	private transient boolean dmxListener = false;
+	private boolean dmxListener = false;
 
 	// -- GUI Elements -- //
-	private final transient QMenu menu;
+	private QMenu menu;
 
-	private final transient QMenu generateMenu;
+	private QMenu generateMenu;
 
-	private final transient QAction listenerAction;
+	private QAction listenerAction;
 
-	private final transient QAction randomAction;
+	private QAction randomAction;
 
-	private final transient QAction channelAction;
+	private QAction channelAction;
 
-	private final transient QAction injectAction;
+	private QAction injectAction;
 
-	private final transient QAction setAssocAction;
+	private QAction setAssocAction;
 
-	private final transient QTableWidget dmxTable;
+	private QTableWidget dmxTable;
 
 	/**
 	 * Instantiate a new instance of this class.
