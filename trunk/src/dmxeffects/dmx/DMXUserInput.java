@@ -121,15 +121,9 @@ public class DMXUserInput extends QWidget { // NOPMD by chris on 07/06/07
 		throw new OperationCancelledException(
 			"Operation cancelled by user");
 	    }
-	} catch (NullPointerException npe) { // NOPMD by chris on 07/06/07
-	    // 00:21
+	} catch (NullPointerException npe) { 
 	    // No value returned
-	    throw new OperationCancelledException("Operation cancelled by user"); // NOPMD
-	    // by
-	    // chris
-	    // on
-	    // 07/06/07
-	    // 00:21
+	    throw new OperationCancelledException("Operation cancelled by user");
 	}
     }
 }

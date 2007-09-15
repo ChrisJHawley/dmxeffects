@@ -249,8 +249,7 @@ public class Universe extends QObject {
 			numToDelete));
 		for (int i = 0; i < numToDelete; i++) {
 		    // Send out a signal indicating which range of channels
-		    // has
-		    // been removed.
+		    // has been removed.
 		    dmxAssociations[channelNumber + i - 1] = null;
 		    associationUpdater.emit(new Integer(channelNumber), "");
 		}
