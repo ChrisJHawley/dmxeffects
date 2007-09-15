@@ -26,27 +26,27 @@ package dmxeffects;
  */
 public class OperationCancelledException extends java.lang.Exception {
 
-	/**
-	 * Unique ID for this class.
-	 */
-	private static final long serialVersionUID = 6042068577702888369L;
+    /**
+     * Unique ID for this class.
+     */
+    private static final long serialVersionUID = 6042068577702888369L;
 
-	/**
-	 * Creates a new instance of <code>OperationCancelledException</code>
-	 * without detail message.
-	 */
-	public OperationCancelledException() {
-		super();
-	}
+    /**
+     * Creates a new instance of <code>OperationCancelledException</code>
+     * without detail message.
+     */
+    public OperationCancelledException() {
+	super();
+    }
 
-	/**
-	 * Constructs an instance of <code>OperationCancelledException</code> with
-	 * the specified detail message.
-	 * 
-	 * @param msg
-	 *            the detail message.
-	 */
-	public OperationCancelledException(String msg) {
-		super(msg);
-	}
+    /**
+     * Constructs an instance of <code>OperationCancelledException</code>
+     * with the specified detail message.
+     * 
+     * @param msg
+     *                the detail message.
+     */
+    public OperationCancelledException(String msg) {
+	super(msg);
+    }
 }
