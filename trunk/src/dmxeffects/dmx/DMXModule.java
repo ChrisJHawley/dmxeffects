@@ -39,333 +39,346 @@ import dmxeffects.OperationFailedException;
  */
 public class DMXModule extends QObject implements Module {
 
-	/**
-	 * Signal for informing other modules that the listener has started
-	 */
-	public Signal0 listenerEnabled = new Signal0();
+    /**
+     * Signal for informing other modules that the listener has started
+     */
+    public Signal0 listenerEnabled = new Signal0();
 
-	// -- Internal variables for this Module -- //
-	private final String MODULE_NAME = tr("DMX Module");
+    // -- Internal variables for this Module -- //
+    private final String MODULE_NAME = tr("DMX Module");
 
-	private final String WIDGET_TITLE = tr("DMX Association Table");
+    private final String WIDGET_TITLE = tr("DMX Association Table");
 
-	private Universe universe;
+    private Universe universe;
 
-	private DMXInput input;
+    private DMXInput input;
 
-	private boolean dmxListener = false;
+    private boolean dmxListener = false;
 
-	// -- GUI Elements -- //
-	private QMenu menu;
+    // -- GUI Elements -- //
+    private QMenu menu;
 
-	private QMenu generateMenu;
+    private QMenu generateMenu;
 
-	private QAction listenerAction;
+    private QAction listenerAction;
 
-	private QAction randomAction;
+    private QAction randomAction;
 
-	private QAction channelAction;
+    private QAction channelAction;
 
-	private QAction injectAction;
+    private QAction injectAction;
 
-	private QAction setAssocAction;
+    private QAction setAssocAction;
 
-	private QTableWidget dmxTable;
+    private QTableWidget dmxTable;
 
-	/**
-	 * Instantiate a new instance of this class.
-	 */
-	public DMXModule() {
-		super();
-		// Create input object
-		input = new DMXInput();
+    /**
+     * Instantiate a new instance of this class.
+     */
+    public DMXModule() {
+	super();
+	// Create input object
+	input = new DMXInput();
 
-		// Initialise Universe
-		universe = new Universe();
+	// Initialise Universe
+	universe = new Universe();
 
-		// Prepare actions
-		listenerAction = new QAction(tr("&Start DMX Listener"), this);
-		listenerAction.setStatusTip(tr("Begin listening for DMX input"));
-		listenerAction.triggered.connect(this, "startListener()");
-		listenerAction.setEnabled(!dmxListener);
+	// Prepare actions
+	listenerAction = new QAction(tr("&Start DMX Listener"), this);
+	listenerAction.setStatusTip(tr("Begin listening for DMX input"));
+	listenerAction.triggered.connect(this, "startListener()");
+	listenerAction.setEnabled(!dmxListener);
 
-		randomAction = new QAction(tr("Generate on &all channels"), this);
-		randomAction
-				.setStatusTip(tr("Generate random DMX data for all channels"));
-		randomAction.triggered
-				.connect(Generator.getInstance(), "generateAll()");
-		randomAction.setEnabled(dmxListener);
+	randomAction = new QAction(tr("Generate on &all channels"), this);
+	randomAction
+		.setStatusTip(tr("Generate random DMX data for all channels"));
+	randomAction.triggered
+		.connect(Generator.getInstance(), "generateAll()");
+	randomAction.setEnabled(dmxListener);
 
-		channelAction = new QAction(tr("Generate on &specific channel"), this);
-		channelAction
-				.setStatusTip(tr("Generate random DMX for a specified channel"));
-		channelAction.triggered.connect(this, "generate()");
-		channelAction.setEnabled(dmxListener);
+	channelAction = new QAction(tr("Generate on &specific channel"), this);
+	channelAction
+		.setStatusTip(tr("Generate random DMX for a specified channel"));
+	channelAction.triggered.connect(this, "generate()");
+	channelAction.setEnabled(dmxListener);
 
-		injectAction = new QAction(tr("&Inject DMX"), this);
-		injectAction.setStatusTip(tr("Inject specific DMX data"));
-		injectAction.triggered.connect(this, "inject()");
-		injectAction.setEnabled(dmxListener);
+	injectAction = new QAction(tr("&Inject DMX"), this);
+	injectAction.setStatusTip(tr("Inject specific DMX data"));
+	injectAction.triggered.connect(this, "inject()");
+	injectAction.setEnabled(dmxListener);
 
-		setAssocAction = new QAction(tr("&Set Association"), this);
-		setAssocAction.setStatusTip(tr("Set module-channel associations"));
-		setAssocAction.triggered.connect(this, "setAssoc()");
-		setAssocAction.setEnabled(dmxListener);
+	setAssocAction = new QAction(tr("&Set Association"), this);
+	setAssocAction.setStatusTip(tr("Set module-channel associations"));
+	setAssocAction.triggered.connect(this, "setAssoc()");
+	setAssocAction.setEnabled(dmxListener);
 
-		// Prepare menus
-		menu = new QMenu(tr("&DMX"));
-		menu.addAction(listenerAction);
+	// Prepare menus
+	menu = new QMenu(tr("&DMX"));
+	menu.addAction(listenerAction);
 
-		generateMenu = new QMenu("&Generate DMX");
-		generateMenu.setEnabled(dmxListener);
-		generateMenu.addAction(randomAction);
-		generateMenu.addAction(channelAction);
+	generateMenu = new QMenu("&Generate DMX");
+	generateMenu.setEnabled(dmxListener);
+	generateMenu.addAction(randomAction);
+	generateMenu.addAction(channelAction);
 
-		menu.addMenu(generateMenu);
-		menu.addAction(injectAction);
-		menu.addAction(setAssocAction);
+	menu.addMenu(generateMenu);
+	menu.addAction(injectAction);
+	menu.addAction(setAssocAction);
 
-		// Initialise Table
-		dmxTable = new QTableWidget(512, 3);
-		dmxTable.setAcceptDrops(false);
-		dmxTable.setAlternatingRowColors(true);
-		dmxTable.setDragEnabled(false);
-		dmxTable.setVisible(true);
-		dmxTable.setHorizontalHeaderItem(0, new QTableWidgetItem(
-				tr("DMX Channel")));
-		dmxTable.setHorizontalHeaderItem(1, new QTableWidgetItem(
-				tr("Current Value")));
-		dmxTable.setHorizontalHeaderItem(2, new QTableWidgetItem(
-				tr("Associated Element")));
-		for (int i = 0; i < 512; i++) {
-			// Number the rows
-			dmxTable.setItem(i, 0, new QTableWidgetItem(tr(String
-					.valueOf(i + 1))));
+	// Initialise Table
+	dmxTable = new QTableWidget(512, 3);
+	dmxTable.setAcceptDrops(false);
+	dmxTable.setAlternatingRowColors(true);
+	dmxTable.setDragEnabled(false);
+	dmxTable.setVisible(true);
+	dmxTable.setHorizontalHeaderItem(0, new QTableWidgetItem(
+		tr("DMX Channel")));
+	dmxTable.setHorizontalHeaderItem(1, new QTableWidgetItem(
+		tr("Current Value")));
+	dmxTable.setHorizontalHeaderItem(2, new QTableWidgetItem(
+		tr("Associated Element")));
+	for (int i = 0; i < 512; i++) {
+	    // Number the rows
+	    dmxTable.setItem(i, 0, new QTableWidgetItem(tr(String
+		    .valueOf(i + 1))));
 
-			// Initialise the DMX values to 0
-			dmxTable.setItem(i, 1, new QTableWidgetItem(tr(String.valueOf(0))));
+	    // Initialise the DMX values to 0
+	    dmxTable.setItem(i, 1, new QTableWidgetItem(tr(String.valueOf(0))));
 
-			// Cannot do anything other than select these cells.
-			dmxTable.item(i, 0).setFlags(ItemFlag.ItemIsSelectable);
-			dmxTable.item(i, 1).setFlags(ItemFlag.ItemIsSelectable);
-		}
-		// Listen for edits to cells
-		dmxTable.cellChanged.connect(this, "assocEdited(Integer, Integer)");
+	    // Cannot do anything other than select these cells.
+	    dmxTable.item(i, 0).setFlags(ItemFlag.ItemIsSelectable);
+	    dmxTable.item(i, 1).setFlags(ItemFlag.ItemIsSelectable);
+	}
+	// Listen for edits to cells
+	dmxTable.cellChanged.connect(this, "assocEdited(Integer, Integer)");
 
-		// Connect to external signals
-		universe.dmxValueUpdater.connect(this,
-				"updateTableVal(Integer, Integer)");
-		universe.assocRemUpdater.connect(this,
-				"displayRemove(Integer, Integer)");
-		universe.associationUpdater.connect(this,
-				"updateTableAssoc(Integer, String)");
+	// Connect to external signals
+	universe.dmxValueUpdater.connect(this,
+		"updateTableVal(Integer, Integer)");
+	universe.assocRemUpdater.connect(this,
+		"displayRemove(Integer, Integer)");
+	universe.associationUpdater.connect(this,
+		"updateTableAssoc(Integer, String)");
 
+    }
+
+    public QMenu getMenu() {
+	return menu;
+    }
+
+    public void runMode() {
+	setAssocAction.setEnabled(false);
+    }
+
+    public void programMode() {
+	if (dmxListener) {
+	    setAssocAction.setEnabled(true);
+	}
+    }
+
+    public void dmxListenerEnabled() {
+	dmxListener = true;
+	setAssocAction.setEnabled(true);
+	listenerAction.setEnabled(false);
+	generateMenu.setEnabled(true);
+	randomAction.setEnabled(true);
+	channelAction.setEnabled(true);
+	injectAction.setEnabled(true);
+
+	// Transmit the signal
+	listenerEnabled.emit();
+    }
+
+    /**
+     * Set the DMXInput Thread running, listening to the appropriate signal.
+     */
+    public void startListener() {
+	final Thread listenerThread = new Thread(input);
+	input.inputValue.connect(universe, "setValue(Integer, Integer)");
+	input.listenerStarted.connect(this, "dmxListenerEnabled()");
+	input.moveToThread(listenerThread);
+	listenerThread.setDaemon(true);
+
+	listenerThread.start();
+    }
+
+    /**
+     * Update a value for a specific channel within the DMX table.
+     * 
+     * @param channelNumber
+     *                The channel to update.
+     * @param channelValue
+     *                The new value.
+     */
+    public void updateTableVal(final Integer channelNumber,
+	    final Integer channelValue) {
+	synchronized (dmxTable) {
+	    dmxTable.setItem(channelNumber.intValue() - 1, 1,
+		    new QTableWidgetItem(tr(channelValue.toString())));
+	    dmxTable.item(channelNumber.intValue() - 1, 1).setFlags(
+		    ItemFlag.ItemIsSelectable);
+	}
+    }
+
+    /**
+     * Update an association for a specific channel within the DMX table.
+     * 
+     * @param channelNumber
+     *                The channel to update.
+     * @param association
+     *                The new association.
+     */
+    public void updateTableAssoc(final Integer channelNumber,
+	    final String association) {
+	synchronized (dmxTable) {
+	    dmxTable.setItem(channelNumber.intValue(), 2, new QTableWidgetItem(
+		    tr(association)));
+	    dmxTable.item(channelNumber.intValue(), 2).setFlags(
+		    ItemFlag.ItemIsSelectable);
+	}
+    }
+
+    /**
+     * Handle action and allow the user to specify a channel and value to
+     * insert data for into the system.
+     */
+    public void inject() {
+	try {
+	    final int channelNumber = new DMXUserInput()
+		    .getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
+	    final int channelValue = new DMXUserInput()
+		    .getInput(DMXUserInput.CHANNEL_VALUE_INPUT);
+	    Generator.getInstance().inject(channelNumber, channelValue);
+	} catch (OperationFailedException OFE) {
+	    // This should not occur
+	    OFE.printStackTrace(System.err);
+	} catch (OperationCancelledException OCE) {
+	    // User cancelled operation. Nevermind
+	} catch (InvalidChannelValueException ICVE) {
+	    // This should not occur
+	    ICVE.printStackTrace(System.err);
+	} catch (InvalidChannelNumberException ICNE) {
+	    // This should not occur
+	    ICNE.printStackTrace(System.err);
 	}
 
-	public QMenu getMenu() {
-		return menu;
+    }
+
+    /**
+     * Handle action and allow the user to specify a channel to insert a
+     * random value on.
+     */
+    public void generate() {
+	try {
+	    final int channelNumber = new DMXUserInput()
+		    .getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
+	    Generator.getInstance().generate(channelNumber);
+	} catch (OperationFailedException OFE) {
+	    // This should not occur
+	    OFE.printStackTrace(System.err);
+	} catch (OperationCancelledException OCE) {
+	    // User cancelled operation. Nevermind
+	} catch (InvalidChannelNumberException ICNE) {
+	    // This should not occur
+	    ICNE.printStackTrace(System.err);
 	}
+    }
 
-	public void runMode() {
-		setAssocAction.setEnabled(false);
+    /**
+     * Display the range of channels that have associations removed.
+     * 
+     * @param channelNumber
+     *                Integer representation of the first channel removed.
+     * @param numToDelete
+     *                Integer representation of the size of removed range.
+     */
+    public void displayRemove(final Integer channelNumber,
+	    final Integer numToDelete) {
+	synchronized (dmxTable) {
+	    int start = channelNumber.intValue();
+	    int finish = start + numToDelete.intValue();
+	    for (int i = start; i < finish; i++) {
+		dmxTable.setItem(i, 2, new QTableWidgetItem(""));
+		dmxTable.item(i, 2).setFlags(
+			new ItemFlag[] { ItemFlag.ItemIsEditable,
+				ItemFlag.ItemIsSelectable });
+	    }
 	}
+    }
 
-	public void programMode() {
-		if (dmxListener) {
-			setAssocAction.setEnabled(true);
-		}
+    /**
+     * Handle edits to specific cells within the table, which should only be
+     * of associations.
+     * 
+     * @param row
+     *                Row changed.
+     * @param column
+     *                Column changed, this should always be 2.
+     */
+    public void assocEdited(Integer row, Integer column) {
+	if (column.intValue() == 0) {
+	    // Reset to the correct value and lock out edits
+	    synchronized (dmxTable) {
+		dmxTable.setItem(row.intValue(), 0, new QTableWidgetItem(
+			tr(String.valueOf(row.intValue() + 1))));
+		dmxTable.item(row.intValue(), 0).setFlags(
+			ItemFlag.ItemIsSelectable);
+	    }
 	}
-
-	public void dmxListenerEnabled() {
-		dmxListener = true;
-		setAssocAction.setEnabled(true);
-		listenerAction.setEnabled(false);
-		generateMenu.setEnabled(true);
-		randomAction.setEnabled(true);
-		channelAction.setEnabled(true);
-		injectAction.setEnabled(true);
-
-		// Transmit the signal
-		listenerEnabled.emit();
+	if (column.intValue() == 1) {
+	    // Reset to the correct value and lock out edits
+	    synchronized (dmxTable) {
+		dmxTable.setItem(row.intValue(), 1, new QTableWidgetItem());
+		dmxTable.item(row.intValue(), 1).setFlags(
+			ItemFlag.ItemIsSelectable);
+	    }
 	}
-
-	/**
-	 * Set the DMXInput Thread running, listening to the appropriate signal.
-	 */
-	public void startListener() {
-		final Thread listenerThread = new Thread(input);
-		input.inputValue.connect(universe, "setValue(Integer, Integer)");
-		input.listenerStarted.connect(this, "dmxListenerEnabled()");
-		input.moveToThread(listenerThread);
-		listenerThread.setDaemon(true);
-
-		listenerThread.start();
-	}
-
-	/**
-	 * Update a value for a specific channel within the DMX table.
-	 * 
-	 * @param channelNumber
-	 *            The channel to update.
-	 * @param channelValue
-	 *            The new value.
-	 */
-	public void updateTableVal(final Integer channelNumber,
-			final Integer channelValue) {
-		synchronized (dmxTable) {
-			dmxTable.setItem(channelNumber.intValue() -1 , 1, new QTableWidgetItem(
-					tr(channelValue.toString())));
-			dmxTable.item(channelNumber.intValue() -1, 1).setFlags(ItemFlag.ItemIsSelectable);
-		}
-	}
-
-	/**
-	 * Update an association for a specific channel within the DMX table.
-	 * 
-	 * @param channelNumber
-	 *            The channel to update.
-	 * @param association
-	 *            The new association.
-	 */
-	public void updateTableAssoc(final Integer channelNumber,
-			final String association) {
-		synchronized (dmxTable) {
-			dmxTable.setItem(channelNumber.intValue(), 2, new QTableWidgetItem(
-					tr(association)));
-			dmxTable.item(channelNumber.intValue(), 2).setFlags(ItemFlag.ItemIsSelectable);
-		}
-	}
-
-	/**
-	 * Handle action and allow the user to specify a channel and value to insert
-	 * data for into the system.
-	 */
-	public void inject() {
+	if (column.intValue() == 2) {
+	    // Only handle updates to associations.
+	    synchronized (dmxTable) {
+		// Extract the new data, store it in the universe, and lock the
+		// cell
 		try {
-			final int channelNumber = new DMXUserInput()
-					.getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
-			final int channelValue = new DMXUserInput()
-					.getInput(DMXUserInput.CHANNEL_VALUE_INPUT);
-			Generator.getInstance().inject(channelNumber, channelValue);
-		} catch (OperationFailedException OFE) {
-			// This should not occur
-			OFE.printStackTrace(System.err);
+		    universe.setAssociation(row.intValue() + 1, dmxTable.item(
+			    row.intValue(), 1).text());
 		} catch (OperationCancelledException OCE) {
-			// User cancelled operation. Nevermind
-		} catch (InvalidChannelValueException ICVE) {
-			// This should not occur
-			ICVE.printStackTrace(System.err);
+		    // Nevermind.
 		} catch (InvalidChannelNumberException ICNE) {
-			// This should not occur
-			ICNE.printStackTrace(System.err);
+		    // Hmm, strange.
+		    ICNE.printStackTrace(System.err);
 		}
+		dmxTable.item(row.intValue(), 1).setFlags(
+			ItemFlag.ItemIsSelectable);
+	    }
+	}
+    }
 
-	}
+    public String getName() {
+	return MODULE_NAME;
+    }
 
-	/**
-	 * Handle action and allow the user to specify a channel to insert a random
-	 * value on.
-	 */
-	public void generate() {
-		try {
-			final int channelNumber = new DMXUserInput()
-					.getInput(DMXUserInput.CHANNEL_NUMBER_INPUT);
-			Generator.getInstance().generate(channelNumber);
-		} catch (OperationFailedException OFE) {
-			// This should not occur
-			OFE.printStackTrace(System.err);
-		} catch (OperationCancelledException OCE) {
-			// User cancelled operation. Nevermind
-		} catch (InvalidChannelNumberException ICNE) {
-			// This should not occur
-			ICNE.printStackTrace(System.err);
-		}
-	}
+    public QWidget getWidget() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	/**
-	 * Display the range of channels that have associations removed.
-	 * 
-	 * @param channelNumber
-	 *            Integer representation of the first channel removed.
-	 * @param numToDelete
-	 *            Integer representation of the size of removed range.
-	 */
-	public void displayRemove(final Integer channelNumber,
-			final Integer numToDelete) {
-		synchronized (dmxTable) {
-			int start = channelNumber.intValue();
-			int finish = start + numToDelete.intValue();
-			for (int i = start; i < finish; i++) {
-				dmxTable.setItem(i, 2, new QTableWidgetItem(""));
-				dmxTable.item(i, 2).setFlags(new ItemFlag[] {ItemFlag.ItemIsEditable, ItemFlag.ItemIsSelectable});
-			}
-		}
-	}
-	
-	/**
-	 * Handle edits to specific cells within the table, which should only be of
-	 * associations.
-	 * @param row Row changed.
-	 * @param column Column changed, this should always be 2.
-	 */
-	public void assocEdited(Integer row, Integer column) {
-		if (column.intValue() == 0) {
-			// Reset to the correct value and lock out edits
-			synchronized(dmxTable) {
-				dmxTable.setItem(row.intValue(), 0, new QTableWidgetItem(tr(String.valueOf(row.intValue() +1))));
-				dmxTable.item(row.intValue(), 0).setFlags(ItemFlag.ItemIsSelectable);
-			}
-		}
-		if (column.intValue() == 1) {
-			// Reset to the correct value and lock out edits
-			synchronized(dmxTable) {
-				dmxTable.setItem(row.intValue(), 1, new QTableWidgetItem());
-				dmxTable.item(row.intValue(), 1).setFlags(ItemFlag.ItemIsSelectable);
-			}
-		}
-		if (column.intValue() == 2) {
-			// Only handle updates to associations.
-			synchronized(dmxTable) {
-				// Extract the new data, store it in the universe, and lock the cell
-				try {
-					universe.setAssociation(row.intValue() +1, dmxTable.item(row.intValue(), 1).text());
-				} catch (OperationCancelledException OCE) {
-					// Nevermind.
-				} catch (InvalidChannelNumberException ICNE) {
-					// Hmm, strange.
-					ICNE.printStackTrace(System.err);
-				}
-				dmxTable.item(row.intValue(), 1).setFlags(ItemFlag.ItemIsSelectable);
-			}
-		}
-	}
+    public String getWidgetTitle() {
+	return WIDGET_TITLE;
+    }
 
-	public String getName() {
-		return MODULE_NAME;
-	}
+    public Universe getUniverse() {
+	return universe;
+    }
 
-	public QWidget getWidget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public boolean getListenerStatus() {
+	return dmxListener;
+    }
 
-	public String getWidgetTitle() {
-		return WIDGET_TITLE;
-	}
-
-	public Universe getUniverse() {
-		return universe;
-	}
-
-	public boolean getListenerStatus() {
-		return dmxListener;
-	}
-	
-	/**
-	 * Handle actions where a user wishes to set some association.
-	 *
-	 */
-	public void setAssoc() {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * Handle actions where a user wishes to set some association.
+     * 
+     */
+    public void setAssoc() {
+	// TODO Auto-generated method stub
+    }
 }

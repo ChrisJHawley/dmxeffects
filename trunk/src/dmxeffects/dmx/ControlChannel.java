@@ -29,106 +29,107 @@ import com.trolltech.qt.core.QObject;
  */
 public class ControlChannel extends QObject {
 
-	private final transient int moduleChanNumber;
+    private final transient int moduleChanNumber;
 
-	private final transient String moduleName;
+    private final transient String moduleName;
 
-	/**
-	 * Signal generated from a control, which includes the channel value in case
-	 * this is significant.
-	 */
-	public transient Signal1<Integer>[] controlSignal;
+    /**
+     * Signal generated from a control, which includes the channel value in
+     * case this is significant.
+     */
+    public transient Signal1<Integer>[] controlSignal;
 
-	/**
-	 * Create a new channel for controls.
-	 * 
-	 * @param number
-	 *            This ControlChannel's number for the module.
-	 * @param module
-	 *            The module this ControlChannel relates to
-	 */
-	// Bah, sodding lack of generic arrays means this will always warn
-	// there may be some workaround required to fix this, until then suppress
-	@SuppressWarnings("unchecked")
-	public ControlChannel(int number, String module) {
-		super();
-		controlSignal = new Signal1[256];
-		moduleChanNumber = number;
-		moduleName = module;
+    /**
+     * Create a new channel for controls.
+     * 
+     * @param number
+     *                This ControlChannel's number for the module.
+     * @param module
+     *                The module this ControlChannel relates to
+     */
+    // Bah, sodding lack of generic arrays means this will always warn
+    // there may be some workaround required to fix this, until then
+    // suppress
+    @SuppressWarnings("unchecked")
+    public ControlChannel(int number, String module) {
+	super();
+	controlSignal = new Signal1[256];
+	moduleChanNumber = number;
+	moduleName = module;
+    }
+
+    /**
+     * Add a new value-signal pair to the ControlChannel.
+     * 
+     * @param val
+     *                The DMX value to associate with the action
+     * @param signal
+     *                The signal to be generated when triggered
+     * @throws InvalidChannelValueException
+     *                 Indication that the provided value was not valid.
+     */
+    public void setSignal(final int val, final Signal1<Integer> signal)
+	    throws InvalidChannelValueException {
+	if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
+	    controlSignal[val] = signal;
+	} else {
+	    throw new InvalidChannelValueException(val);
 	}
+    }
 
-	/**
-	 * Add a new value-signal pair to the ControlChannel.
-	 * 
-	 * @param val
-	 *            The DMX value to associate with the action
-	 * @param signal
-	 *            The signal to be generated when triggered
-	 * @throws InvalidChannelValueException
-	 *             Indication that the provided value was not valid.
-	 */
-	public void setSignal(final int val, final Signal1<Integer> signal)
-			throws InvalidChannelValueException {
-		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
-			controlSignal[val] = signal;
-		} else {
-			throw new InvalidChannelValueException(val);
-		}
+    /**
+     * Get a specific Signal object.
+     * 
+     * @param val
+     *                The signal to get
+     * @return The signal for this value of the channel.
+     * @throws InvalidChannelValueException
+     *                 Indication that the provided value was not valid.
+     */
+    public Signal1<Integer> getSignal(final int val)
+	    throws InvalidChannelValueException {
+	if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
+	    return controlSignal[val];
+	} else {
+	    throw new InvalidChannelValueException(val);
 	}
+    }
 
-	/**
-	 * Get a specific Signal object.
-	 * 
-	 * @param val
-	 *            The signal to get
-	 * @return The signal for this value of the channel.
-	 * @throws InvalidChannelValueException
-	 *             Indication that the provided value was not valid.
-	 */
-	public Signal1<Integer> getSignal(final int val)
-			throws InvalidChannelValueException {
-		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
-			return controlSignal[val];
-		} else {
-			throw new InvalidChannelValueException(val);
-		}
+    /**
+     * Trigger a specific Signal.
+     * 
+     * @param val
+     *                The value of Signal to trigger.
+     * @throws InvalidChannelValueException
+     *                 Indication that the provided value was not valid.
+     */
+    public void trigger(final int val) throws InvalidChannelValueException {
+	if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
+	    try {
+		controlSignal[val].emit(Integer.valueOf(val));
+	    } catch (NullPointerException e) {
+		// Nothing to signal
+	    }
+	} else {
+	    throw new InvalidChannelValueException(val);
 	}
+    }
 
-	/**
-	 * Trigger a specific Signal.
-	 * 
-	 * @param val
-	 *            The value of Signal to trigger.
-	 * @throws InvalidChannelValueException
-	 *             Indication that the provided value was not valid.
-	 */
-	public void trigger(final int val) throws InvalidChannelValueException {
-		if (Validator.validate(val, Validator.CHANNEL_VALUE_VALIDATION)) {
-			try {
-				controlSignal[val].emit(Integer.valueOf(val));
-			} catch (NullPointerException e) {
-				// Nothing to signal
-			}
-		} else {
-			throw new InvalidChannelValueException(val);
-		}
-	}
+    /**
+     * Get this channel's number within those for the module
+     * 
+     * @return This ControlChannel's identifier number for the module.
+     */
+    public int getModuleChanNumber() {
+	return moduleChanNumber;
+    }
 
-	/**
-	 * Get this channel's number within those for the module
-	 * 
-	 * @return This ControlChannel's identifier number for the module.
-	 */
-	public int getModuleChanNumber() {
-		return moduleChanNumber;
-	}
-
-	/**
-	 * Get the name of the owning module for this ControlChannel
-	 * 
-	 * @return The name of the module to which this ControlChannel belongs.
-	 */
-	public String getModuleName() {
-		return moduleName;
-	}
+    /**
+     * Get the name of the owning module for this ControlChannel
+     * 
+     * @return The name of the module to which this ControlChannel belongs.
+     */
+    public String getModuleName() {
+	return moduleName;
+    }
 }

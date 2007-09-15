@@ -27,27 +27,27 @@ package dmxeffects;
  */
 public class OperationFailedException extends java.lang.Exception {
 
-	/**
-	 * Unique ID for this class.
-	 */
-	private static final long serialVersionUID = 572770114145315167L;
+    /**
+     * Unique ID for this class.
+     */
+    private static final long serialVersionUID = 572770114145315167L;
 
-	/**
-	 * Creates a new instance of <code>OperationFailedException</code> without
-	 * detail message.
-	 */
-	public OperationFailedException() {
-		super();
-	}
+    /**
+     * Creates a new instance of <code>OperationFailedException</code>
+     * without detail message.
+     */
+    public OperationFailedException() {
+	super();
+    }
 
-	/**
-	 * Constructs an instance of <code>OperationFailedException</code> with
-	 * the specified detail message.
-	 * 
-	 * @param msg
-	 *            the detail message.
-	 */
-	public OperationFailedException(String msg) {
-		super(msg);
-	}
+    /**
+     * Constructs an instance of <code>OperationFailedException</code>
+     * with the specified detail message.
+     * 
+     * @param msg
+     *                the detail message.
+     */
+    public OperationFailedException(String msg) {
+	super(msg);
+    }
 }

@@ -32,50 +32,50 @@ import com.trolltech.qt.gui.QWidget;
  */
 public interface Module {
 
-	/**
-	 * Method to get the widget to be displayed for this module in the Main
-	 * application window.
-	 * 
-	 * @return The displayable widget.
-	 */
-	QWidget getWidget();
+    /**
+     * Method to get the widget to be displayed for this module in the Main
+     * application window.
+     * 
+     * @return The displayable widget.
+     */
+    QWidget getWidget();
 
-	/**
-	 * Get the text to be used as the title for this Module's widget.
-	 * 
-	 * @return The title.
-	 */
-	String getWidgetTitle();
+    /**
+     * Get the text to be used as the title for this Module's widget.
+     * 
+     * @return The title.
+     */
+    String getWidgetTitle();
 
-	/**
-	 * Method to get the menu to be displayed for this module.
-	 * 
-	 * @return The displayable menu element.
-	 */
-	QMenu getMenu();
+    /**
+     * Method to get the menu to be displayed for this module.
+     * 
+     * @return The displayable menu element.
+     */
+    QMenu getMenu();
 
-	/**
-	 * Extract the name from the module, which is used in the associations.
-	 * 
-	 * @return The name of the module.
-	 */
-	String getName();
+    /**
+     * Extract the name from the module, which is used in the associations.
+     * 
+     * @return The name of the module.
+     */
+    String getName();
 
-	/**
-	 * Handle moving into program mode
-	 * 
-	 */
-	void programMode();
+    /**
+     * Handle moving into program mode
+     * 
+     */
+    void programMode();
 
-	/**
-	 * Handle moving into run mode
-	 * 
-	 */
-	void runMode();
+    /**
+     * Handle moving into run mode
+     * 
+     */
+    void runMode();
 
-	/**
-	 * Handle the signal indicating the DMX Listener has started. This also sets
-	 * this class listening for various signals sent by Universe.
-	 */
-	void dmxListenerEnabled();
+    /**
+     * Handle the signal indicating the DMX Listener has started. This also
+     * sets this class listening for various signals sent by Universe.
+     */
+    void dmxListenerEnabled();
 }

@@ -27,56 +27,56 @@ import com.trolltech.qt.core.QObject;
  */
 public class Player extends QObject implements Runnable {
 
-	// -- Signals for playback information -- //
+    // -- Signals for playback information -- //
 
-	public transient Signal0 playingSignal = new Signal0();
+    public transient Signal0 playingSignal = new Signal0();
 
-	public transient Signal0 stoppedSignal = new Signal0();
+    public transient Signal0 stoppedSignal = new Signal0();
 
-	/**
-	 * Create a new instance of this class
-	 */
-	public Player() {
-		super();
-		// TODO Auto-generated method stub
-	}
+    /**
+     * Create a new instance of this class
+     */
+    public Player() {
+	super();
+	// TODO Auto-generated method stub
+    }
 
-	/**
-	 * Run when the containing Thread starts
-	 */
-	public void run() {
-		// TODO Auto-generated method stub
+    /**
+     * Run when the containing Thread starts
+     */
+    public void run() {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	// -- Action handlers -- //
-	/**
-	 * Handle a track beinq cued
-	 * 
-	 * @param track
-	 *            Track to cue.
-	 */
-	public void cueTrack(final SoundTrack track) {
-		// TODO Auto-generated method stub
-	}
+    // -- Action handlers -- //
+    /**
+     * Handle a track beinq cued
+     * 
+     * @param track
+     *                Track to cue.
+     */
+    public void cueTrack(final SoundTrack track) {
+	// TODO Auto-generated method stub
+    }
 
-	/**
-	 * Handle play signal.
-	 */
-	public void play() {
-		// TODO Auto-generated method stub
+    /**
+     * Handle play signal.
+     */
+    public void play() {
+	// TODO Auto-generated method stub
 
-		// Emit signal indicating start
-		playingSignal.emit();
-	}
+	// Emit signal indicating start
+	playingSignal.emit();
+    }
 
-	/**
-	 * Handle stop signal
-	 */
-	public void stop() {
-		// TODO Auto-generated method stub
+    /**
+     * Handle stop signal
+     */
+    public void stop() {
+	// TODO Auto-generated method stub
 
-		// Emit signal indicating stoppage
-		stoppedSignal.emit();
-	}
+	// Emit signal indicating stoppage
+	stoppedSignal.emit();
+    }
 }

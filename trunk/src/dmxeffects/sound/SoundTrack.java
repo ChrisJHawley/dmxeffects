@@ -32,127 +32,128 @@ import dmxeffects.OperationFailedException;
  */
 public class SoundTrack extends QObject {
 
-	private final transient File trackFile;
+    private final transient File trackFile;
 
-	private transient String trackTitle = null;
+    private transient String trackTitle = null;
 
-	private transient int trackStatus;
+    private transient int trackStatus;
 
-	public transient Signal0 dataUpdated = new Signal0();
+    public transient Signal0 dataUpdated = new Signal0();
 
-	/**
-	 * Value used to indicate that the track has a "ready" status.
-	 */
-	public static final int READY_STATUS = 30001;
+    /**
+     * Value used to indicate that the track has a "ready" status.
+     */
+    public static final int READY_STATUS = 30001;
 
-	/**
-	 * Value used to indicate that the track has a "cued" status.
-	 */
-	public static final int CUED_STATUS = 30002;
+    /**
+     * Value used to indicate that the track has a "cued" status.
+     */
+    public static final int CUED_STATUS = 30002;
 
-	/**
-	 * Value used to indicate that the track has a "playing" status.
-	 */
-	public static final int PLAYING_STATUS = 30003;
+    /**
+     * Value used to indicate that the track has a "playing" status.
+     */
+    public static final int PLAYING_STATUS = 30003;
 
-	/**
-	 * Value used to indicate that the track has a "paused" status.
-	 */
-	public static final int PAUSED_STATUS = 30004;
+    /**
+     * Value used to indicate that the track has a "paused" status.
+     */
+    public static final int PAUSED_STATUS = 30004;
 
-	/**
-	 * Creates a new instance of soundTrack
-	 * 
-	 * @param trackFile
-	 *            The File object representing the audio track.
-	 * @param trackTitle
-	 *            The String object representing the title of this track in the
-	 *            system.
-	 * @throws operationFailedException
-	 *             Indication that one of the provided values did not validate.
-	 */
-	public SoundTrack(File trackFile, String trackTitle)
-			throws OperationFailedException {
-		super();
-		if (trackFile == null) {
-			throw new OperationFailedException("No file was provided.");
-		}
-		if (trackTitle.length() == 0) {
-			throw new OperationFailedException("No title was provided.");
-		} else {
-			this.trackFile = trackFile;
-			this.trackTitle = trackTitle;
-			this.trackStatus = READY_STATUS;
-		}
+    /**
+     * Creates a new instance of soundTrack
+     * 
+     * @param trackFile
+     *                The File object representing the audio track.
+     * @param trackTitle
+     *                The String object representing the title of this track
+     *                in the system.
+     * @throws operationFailedException
+     *                 Indication that one of the provided values did not
+     *                 validate.
+     */
+    public SoundTrack(File trackFile, String trackTitle)
+	    throws OperationFailedException {
+	super();
+	if (trackFile == null) {
+	    throw new OperationFailedException("No file was provided.");
 	}
-
-	/**
-	 * Get the current File object stored within this soundTrack
-	 * 
-	 * @return The File represening the audio track.
-	 */
-	public File getFile() {
-		return trackFile;
+	if (trackTitle.length() == 0) {
+	    throw new OperationFailedException("No title was provided.");
+	} else {
+	    this.trackFile = trackFile;
+	    this.trackTitle = trackTitle;
+	    this.trackStatus = READY_STATUS;
 	}
+    }
 
-	/**
-	 * Get the title of this soundTrack.
-	 * 
-	 * @return The String title of this soundTrack.
-	 */
-	public String getTitle() {
-		return trackTitle;
-	}
+    /**
+     * Get the current File object stored within this soundTrack
+     * 
+     * @return The File represening the audio track.
+     */
+    public File getFile() {
+	return trackFile;
+    }
 
-	/**
-	 * Get the status of this soundTrack.
-	 * 
-	 * @return The int representation of the status.
-	 */
-	public int getStatus() {
-		return trackStatus;
-	}
+    /**
+     * Get the title of this soundTrack.
+     * 
+     * @return The String title of this soundTrack.
+     */
+    public String getTitle() {
+	return trackTitle;
+    }
 
-	/**
-	 * Set the title of this soundTrack.
-	 * 
-	 * @param trackTitle
-	 *            The title to set for this soundTrack.
-	 * @throws operationFailedException
-	 *             Indication that the title did not pass validation.
-	 */
-	public void setTitle(final String trackTitle)
-			throws OperationFailedException {
-		if (trackTitle.length() == 0) {
-			throw new OperationFailedException("No title was provided.");
-		} else {
-			this.trackTitle = trackTitle;
-			dataUpdated.emit();
-		}
-	}
+    /**
+     * Get the status of this soundTrack.
+     * 
+     * @return The int representation of the status.
+     */
+    public int getStatus() {
+	return trackStatus;
+    }
 
-	/**
-	 * Set the status of this soundTrack.
-	 * 
-	 * @param trackStatus
-	 *            The status to set this soundTrack to have.
-	 * @throws operationFailedException
-	 *             Exception indicating that the status that was attempted to be
-	 *             set was not valid.
-	 */
-	public void setStatus(final int trackStatus)
-			throws OperationFailedException {
-		switch (trackStatus) {
-		case READY_STATUS:
-		case CUED_STATUS:
-		case PLAYING_STATUS:
-		case PAUSED_STATUS:
-			break;
-		default:
-			throw new OperationFailedException("Status: " + trackStatus
-					+ " is not valid.");
-		}
-		this.trackStatus = trackStatus;
-		dataUpdated.emit();
+    /**
+     * Set the title of this soundTrack.
+     * 
+     * @param trackTitle
+     *                The title to set for this soundTrack.
+     * @throws operationFailedException
+     *                 Indication that the title did not pass validation.
+     */
+    public void setTitle(final String trackTitle)
+	    throws OperationFailedException {
+	if (trackTitle.length() == 0) {
+	    throw new OperationFailedException("No title was provided.");
+	} else {
+	    this.trackTitle = trackTitle;
+	    dataUpdated.emit();
 	}
+    }
+
+    /**
+     * Set the status of this soundTrack.
+     * 
+     * @param trackStatus
+     *                The status to set this soundTrack to have.
+     * @throws operationFailedException
+     *                 Exception indicating that the status that was
+     *                 attempted to be set was not valid.
+     */
+    public void setStatus(final int trackStatus)
+	    throws OperationFailedException {
+	switch (trackStatus) {
+	case READY_STATUS:
+	case CUED_STATUS:
+	case PLAYING_STATUS:
+	case PAUSED_STATUS:
+	    break;
+	default:
+	    throw new OperationFailedException("Status: " + trackStatus
+		    + " is not valid.");
+	}
+	this.trackStatus = trackStatus;
+	dataUpdated.emit();
+    }
 }
